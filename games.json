@@ -14,9 +14,8 @@
   },      
       {
     "name": "Slope 3",
-    "image": "cover.svg",
-    "directory": "slope3",
-    "recommended": "1"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
       {
     "name": "Snowball Fighter",
@@ -98,8 +97,8 @@
   },
       {
     "name": "CMM Client",
-    "image": "cover.svg",
-    "directory": "cmm-client",
+    "directory": "over25mb1",
+    "image": "image.png",
     "recommended": "1"
   },
      {
@@ -164,8 +163,8 @@
   },
   {
     "name": "Resent Client",
-    "directory": "online-mc",
-    "image": "logo.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Eaglercraft 1.5.2",
@@ -175,8 +174,8 @@
   },
   {
     "name": "Friday Night Funkin",
-    "directory": "fridaynightfunkin",
-    "image": "fnf-icon.jpg",
+    "directory": "over25mb1",
+    "image": "image.png",
     "recommended": "1"
   },
   {
@@ -208,8 +207,8 @@
   },
   {
     "name": "Cluster Rush",
-    "directory": "cluster-rush",
-    "image": "icon.jpg"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Vex 3",
@@ -323,8 +322,8 @@
   },
   {
     "name": "Turbowarp",
-    "directory": "turbowarp",
-    "image": "icon.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Tetris",
@@ -403,8 +402,8 @@
   },
   {
     "name": "Superhot",
-    "directory": "superhot",
-    "image": "icon.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Super Mario 64",
@@ -429,8 +428,8 @@
   },
   {
     "name": "Champion Island",
-    "directory": "championisland",
-    "image": "icon.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Learn to Fly",
@@ -524,8 +523,8 @@
   },
   {
     "name": "ovo",
-    "directory": "ovo",
-    "image": "ovo3.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "There Is No Game",
@@ -648,13 +647,13 @@
   },
   {
     "name": "Drift Hunters",
-    "directory": "drifthunters",
-    "image": "icon.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Rocket League",
-    "directory": "rocketleague",
-    "image": "splash.webp",
+    "directory": "over25mb1",
+    "image": "image.png",
     "recommended": "1"
   },
   {
@@ -694,8 +693,8 @@
   },
   {
     "name": "Burrito Bison",
-    "directory": "burritobison",
-    "image": "Build/logo.png"
+    "directory": "over25mb1",
+    "image": "image.png",
   },
   {
     "name": "Cut The Rope Holday",
@@ -719,8 +718,8 @@
   },
   {
     "name": "Fruit Ninja",
-    "directory": "fruitninja",
-    "image": "FruitNinjaTeaser.jpg"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Tron",
@@ -729,8 +728,8 @@
   },
   {
     "name": "Thirty Dollar Website",
-    "directory": "thirtydollarwebsite",
-    "image": "assets/🗿.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "n-gon",
@@ -744,8 +743,8 @@
   },
   {
     "name": "Madalin Cars",
-    "directory": "madalincars",
-    "image": "icon.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Run 3",
@@ -829,38 +828,38 @@
   },
   {
     "name": "Duck Life 6",
-    "directory": "ducklife6",
-    "image": "ducklife5.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "webretro",
-    "directory": "webretro",
-    "image": "assets/icons/icon204.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "osu!mania",
-    "directory": "osumania",
-    "image": "mania.jpg"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Five Nights at Freddy's 2",
-    "directory": "fnaf2",
-    "image": "project/splash.webp"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Five Nights at Freddy's 3",
-    "directory": "fnaf3",
-    "image": "project/splash.webp"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Five Nights at Freddy's 4",
-    "directory": "fnaf4",
-    "image": "project/splash.webp"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Temple Run 2",
-    "directory": "templerun2",
-    "image": "img/icons/icon-128x128.png"
+    "directory": "over25mb1",
+    "image": "image.png",
   },
   {
     "name": "Happy Wheels",
@@ -934,8 +933,8 @@
   },
   {
     "name": "Bloons Tower Defense 6",
-    "directory": "btd6",
-    "image": "uwu.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Bloons Tower Defense 5",
@@ -1039,8 +1038,8 @@
   },
   {
     "name": "Funny Shooter 2",
-    "directory": "funnyshooter2",
-    "image": "894abba63a6b23fed823f404831f444f.jpeg"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Bad Time Simulator",
@@ -1094,8 +1093,8 @@
   },
   {
     "name": "Funny Mad Racing",
-    "directory": "funnymadracing",
-    "image": "logo.webp"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "hole.io",
@@ -1119,8 +1118,8 @@
   },
   {
     "name": "Townscaper",
-    "directory": "townscaper",
-    "image": "icon.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Bad Ice Cream",
@@ -1139,18 +1138,18 @@
   },
   {
     "name": "Bob the Robber 2",
-    "directory": "bobtherobber2",
-    "image": "icon.png"
+    "directory": "over25mb1",
+    "image": "image.png",
   },
   {
     "name": "Boxing Physics 2",
-    "directory": "boxingphysics2",
-    "image": "icon.png"
+    "directory": "over25mb1",
+    "image": "image.png",
   },
   {
     "name": "Burger and Frights",
-    "directory": "burgerandfrights",
-    "image": "icon.png"
+    "directory": "over25mb1",
+    "image": "image.png",
   },
   {
     "name": "Flippy Fish",
@@ -1199,13 +1198,13 @@
   },
   {
     "name": "Russian Car Driver",
-    "directory": "russiancardriver",
-    "image": "russian-car-driver.webp"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Legend of Zelda - Ocarina of Time",
-    "directory": "ocarinaoftime",
-    "image": "oc.jpg"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Metroid: Zero Mission",
@@ -1244,28 +1243,28 @@
   },
   {
     "name": "Henry Stickmin - Stealing the Diamond",
-    "directory": "stealingthediamond",
-    "image": "diamante.avif"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Henry Stickmin - Breaking the Bank",
-    "directory": "breakingthebank",
-    "image": "balling.avif"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Henry Stickmin - Escaping the Prison",
-    "directory": "escapingtheprison",
-    "image": "pwison.avif"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Henry Stickmin - Fleeing the Complex",
-    "directory": "fleeingthecomplex",
-    "image": "flee.jpg"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Henry Stickmin - Infiltrating the Airship",
-    "directory": "infiltratingtheairship",
-    "image": "air.avif"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Pandemic",
@@ -1299,8 +1298,8 @@
   },
   {
     "name": "Pizza Tower",
-    "directory": "pizzatower",
-    "image": "images/menubg.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Monster Tracks",
@@ -1324,8 +1323,8 @@
   },
   {
     "name": "Baldi's Basics",
-    "directory": "baldis-basics",
-    "image": "splash.png"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Cubefield",
