@@ -694,7 +694,7 @@
   {
     "name": "Burrito Bison",
     "directory": "over25mb1",
-    "image": "image.png",
+    "image": "image.png"
   },
   {
     "name": "Cut The Rope Holday",
@@ -859,7 +859,7 @@
   {
     "name": "Temple Run 2",
     "directory": "over25mb1",
-    "image": "image.png",
+    "image": "image.png"
   },
   {
     "name": "Happy Wheels",
@@ -1139,17 +1139,17 @@
   {
     "name": "Bob the Robber 2",
     "directory": "over25mb1",
-    "image": "image.png",
+    "image": "image.png"
   },
   {
     "name": "Boxing Physics 2",
     "directory": "over25mb1",
-    "image": "image.png",
+    "image": "image.png"
   },
   {
     "name": "Burger and Frights",
     "directory": "over25mb1",
-    "image": "image.png",
+    "image": "image.png"
   },
   {
     "name": "Flippy Fish",
