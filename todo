@@ -17,6 +17,6 @@ stickman climb - https://byvolp.web.app/games/stickmanclimb2/index.html and prob
 
 
 cookie clicker - create auto mod loader
-create about:blank system based off of selenite minified code - will only start after new ui is done and i can focus on other thing
+create about:blank system based off of selenite minified code - will only start after new ui is done and i can focus on other things
 deploy to firebase
 make game loading into a function i can call if the race condition issue ever appears again (???)
