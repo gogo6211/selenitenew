@@ -62,8 +62,8 @@
   },
             {
     "name": "Ayuncraft 1.5.2",
-    "image": "cover.svg",
-    "directory": "ayun",
+    "directory": "over25mb1",
+    "image": "image.png",
     "recommended": "1"
   },
       {
@@ -899,8 +899,8 @@
   },
   {
     "name": "Amazing Rope Police",
-    "directory": "amazing-rope-police",
-    "image": "splash.jpeg"
+    "directory": "over25mb1",
+    "image": "image.png"
   },
   {
     "name": "Ruffle",
