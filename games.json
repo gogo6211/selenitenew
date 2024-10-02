@@ -3,14 +3,7 @@
       {
     "name": "Deal or No Deal",
     "image": "cover.svg",
-    "directory": "deal",
-    "recommended": "1"
-  },
-{
-    "name": "Soccer Skills",
-    "image": "cover.svg",
-    "directory": "skills",
-    "recommended": "1"
+    "directory": "deal"
   },      
       {
     "name": "Slope 3",
@@ -20,8 +13,7 @@
       {
     "name": "Snowball Fighter",
     "image": "cover.svg",
-    "directory": "snow",
-    "recommended": "1"
+    "directory": "snow"
   },
       {
     "name": "Spacebar Clicker",
@@ -156,8 +148,7 @@
   {
     "name": "A Dance of Fire & Ice",
     "directory": "adofai",
-    "image": "icon.png",
-    "recommended": "1"
+    "image": "icon.png"
   },
   {
     "name": "Resent Client",
@@ -189,8 +180,7 @@
   {
     "name": "Celeste",
     "directory": "celeste",
-    "image": "icon.png",
-    "recommended": "1"
+    "image": "icon.png"
   },
   {
     "name": "Mario",
@@ -261,7 +251,8 @@
   {
     "name": "Crossy Road",
     "directory": "crossyroad",
-    "image": "chicken.png"
+    "image": "chicken.png",
+    "recommended": "1"
   },
   {
     "name": "Wall Smash",
@@ -301,7 +292,8 @@
   {
     "name": "paper.io",
     "directory": "paperio",
-    "image": "icon.png"
+    "image": "icon.png",
+    "recommended": "1"
   },
   {
     "name": "Chibi Knight",
@@ -331,7 +323,8 @@
   {
     "name": "Geometry Dash",
     "directory": "geometrydash",
-    "image": "icon.png"
+    "image": "icon.png",
+    "recommended": "1"
   },
   {
     "name": "Sand Game",
@@ -396,7 +389,8 @@
   {
     "name": "Cookie Clicker",
     "directory": "cookieclicker",
-    "image": "img/perfectCookie.png"
+    "image": "img/perfectCookie.png",
+    "recommended": "1"
   },
   {
     "name": "Superhot",
@@ -618,8 +612,7 @@
   {
     "name": "Game Maker Doodle",
     "directory": "gamemaker",
-    "image": "images.jpeg",
-    "recommended": "1"
+    "image": "images.jpeg"
   },
   {
     "name": "The Impossible Game",
@@ -676,17 +669,20 @@
   {
     "name": "Moto X3M",
     "directory": "motox3m",
-    "image": "splash.jpg"
+    "image": "splash.jpg",
+    "recommended": "1"
   },
   {
     "name": "Moto X3M Winter",
     "directory": "motox3m-winter",
-    "image": "download.jpeg"
+    "image": "download.jpeg",
+    "recommended": "1"
   },
   {
     "name": "Moto X3M Pool Party",
     "directory": "motox3m-pool",
-    "image": "splash.jpg"
+    "image": "splash.jpg",
+    "recommended": "1"
   },
   {
     "name": "Five Nights at Freddy's",
