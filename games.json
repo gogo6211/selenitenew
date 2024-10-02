@@ -19,37 +19,37 @@
     "name": "Spacebar Clicker",
     "image": "cover.svg",
     "directory": "space",
-    "recommended": "1"
+    "recommended": "2"
   },
       {
     "name": "π Client",
     "image": "cover.svg",
     "directory": "pi",
-    "recommended": "1"
+    "recommended": "3"
   },
      {
     "name": "Precision Client",
     "image": "cover.svg",
     "directory": "pre",
-    "recommended": "1"
+    "recommended": "2"
   },
     {
     "name": "Shadow Client",
     "image": "cover.svg",
     "directory": "shadow",
-    "recommended": "1"
+    "recommended": "2"
   },
   {
     "name": "Windows XP",
     "image": "cover.svg",
     "directory": "xp",
-    "recommended": "1"
+    "recommended": "2"
   },
              {
     "name": "Dragon Client",
     "image": "cover.svg",
     "directory": "drag",
-    "recommended": "1"
+    "recommended": "2"
   },
             {
     "name": "Ayuncraft 1.5.2",
@@ -84,7 +84,7 @@
     "name": "Spank the Monkey",
     "image": "cover.svg",
     "directory": "spankthemonkey",
-    "recommended": "1"
+    "recommended": "2"
   },
       {
     "name": "CMM Client",
@@ -101,13 +101,13 @@
     "name": "Yohoho.io",
     "image": "cover.svg",
     "directory": "yohoho",
-    "recommended": "1"
+    "recommended": "2"
   },
     {
     "name": "Tube Jumpers",
     "image": "cover.svg",
     "directory": "tube-jumpers",
-    "recommended": "1"
+    "recommended": "2"
   },
     {
     "name": "Hill Climb Racing 2",
@@ -125,13 +125,13 @@
     "name": "Awesome Tanks",
     "image": "cover.svg",
     "directory": "awesometanks",
-    "recommended": "1"
+    "recommended": "2"
   },
   {
     "name": "Bubble Shooter",
     "image": "cover.svg",
     "directory": "bubbleshooter",
-    "recommended": "1"
+    "recommended": "3"
   },
   {
     "name": "Pong",
@@ -231,7 +231,8 @@
   {
     "name": "Run 2",
     "directory": "run2",
-    "image": "icon.jpg"
+    "image": "icon.jpg",
+    "recommended": "1"
   },
   {
     "name": "Vex 5",
@@ -747,7 +748,8 @@
   {
     "name": "Run 3",
     "directory": "run3",
-    "image": "icon.jpeg"
+    "image": "icon.jpeg",
+    "recommended": "1"
   },
   {
     "name": "Dragon Ball Devolution",
@@ -757,7 +759,8 @@
   {
     "name": "Run",
     "directory": "run",
-    "image": "icon.jpeg"
+    "image": "icon.jpeg",
+    "recommended": "1"
   },
   {
     "name": "Super Smash Flash",
@@ -1097,7 +1100,8 @@
   {
     "name": "hole.io",
     "directory": "holeio",
-    "image": "feature800x470.png"
+    "image": "feature800x470.png",
+    "recommended": "1"
   },
   {
     "name": "Time Shooter",
@@ -1167,7 +1171,8 @@
   {
     "name": "Moto X3M Spooky",
     "directory": "motox3m-spooky",
-    "image": "icon.png"
+    "image": "icon.png",
+    "recommended": "1"
   },
   {
     "name": "Rooftop Snipers 2",
@@ -1182,7 +1187,8 @@
   {
     "name": "Tiny Fishing",
     "directory": "tinyfishing",
-    "image": "thumb.png"
+    "image": "thumb.png",
+    "recommended": "1"
   },
   {
     "name": "TU-95",
@@ -1332,7 +1338,8 @@
   {
     "name": "Minecraft Classic",
     "directory": "mcclassic",
-    "image": "assets/textures/previews/2.png"
+    "image": "assets/textures/previews/2.png",
+    "recommended": "1"
   },
   {
     "name": "Bit Planes",
@@ -1362,6 +1369,7 @@
   {
     "name": "Watermelon Game",
     "directory": "watermelongame",
-    "image": "assets/sprites/tittle.png"
+    "image": "assets/sprites/tittle.png",
+    "recommended": "2"
   }
 ]
