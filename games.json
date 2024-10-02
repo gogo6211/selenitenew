@@ -665,7 +665,8 @@
   {
     "name": "Retro Bowl",
     "directory": "retrobowl",
-    "image": "img/icon.jpg"
+    "image": "img/icon.jpg",
+    "recommended": "1"
   },
   {
     "name": "Tunnel Rush",
