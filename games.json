@@ -62,8 +62,7 @@
             {
     "name": "Ayuncraft 1.5.2",
     "directory": "over25mb1",
-    "image": "image.png",
-    "recommended": "1"
+    "image": "image.png"
   },
       {
     "name": "Minecraft Infdev",
@@ -98,8 +97,7 @@
       {
     "name": "CMM Client",
     "directory": "over25mb1",
-    "image": "image.png",
-    "recommended": "1"
+    "image": "image.png"
   },
      {
     "name": "Pool",
@@ -175,8 +173,7 @@
   {
     "name": "Friday Night Funkin",
     "directory": "over25mb1",
-    "image": "image.png",
-    "recommended": "1"
+    "image": "image.png"
   },
   {
     "name": "Worlds Hardest Game",
@@ -233,7 +230,8 @@
   {
     "name": "Slope",
     "directory": "slope",
-    "image": "slope4.jpeg"
+    "image": "slope4.jpeg",
+    "recommended": "1"
   },
   {
     "name": "Cell Machine",
@@ -464,12 +462,14 @@
   {
     "name": "Drift Boss",
     "directory": "drift-boss",
-    "image": "icon.png"
+    "image": "icon.png",
+    "recommended": "1"
   },
   {
     "name": "Fireboy & Watergirl 1",
     "directory": "fireboywatergirl",
-    "image": "icon.png"
+    "image": "icon.png",
+    "recommended": "1"
   },
   {
     "name": "Gun Mayhem",
@@ -504,7 +504,8 @@
   {
     "name": "Bitlife",
     "directory": "bitlife",
-    "image": "bitlife.png"
+    "image": "bitlife.png",
+    "recommended":"1"
   },
   {
     "name": "Duck Life 1",
@@ -566,7 +567,8 @@
   {
     "name": "Slope 2",
     "directory": "slope2",
-    "image": "slope-2-logo.png"
+    "image": "slope-2-logo.png",
+    "recommended": "1"
   },
   {
     "name": "Learn to Fly Idle",
@@ -653,8 +655,7 @@
   {
     "name": "Rocket League",
     "directory": "over25mb1",
-    "image": "image.png",
-    "recommended": "1"
+    "image": "image.png"
   },
   {
     "name": "Little Alchemy",
