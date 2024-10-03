@@ -1,60 +1,67 @@
 <html>
   <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
-      function createBlank() {
-        // Open a new window
-        let win = window.open();
+      function openCustomWindow() {
+        // Open a new blank window
+        let win = window.open("about:blank", "_blank", "width=800,height=600");
+
+        // Set the window's body styling
         win.document.body.style.margin = "0";
         win.document.body.style.height = "100vh";
+        win.document.body.style.display = "flex";
+        win.document.body.style.flexDirection = "column";
 
-        // Create header with buttons
+        // Create a header for the buttons
         let header = win.document.createElement("header");
         header.style.display = "flex";
         header.style.justifyContent = "center";
         header.style.height = "4vh";
+        header.style.backgroundColor = "#f0f0f0";
+        header.style.alignItems = "center";
+        header.style.borderBottom = "1px solid #ccc";
 
-        // Create buttons
-        let goBackButton = win.document.createElement("button");
-        goBackButton.innerText = "Go Back";
-        goBackButton.style.marginRight = "10px";
+        // Create the "Home" button
+        let homeButton = win.document.createElement("button");
+        homeButton.innerText = "Home";
+        homeButton.style.marginRight = "10px";
+        homeButton.style.height = "100%";
+        homeButton.style.padding = "10px";
 
+        // Create the "Reload" button
         let reloadButton = win.document.createElement("button");
         reloadButton.innerText = "Reload";
+        reloadButton.style.height = "100%";
+        reloadButton.style.padding = "10px";
 
-        // Append buttons to header
-        header.appendChild(goBackButton);
+        // Append buttons to the header
+        header.appendChild(homeButton);
         header.appendChild(reloadButton);
 
-        // Add header to the document
+        // Add the header to the new window's body
         win.document.body.appendChild(header);
 
-        // Create iframe
+        // Create the iframe
         let iframe = win.document.createElement("iframe");
         iframe.style.border = "none";
         iframe.style.width = "100%";
-        iframe.style.height = "96vh"; // Slightly reduced height for the header
-        iframe.style.margin = "0";
-        iframe.referrerpolicy = "no-referrer";
-        iframe.allow = "fullscreen";
-        iframe.src = location.origin;
+        iframe.style.height = "96vh"; // Leaves space for the header
+        iframe.src = location.origin; // Use the current page's origin
+
+        // Add the iframe to the new window's body
         win.document.body.appendChild(iframe);
 
-        // Button functionality
-        goBackButton.addEventListener("click", function() {
-          iframe.contentWindow.history.back(); // Go back within the iframe
+        // Add event listeners for the buttons
+        homeButton.addEventListener("click", function () {
+          iframe.src = location.origin; // Go back to the main page (home)
         });
 
-        reloadButton.addEventListener("click", function() {
-          iframe.src = iframe.src; // Reload the iframe
+        reloadButton.addEventListener("click", function () {
+          iframe.contentWindow.location.reload(); // Reload the iframe content
         });
-
-        // Redirect original window to Google
-        window.location.href = "https://google.com";
       }
 
-      // Call the function
-      createBlank();
+      // Call the function to open the custom window
+      openCustomWindow();
     </script>
     <style>
       body {
