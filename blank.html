@@ -1,17 +1,60 @@
 <html>
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <script>
-        win = window.open();
+      function createBlank() {
+        // Open a new window
+        let win = window.open();
         win.document.body.style.margin = "0";
         win.document.body.style.height = "100vh";
-        html =
-          `
-        <style>*{margin:0;padding:0;border:none}body,iframe{height:100vh;width:100vw}iframe{height:96vh}header{display:flex;height:4vh;justify-content:center;}button{margin-right:100px;height:100%;aspect-ratio: 1 / 1}#reload{background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 -960 960 960' width='24'%3E%3Cpath d='M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z'/%3E%3C/svg%3E");background-size:cover;}#goBack{background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24' viewBox='0 -960 960 960' width='24'%3E%3Cpath d='M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z'/%3E%3C/svg%3E");background-size:cover;}</style><script>
-        </`+
-        `script><header><button id=goBack></button><button id=reload></button></header><iframe id=selenite></iframe>`;
-        win.document.querySelector("html").innerHTML = html;
-        win.eval(`let selenite = document.getElementById("selenite");console.log(selenite);selenite.setAttribute("src", "${location.origin}");console.log(selenite);document.getElementById("goBack").addEventListener("click", function () {selenite.contentDocument.location.href = selenite.contentDocument.location.origin;});document.getElementById("reload").addEventListener("click", function () {selenite.contentDocument.location.href = selenite.contentDocument.location.href;})`);
-        close();
+
+        // Create header with buttons
+        let header = win.document.createElement("header");
+        header.style.display = "flex";
+        header.style.justifyContent = "center";
+        header.style.height = "4vh";
+
+        // Create buttons
+        let goBackButton = win.document.createElement("button");
+        goBackButton.innerText = "Go Back";
+        goBackButton.style.marginRight = "10px";
+
+        let reloadButton = win.document.createElement("button");
+        reloadButton.innerText = "Reload";
+
+        // Append buttons to header
+        header.appendChild(goBackButton);
+        header.appendChild(reloadButton);
+
+        // Add header to the document
+        win.document.body.appendChild(header);
+
+        // Create iframe
+        let iframe = win.document.createElement("iframe");
+        iframe.style.border = "none";
+        iframe.style.width = "100%";
+        iframe.style.height = "96vh"; // Slightly reduced height for the header
+        iframe.style.margin = "0";
+        iframe.referrerpolicy = "no-referrer";
+        iframe.allow = "fullscreen";
+        iframe.src = location.origin;
+        win.document.body.appendChild(iframe);
+
+        // Button functionality
+        goBackButton.addEventListener("click", function() {
+          iframe.contentWindow.history.back(); // Go back within the iframe
+        });
+
+        reloadButton.addEventListener("click", function() {
+          iframe.src = iframe.src; // Reload the iframe
+        });
+
+        // Redirect original window to Google
+        window.location.href = "https://google.com";
+      }
+
+      // Call the function
+      createBlank();
     </script>
     <style>
       body {
@@ -22,4 +65,6 @@
       }
     </style>
   </head>
+  <body>
+  </body>
 </html>
