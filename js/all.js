@@ -140,32 +140,7 @@ addEventListener("visibilitychange", (e) => {
 		}
 	}
 });
-// modified from ultraviolet to make it different
-let enc = {
-	encode(str) {
-		if (!str) return str;
-		return btoa(
-			encodeURIComponent(
-				str
-					.toString()
-					.split("")
-					.map((char, ind) => (ind % 3 ? String.fromCharCode(char.charCodeAt() + ind) : char))
-					.join("")
-			)
-		);
-	},
-	decode(str) {
-		if (!str) return str;
-		let [input, ...search] = str.split("?");
-		input = decodeURIComponent(atob(input));
-		return (
-			input
-				.split("")
-				.map((char, ind) => (ind % 3 ? String.fromCharCode(char.charCodeAt(0) - ind) : char))
-				.join("") + (search.length ? "?" + search.join("?") : "")
-		);
-	},
-};
+
 if (localStorage.getItem("selenite.password")) {
 	if (!location.hash) {
 		location.hash = localStorage.getItem("selenite.password");
