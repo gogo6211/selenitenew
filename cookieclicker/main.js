@@ -16856,7 +16856,6 @@ window.onload=function()
 					var launch=function(){
 						Game.Launch();
 						
-						else
 						{
 							console.log('[=== '+choose([
 								'Oh, hello!',
