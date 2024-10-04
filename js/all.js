@@ -82,25 +82,8 @@ function panicMode() {
 		panicurl = "https://google.com";
 	}
 }
-const head = document.getElementsByTagName("head")[0];
-document.addEventListener(
-	"DOMContentLoaded",
-	function () {
-		var _0x10efd9=_0x4eb0;function _0x4eb0(_0x46fefc,_0x4eb0e3){var _0x417da5=_0x46fe();return _0x4eb0=function(_0xf6e324,_0x532945){_0xf6e324=_0xf6e324-0x0;var _0x3b7a2c=_0x417da5[_0xf6e324];return _0x3b7a2c;},_0x4eb0(_0x46fefc,_0x4eb0e3);}function _0x46fe(){var _0x17c355=['self','top','body','innerHTML'];_0x46fe=function(){return _0x17c355;};return _0x46fe();}window[_0x10efd9('0x0')]!==window[_0x10efd9('0x1')]&&(this[_0x10efd9('0x2')][_0x10efd9('0x3')]='<h1>failed\x20to\x20load..\x20contact\x20owner\x20for\x20help</h1>');
-		// improve game loading
-		setCloak();
-		const gscript = document.createElement("script");
-		gscript.setAttribute("async", "");
-		gscript.setAttribute("src", "https://www.googletagmanager.com/gtag/js?id=G-XVTVBR1D5V");
-		const ingscript = document.createElement("script");
-		ingscript.innerHTML = `window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-98DP5VKS42');`;
-		document.head.append(gscript, ingscript);
-	},
-	false
-);
+
+
 if (location.pathname.substring(1).includes("/") && localStorage.getItem("selenite.blockClose") == "true") {
 	window.addEventListener("beforeunload", (e) => {
 		e.preventDefault();
@@ -140,6 +123,33 @@ addEventListener("visibilitychange", (e) => {
 		}
 	}
 });
+// modified from ultraviolet to make it different
+let enc = {
+	encode(str) {
+		if (!str) return str;
+		return btoa(
+			encodeURIComponent(
+				str
+					.toString()
+					.split("")
+					.map((char, ind) => (ind % 3 ? String.fromCharCode(char.charCodeAt() + ind) : char))
+					.join("")
+			)
+		);
+	},
+	decode(str) {
+		if (!str) return str;
+		let [input, ...search] = str.split("?");
+		input = decodeURIComponent(atob(input));
+		return (
+			input
+				.split("")
+				.map((char, ind) => (ind % 3 ? String.fromCharCode(char.charCodeAt(0) - ind) : char))
+				.join("") + (search.length ? "?" + search.join("?") : "")
+		);
+	},
+};
+
 
 if (localStorage.getItem("selenite.password")) {
 	if (!location.hash) {
