@@ -11,11 +11,6 @@
     "image": "image.png"
   },
       {
-    "name": "Snowball Fighter",
-    "image": "cover.svg",
-    "directory": "snow"
-  },
-      {
     "name": "Spacebar Clicker",
     "image": "cover.svg",
     "directory": "space",
