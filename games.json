@@ -1313,7 +1313,8 @@
   {
     "name": "CSGO Case Clicker",
     "directory": "csgoclicker",
-    "image": "images/case1.png"
+    "image": "images/case1.png",
+    "recommended": "2"
   },
   {
     "name": "The Final Earth 2",
@@ -1344,7 +1345,8 @@
   {
     "name": "Snow Rider 3D",
     "directory": "snowrider3d",
-    "image": "snow.png"
+    "image": "snow.png",
+    "recommended": "1"
   },
   {
     "name": "Dadish",
