@@ -1371,7 +1371,7 @@
   },
   {
     "name": "Wheelie Bike",
-    "directory": "Wheeliebike",
+    "directory": "wheeliebike",
     "image": "image(bike).png",
     "recommended": "1"
   }
