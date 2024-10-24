@@ -1369,4 +1369,10 @@
     "image": "assets/sprites/tittle.png",
     "recommended": "2"
   }
+  {
+    "name": "Wheelie Bike",
+    "directory": "wheeliebike",
+    "image": "image(bike).png",
+    "recommended": "1"
+  }
 ]
