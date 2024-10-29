@@ -5,133 +5,111 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wheelie Bike Note</title>
   <style>
-//=== Full CSS Code with Adjustments for Raise Effect ===
+    /* Base Styles */
+    body {
+      color: #e0e0e0;
+      background: hsl(227, 10%, 10%);
+      font: 300 1em 'Fira Sans', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 100vh;
+      margin: 0;
+      position: relative;
+      overflow: hidden;
+    }
 
-// Animate the size, inside
-.fill:hover,
-.fill:focus {
-  box-shadow: inset 0 0 0 2em var(--hover);
-}
+    /* Box and Text Styles */
+    .buttons {
+      background: rgba(34, 40, 49, 0.9);
+      border: 2px solid #007bff; /* Electric blue */
+      border-radius: 12px;
+      padding: 2.5rem;
+      max-width: 600px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      z-index: 10;
+    }
 
-// Animate the size, outside
-.pulse:hover, 
-.pulse:focus {
-  animation: pulse 1s forwards;
-  box-shadow: 0 0 0 2em transparent;
-}
+    .buttons:hover {
+      transform: scale(1.03);
+      box-shadow: 0 10px 40px rgba(0, 123, 255, 0.5); /* Lighter electric blue shadow */
+    }
 
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 var(--hover); }
-  100% { box-shadow: 0 0 0 2em transparent; }
-}
+    h1 { 
+      font-weight: 600; 
+      color: #00bfff; /* Lighter blue for the heading */
+      margin-bottom: 1rem;
+    }
 
-// Stack multiple shadows, one from the left, the other from the right
-.close:hover,
-.close:focus {
-  box-shadow: 
-    inset -3.5em 0 0 0 var(--hover),
-    inset 3.5em 0 0 0 var(--hover);  
-}
+    code { 
+      color: #007bff; /* Electric blue */
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.3rem 0.5rem;
+      border-radius: 6px;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
 
-// Updated raise effect for a subtle raised shadow and lift
-.raise {
-  box-shadow: 0 0.2em 0.3em -0.1em var(--color);
-  
-  &:hover,
-  &:focus {
-    box-shadow: 0 0.5em 0.6em -0.2em var(--hover);
-    transform: translateY(-0.15em);
-  }
-}
+    /* Button Styles */
+    button.raise {
+      color: #007bff; /* Electric blue */
+      background: none;
+      border: 2px solid #007bff; /* Electric blue */
+      font-size: 1.1rem;
+      padding: 0.8em 1.6em;
+      margin-top: 1.5em;
+      cursor: pointer;
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+      z-index: 10;
+      transition: 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 123, 255, 0.5); /* Electric blue shadow */
+    }
 
-// Animating from the bottom
-.up:hover,
-.up:focus {
-  box-shadow: inset 0 -3.25em 0 0 var(--hover);
-}
+    /* Button Hover Effects */
+    button.raise:hover,
+    button.raise:focus {
+      color: #fff; /* White text on hover */
+      border-color: #00bfff; /* Lighter blue on hover */
+      background-color: #007bff; /* Electric blue */
+      transform: translateY(-0.3em);
+      box-shadow: 
+        0 0 10px #00bfff, 
+        0 0 20px #007bff, 
+        0 0 30px rgba(0, 123, 255, 0.5); /* Lighter electric blue */
+    }
 
-// And from the left
-.slide:hover,
-.slide:focus {
-  box-shadow: inset 6.5em 0 0 0 var(--hover);
-}
+    /* Subtle Raise Effect */
+    .raise {
+      box-shadow: 0 0.2em 0.3em -0.1em var(--color);
+      transition: box-shadow 0.3s ease;
+    }
 
-// Multiple shadows, one on the outside, another on the inside
-.offset {  
-  box-shadow: 
-    0.3em 0.3em 0 0 var(--color),
-    inset 0.3em 0.3em 0 0 var(--color);
-  
-  &:hover,
-  &:focus {
-    box-shadow: 
-      0 0 0 0 var(--hover),
-      inset 6em 3.5em 0 0 var(--hover);
-  }
-}
+    .raise:hover,
+    .raise:focus {
+      box-shadow: 0 0.5em 0.6em -0.2em var(--hover);
+      transform: translateY(-0.15em);
+    }
 
-//=== Set button colors using a map and custom properties
-$colors: (
-  fill: #a972cb,
-  pulse: #ef6eae, 
-  close: #ff7f82, 
-  raise: #ffa260, 
-  up: #e4cb58, 
-  slide: #8fc866, 
-  offset: #19bc8b
-);
-
-@each $button, $color in $colors {
-  .#{$button} {
-    --color: #{$color};
-    --hover: #{adjust-hue($color, 45deg)};
-  }
-}
-
-// Basic button style with dynamic color and hover transition
-button {  
-  color: var(--color);
-  background: none;
-  border: 2px solid;
-  font: inherit;
-  line-height: 1;
-  margin: 0.5em;
-  padding: 1em 2em;
-  transition: 0.25s;
-  
-  &:hover,
-  &:focus { 
-    border-color: var(--hover);
-    color: #fff;
-  }
-}
-
-//=== Additional styling for body and text ===
-body {
-  color: #fff;
-  background: hsl(227, 10%, 10%);
-  font: 300 1em 'Fira Sans', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  text-align: center;
-  min-height: 100vh;
-}
-
-h1 { font-weight: 400; }
-
-code { 
-  color: #e4cb58;
-  font: inherit;
-}
+    /* Color Variables */
+    :root {
+      --color: #007bff; /* Electric blue */
+      --hover: #00bfff; /* Lighter blue */
+    }
   </style>
 </head>
 <body>
   <div class="buttons">
-    <h1>Note <code>Wheelie Bike is in an iframe and your save cannot be exported using the export save tool. As long as you don't clear your cookies, you shouldn't lose your progress.</code></h1>
+    <h1>Note</h1>
+    <p>
+      <code>Wheelie Bike is in an iframe and your save cannot be exported using the export save tool. As long as you don't clear your cookies, you shouldn't lose your progress.</code>
+    </p>
     <a href="/wheeliebike/game.html">
-      <button class="raise">Play Wheelie Bike</button>
+      <button class="raise">Click here</button>
     </a>    
   </div>
 </body>
