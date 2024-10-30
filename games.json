@@ -898,9 +898,10 @@
     "image": "image.png"
   },
   {
-    "name": "Ruffle",
+    "name": "Ruffle - Flash Games",
     "directory": "ruffle",
-    "image": "favicon-180.png"
+    "image": "favicon-180.png",
+    "recommended": "1"
   },
   {
     "name": "emulatorJS",

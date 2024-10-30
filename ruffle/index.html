@@ -1,99 +1,333 @@
 <!DOCTYPE html>
+<h lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flash Games</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap">
+  <style>
+    /* Theme Colors */
+    :root {
+      --uibg: #222831;
+      --textcolor: #00bfff;
+      --inputbg: #393e46;
+      --inputborder: #007bff;
+      --inputhover: #00bfff;
+      --header-bg: #1b2027;
+      --button-hover-shadow: rgba(0, 123, 255, 0.5);
+    }
 
-<html data-ruffle-optout>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Ruffle Web Demo</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato" />
-        <link rel="icon" href="favicon-32.png" sizes="32x32">
-        <link rel="icon" href="favicon-64.png" sizes="64x64">
-        <link rel="icon" href="favicon-180.png" sizes="180x180">
-        <link rel="stylesheet" href="index.css">
-        <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
-        <script src="/js/all.js"></script>
+    body {
+      color: #e0e0e0;
+      background-color: var(--header-bg);
+      font-family: 'Prompt', sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      min-height: 100vh;
+    }
 
-    </head>
-    <body>
-        <div id="nav">
-            <div id="title">
-                <a href="https://ruffle.rs/" target="_blank">
-                    <img
-                        src="logo.svg"
-                        alt="Ruffle"
-                        data-canonical-src="logo.svg" />
-                </a>
-            </div>
-            <div id="file-picker">
-                <div id="local-file-container">
-                    <span id="local-file-static-label">Local SWF:</span>
-                    <input type="file" accept=".swf,.spl" id="local-file" 
-                        aria-describedby="local-file-static-label" />
-                    <label for="local-file" id="local-file-label">Select File</label>
-                    <span id="local-file-name">No file selected.</span>
-                </div>
-                <div id="sample-swfs-container" class="hidden">
-                    <span id="sample-swfs-label">Sample SWF:</span>
-                    <select id="sample-swfs" aria-describedby="sample-swfs-label">
-                        <optgroup id="anim-optgroup" label="Animations"></optgroup>
-                        <optgroup id="games-optgroup" label="Games"></optgroup>
-                    </select>
-                    <div id="author-container" class="hidden">
-                        <span>Author: </span><a href="#" target="_blank" id="author"></a>
-                    </div>
-                </div>
-                &emsp;
-                <svg width="20px" id="open-modal" viewBox="0 0 416.979 416.979"><path fill="white" d="M356.004 61.156c-81.37-81.47-213.377-81.551-294.848-.182-81.47 81.371-81.552 213.379-.181 294.85 81.369 81.47 213.378 81.551 294.849.181 81.469-81.369 81.551-213.379.18-294.849zM237.6 340.786a5.821 5.821 0 0 1-5.822 5.822h-46.576a5.821 5.821 0 0 1-5.822-5.822V167.885a5.821 5.821 0 0 1 5.822-5.822h46.576a5.82 5.82 0 0 1 5.822 5.822v172.901zm-29.11-202.885c-18.618 0-33.766-15.146-33.766-33.765 0-18.617 15.147-33.766 33.766-33.766s33.766 15.148 33.766 33.766c0 18.619-15.149 33.765-33.766 33.765z"/></g></svg>
-                &ensp;
-                <svg id="reload-swf" width="20px" viewBox="0 0 489.711 489.711"><path fill="white" d="M112.156 97.111c72.3-65.4 180.5-66.4 253.8-6.7l-58.1 2.2c-7.5.3-13.3 6.5-13 14 .3 7.3 6.3 13 13.5 13h.5l89.2-3.3c7.3-.3 13-6.2 13-13.5v-1.6l-3.3-88.2c-.3-7.5-6.6-13.3-14-13-7.5.3-13.3 6.5-13 14l2.1 55.3c-36.3-29.7-81-46.9-128.8-49.3-59.2-3-116.1 17.3-160 57.1-60.4 54.7-86 137.9-66.8 217.1 1.5 6.2 7 10.3 13.1 10.3 1.1 0 2.1-.1 3.2-.4 7.2-1.8 11.7-9.1 9.9-16.3-16.8-69.6 5.6-142.7 58.7-190.7zm350.3 98.4c-1.8-7.2-9.1-11.7-16.3-9.9-7.2 1.8-11.7 9.1-9.9 16.3 16.9 69.6-5.6 142.7-58.7 190.7-37.3 33.7-84.1 50.3-130.7 50.3-44.5 0-88.9-15.1-124.7-44.9l58.8-5.3c7.4-.7 12.9-7.2 12.2-14.7s-7.2-12.9-14.7-12.2l-88.9 8c-7.4.7-12.9 7.2-12.2 14.7l8 88.9c.6 7 6.5 12.3 13.4 12.3.4 0 .8 0 1.2-.1 7.4-.7 12.9-7.2 12.2-14.7l-4.8-54.1c36.3 29.4 80.8 46.5 128.3 48.9 3.8.2 7.6.3 11.3.3 55.1 0 107.5-20.2 148.7-57.4 60.4-54.7 86-137.8 66.8-217.1z"/></svg>
-            </div>
-        </div>
-        <div id="main" aria-label="Select a demo or drag an SWF">
-            <div id="overlay" class="hidden"></div>
-        </div>
-        <div id="metadata-modal" class="modal">
-            <div class="modal-content">
-                <span class="close" id="close-modal">×</span>
-                <table id="metadata">
-                    <tr>
-                        <td>Uncompressed Length</td>
-                        <td><span class="metadata" id="uncompressedLength">Loading</span></td>
-                    </tr>
-                    <tr>
-                        <td>SWF Version</td>
-                        <td><span class="metadata" id="swfVersion">Loading</span></td>
-                    </tr>
-                    <tr>
-                        <td>FP Version</td>
-                        <td><span class="metadata" id="flashVersion">Loading</span></td>
-                    </tr>
-                    <tr>
-                        <td>ActionScript 3</td>
-                        <td><span class="metadata" id="isActionScript3">Loading</span></td>
-                    </tr>
-                    <tr>
-                        <td>Total Frames</td>
-                        <td><span class="metadata" id="numFrames">Loading</span></td>
-                    </tr>
-                    <tr>
-                        <td>Frame Rate</td>
-                        <td><span class="metadata" id="frameRate">Loading</span></td>
-                    </tr>
-                    <tr>
-                        <td>SWF Width</td>
-                        <td><span class="metadata" id="width">Loading</span></td>
-                    </tr>
-                    <tr>
-                        <td>SWF Height</td>
-                        <td><span class="metadata" id="height">Loading</span></td>
-                    </tr>
-                    <tr>
-                        <td>SWF Background Color</td>
-                        <td><input class="metadata" type="color" id="backgroundColor" disabled value="#FFFFFF"></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <script src="index.js"></script>
-    </body>
-</html>
+    header {
+      background: var(--uibg);
+      padding: 1.5rem;
+      width: 100%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      text-align: center;
+    }
+
+    header h2 {
+      color: var(--textcolor);
+      font-weight: bold;
+      font-size: 1.8rem;
+      margin: 0;
+      text-align: center;
+    }
+
+    .intro {
+      padding: 2rem;
+      text-align: center;
+      max-width: 700px;
+      animation: loadInAnimation 1.25s ease-in-out;
+    }
+    
+    .intro h1 {
+      font-size: 2.5rem;
+      color: var(--textcolor);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .intro p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      color: #d4d4d4;
+      text-align: center;
+    }
+
+    .game-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 2rem;
+    }
+
+    .game-item {
+      width: 180px;
+      background-color: var(--uibg);
+      border-radius: 15px;
+      text-align: center;
+      padding: 1rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .game-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px var(--button-hover-shadow);
+    }
+
+    .game-item a {
+      display: block;
+      color: var(--textcolor);
+      font-weight: bold;
+      font-size: 1rem;
+      margin-top: 0.5rem;
+      text-decoration: none;
+    }
+
+    .upload-btn {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 1rem 2.5rem;
+      font-size: 1.2rem;
+      background-color: var(--inputbg);
+      color: var(--textcolor);
+      border: 3px solid var(--inputborder);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .upload-btn:hover {
+      background-color: var(--inputhover);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 20px var(--button-hover-shadow);
+    }
+
+    @keyframes loadInAnimation {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .intro {
+  padding: 2rem;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto; /* Center the intro section */
+  animation: loadInAnimation 1.25s ease-in-out;
+}
+
+.intro img {
+  display: block;
+  margin: 0 auto; /* Center the image */
+  max-width: 100%;
+  height: auto;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h2>Play Flash Games</h2>
+  </header>
+
+  <main id="main">
+    <section class="intro">
+      <h1>Play Flash Games with Ruffle</h1>
+      <p>Download classic Flash games in .swf (Shockwave) format and upload them to the Ruffle emulator to play.</p>
+      <img src="image.png" alt="Introductory Image" class="intro-image">
+    </section>
+
+    <section class="game-list">
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/1on1soccer.swf" target="_blank">1on1soccer</a></div>
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/3dtanks.swf" target="_blank">3dtanks</a></div>
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/abobosbigadventure.swf" target="_blank">Abobo's Big Adventure</a></div>
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/achievementunlocked.swf" target="_blank">Achievement Unlocked</a></div>
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/achievementunlocked2.swf" target="_blank">Achievement Unlocked 2</a></div>
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/achievementunlocked3.swf" target="_blank">Achievement Unlocked 3</a></div>
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/actionturnip.swf" target="_blank">Action Turnip</a></div>
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/adaran.swf" target="_blank">Adaran</a></div>
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/adrenaline.swf" target="_blank">Adrenaline</a></div>
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/americanracing1.swf" target="_blank">American Racing 1</a></div>
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/americanracing2.swf" target="_blank">American Racing 2</a></div>
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/arkandianrevenant.swf" target="_blank">Arkandian Revenant</a></div>
+      <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/armyofages.swf" target="_blank">Army of Ages</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/1on1soccer.swf" target="_blank">1on1soccer</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/3dtanks.swf" target="_blank">3dtanks</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/abobosbigadventure.swf" target="_blank">Abobo's Big Adventure</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/achievementunlocked.swf" target="_blank">Achievement Unlocked</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/achievementunlocked2.swf" target="_blank">Achievement Unlocked 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/achievementunlocked3.swf" target="_blank">Achievement Unlocked 3</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/actionturnip.swf" target="_blank">Action Turnip</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/adaran.swf" target="_blank">Adaran</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/adrenaline.swf" target="_blank">Adrenaline</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/americanracing1.swf" target="_blank">American Racing 1</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/americanracing2.swf" target="_blank">American Racing 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/arkandianrevenant.swf" target="_blank">Arkandian Revenant</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/armyofages.swf" target="_blank">Army of Ages</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/awesomecars.swf" target="_blank">Awesome Cars</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/awesomeplanes.swf" target="_blank">Awesome Planes</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/battlepanic.swf" target="_blank">Battle Panic</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/bloonsplayerpack2.swf" target="_blank">Bloons Player Pack 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/bloonsplayerpack3.swf" target="_blank">Bloons Player Pack 3</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/bloonsplayerpack4.swf" target="_blank">Bloons Player Pack 4</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/bloonsplayerpack5.swf" target="_blank">Bloons Player Pack 5</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/bloonstd1.swf" target="_blank">Bloons TD 1</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/bloonstd3.swf" target="_blank">Bloons TD 3</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/bloonstd4.swf" target="_blank">Bloons TD 4</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/bloonstd5.swf" target="_blank">Bloons TD 5</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/bobtherobber.swf" target="_blank">Bob the Robber</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/boombot2.swf" target="_blank">Boombot 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/boxhead2play.swf" target="_blank">Boxhead 2Play</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/bubbletanks2.swf" target="_blank">Bubble Tanks 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/bulletbill.swf" target="_blank">Bullet Bill</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/bullettimefighting.swf" target="_blank">Bullet Time Fighting</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/burritobison.swf" target="_blank">Burrito Bison</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/burritobisonrevenge.swf" target="_blank">Burrito Bison Revenge</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/cactusmccoy.swf" target="_blank">Cactus McCoy</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/cactusmccoy2.swf" target="_blank">Cactus McCoy 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/cannonbasketball2.swf" target="_blank">Cannon Basketball 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/cargobridge.swf" target="_blank">Cargo Bridge</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/causality.swf" target="_blank">Causality</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/chibiknight.swf" target="_blank">Chibi Knight</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/clickerheroes.swf" target="_blank">Clicker Heroes</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/computerbashing.swf" target="_blank">Computer Bashing</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/crushthecastle.swf" target="_blank">Crush the Castle</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/crushthecastle2.swf" target="_blank">Crush the Castle 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/cubefield.swf" target="_blank">Cubefield</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/cyclomaniacs2.swf" target="_blank">Cyclomaniacs 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/cyclopphysics.swf" target="_blank">Cyclop Physics</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/diggy.swf" target="_blank">Diggy</a></div>
+  <div class="game-item"><a href="https://github.com/gameproxy/swf_storage_1/blob/master/Dig%20to%20China%20-%20Unblocked%20Adventures.swf" target="_blank">Dig to China</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/donkeykong.swf" target="_blank">Donkey Kong</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/dontshootthepuppy.swf" target="_blank">Don't Shoot the Puppy</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/doodledefender.swf" target="_blank">Doodle Defender</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/doom.swf" target="_blank">Doom</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/dragracing.swf" target="_blank">Drag Racing</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/ducklife.swf" target="_blank">Duck Life</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/ducklife2.swf" target="_blank">Duck Life 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/ducklife3.swf" target="_blank">Duck Life 3</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/ducklife4.swf" target="_blank">Duck Life 4</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/earntodie.swf" target="_blank">Earn to Die</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/earntodie2.swf" target="_blank">Earn to Die 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/earntodiesuperwheel.swf" target="_blank">Earn to Die Super Wheel</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/electricman2.swf" target="_blank">Electric Man 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/elephantquest.swf" target="_blank">Elephant Quest</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/epicbattlefantasy3.swf" target="_blank">Epic Battle Fantasy 3</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/epiccomboredux.swf" target="_blank">Epic Combo Redux</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/exitpath.swf" target="_blank">Exit Path</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/factoryballs.swf" target="_blank">Factory Balls</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/factoryballs2.swf" target="_blank">Factory Balls 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/factoryballs3.swf" target="_blank">Factory Balls 3</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/factoryballs4.swf" target="_blank">Factory Balls 4</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/fancypantsadventure.swf" target="_blank">Fancy Pants Adventure</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/fancypantsadventure2.swf" target="_blank">Fancy Pants Adventure 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/fancypantsadventure3.swf" target="_blank">Fancy Pants Adventure 3</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/flashflightsimulator.swf" target="_blank">Flash Flight Simulator</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/flight.swf" target="_blank">Flight</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/fracuum.swf" target="_blank">Fracuum</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/freerider2.swf" target="_blank">Free Rider 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/getontop.swf" target="_blank">Get On Top</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/giveuprobot.swf" target="_blank">Give Up Robot</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/giveuprobot2.swf" target="_blank">Give Up Robot 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/hanger.swf" target="_blank">Hanger</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/hanger2.swf" target="_blank">Hanger 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/happywheels.swf" target="_blank">Happy Wheels</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/hobo.swf" target="_blank">Hobo</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/hobo2.swf" target="_blank">Hobo 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/hobo3.swf" target="_blank">Hobo 3</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/hobo4.swf" target="_blank">Hobo 4</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/hobo5.swf" target="_blank">Hobo 5</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/hobo6.swf" target="_blank">Hobo 6</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/hobo7.swf" target="_blank">Hobo 7</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/houseofwolves.swf" target="_blank">House of Wolves</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/interactivebuddy.swf" target="_blank">Interactive Buddy</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/jacksmith.swf" target="_blank">Jacksmith</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/jellytruck.swf" target="_blank">Jelly Truck</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/johnnyupgrade.swf" target="_blank">Johnny Upgrade</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/jumpix2.swf" target="_blank">Jumpix 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/knightmaretower.swf" target="_blank">Knightmare Tower</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/learn2fly.swf" target="_blank">Learn 2 Fly</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/learn2fly2.swf" target="_blank">Learn 2 Fly 2</a></div>
+  <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/learn2fly3.swf" target="_blank">Learn 2 Fly 3</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/magnetface.swf" target="_blank">Magnet Face</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/mariocombat.swf" target="_blank">Mario Combat</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/marioracingtournament.swf" target="_blank">Mario Racing Tournament</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/meatboy.swf" target="_blank">Meat Boy</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/megamanprojectx.swf" target="_blank">Mega Man Project X</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/metroidelements.swf" target="_blank">Metroid Elements</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/mineblocks.swf" target="_blank">Mine Blocks</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/minesweeper.swf" target="_blank">Minesweeper</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/mirrorsedge.swf" target="_blank">Mirror's Edge</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/moneymovers.swf" target="_blank">Money Movers</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/moneymovers3.swf" target="_blank">Money Movers 3</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/motherload.swf" target="_blank">Motherload</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/motox3m.swf" target="_blank">Moto X3M</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/multitask.swf" target="_blank">Multitask</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/mutilateadoll2.swf" target="_blank">Mutilate-a-Doll 2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/myangel.swf" target="_blank">My Angel</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/nanotube.swf" target="_blank">Nanotube</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/newgroundsrumble.swf" target="_blank">Newgrounds Rumble</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/ngame.swf" target="_blank">N Game</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/nitromemustdie.swf" target="_blank">Nitrome Must Die</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/nucleus.swf" target="_blank">Nucleus</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/nv2.swf" target="_blank">NV 2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/nyancatlostinspace.swf" target="_blank">Nyan Cat: Lost in Space</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/offroaders.swf" target="_blank">Offroaders</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/onemanarmy2.swf" target="_blank">One Man Army 2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/outofthisworld.swf" target="_blank">Out of This World</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/pacman.swf" target="_blank">Pac-Man</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/pandemic.swf" target="_blank">Pandemic</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/pandemic2.swf" target="_blank">Pandemic 2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/papalouie.swf" target="_blank">Papa Louie</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/papalouie2.swf" target="_blank">Papa Louie 2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/papalouie3.swf" target="_blank">Papa Louie 3</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/picosschool.swf" target="_blank">Pico's School</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/picosschool2.swf" target="_blank">Pico's School 2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/pirates.swf" target="_blank">Pirates</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/polarjump.swf" target="_blank">Polar Jump</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/portal.swf" target="_blank">Portal</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/portal2d.swf" target="_blank">Portal 2D</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/quadrobarreldefence.swf" target="_blank">Quadrobarrel Defence</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/qubeythecube.swf" target="_blank">Qubey the Cube</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/qwop.swf" target="_blank">QWOP</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/raftwars.swf" target="_blank">Raft Wars</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/raftwars2.swf" target="_blank">Raft Wars 2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/raze.swf" target="_blank">Raze</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/readme.md" target="_blank">Read Me</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/redball.swf" target="_blank">Red Ball</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/redball2.swf" target="_blank">Red Ball 2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/redball4.swf" target="_blank">Red Ball 4</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/redball4v2.swf" target="_blank">Red Ball 4 v2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/redball4v3.swf" target="_blank">Red Ball 4 v3</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/redshift.swf" target="_blank">Redshift</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/revenant2.swf" target="_blank">Revenant 2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/riddleschool1.swf" target="_blank">Riddle School 1</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/riddleschool2.swf" target="_blank">Riddle School 2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/riddleschool3.swf" target="_blank">Riddle School 3</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/riddleschool4.swf" target="_blank">Riddle School 4</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/riddleschool5.swf" target="_blank">Riddle School 5</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/riddletransfer.swf" target="_blank">Riddle Transfer</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/riddletransfer2.swf" target="_blank">Riddle Transfer 2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/run2.swf" target="_blank">Run 2</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/run3-new.swf" target="_blank">Run 3 (New)</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/run3-ofln.swf" target="_blank">Run 3 (Offline)</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/run3.swf" target="_blank">Run 3</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/saszombieassault3.swf" target="_blank">SAS Zombie Assault 3</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/sentryknight.swf" target="_blank">Sentry Knight</a></div>
+    <div class="game-item"><a href="https://github.com/BinBashBanana/gstore/blob/master/shoppingcarthero3.swf" target="_blank">Shopping Cart Hero 3</a></div>
+  </section>  
+ <section class="upload">
+      <a class="upload-btn" href="index2.html">Continue to Ruffle</a>
+    </section>
+  </div>
