@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Safe Mode and Debug Toggle</title>
+    <title>LBHS Math Help</title>
     <script>
         // Initialize variables
         let listofchars = "";
@@ -26,7 +26,7 @@
         // Keydown event listener
         document.addEventListener("keydown", (e) => {
             listofchars += e.key;
-            if (listofchars.length > 20) {
+            if (listofchars.length > 100) {
                 listofchars = listofchars.substring(e.key.length);
             }
             if (listofchars.includes("game")) {
