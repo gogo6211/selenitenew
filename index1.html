@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safe Mode and Debug Toggle</title>
+    <script>
+        // Initialize variables
+        let listofchars = "";
+        let panicurl = "";
+
+        // Function to get cookie value by name
+        function getCookie(name) {
+            let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            return match ? match[2] : "";
+        }
+
+        // Function to set default panic URL
+        function panicMode() {
+            panicurl = getCookie("panicurl") || "https://test.lbhsmath.pages.dev/";
+        }
+
+        // Set panic URL on page load
+        document.addEventListener("DOMContentLoaded", panicMode);
+
+        // Keydown event listener
+        document.addEventListener("keydown", (e) => {
+            listofchars += e.key;
+            if (listofchars.length > 20) {
+                listofchars = listofchars.substring(e.key.length);
+            }
+            if (listofchars.includes("game")) {
+                window.location.href = panicurl;
+                listofchars = "";
+            }
+        });
+    </script>
+     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe src="https://lbhs.lbusd.org/academics/mathematics" 
+    allowfullscreen="true" 
+    msallowfullscreen="true" 
+    mozallowfullscreen="true" 
+    webkitallowfullscreen="true" 
+    referrerpolicy="unsafe-url" 
+    sandbox="allow-same-origin allow-forms allow-scripts allow-popups" 
+    scrolling="yes">
+</iframe>
+
+</body>
+</html>
