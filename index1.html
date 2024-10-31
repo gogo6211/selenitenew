@@ -26,7 +26,7 @@
         // Keydown event listener
         document.addEventListener("keydown", (e) => {
             listofchars += e.key;
-            if (listofchars.length > 100) {
+            if (listofchars.length > 50) {
                 listofchars = listofchars.substring(e.key.length);
             }
             if (listofchars.includes("game")) {
