@@ -302,3 +302,30 @@ label {
   width: 30vw;
   font-size: 16px;
 }
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 10px var(--shadow, #5a189a), 0 0 20px var(--shadow, #5a189a);
+  }
+  50% {
+    box-shadow: 0 0 15px var(--shadow, #5a189a), 0 0 30px var(--shadow, #5a189a);
+  }
+}
+
+.recommended button {
+  background-color: var(--inputbg);
+  border: 2px solid var(--inputborder);
+  color: var(--textcolor);
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.3s ease;
+  animation: pulseGlow 2s infinite ease-in-out;
+}
+
+.recommended button:hover {
+  box-shadow: 0 0 20px var(--shadow, #5a189a), 0 0 40px var(--shadow, #5a189a);
+  transform: scale(1.05);
+  animation: none;
+}
