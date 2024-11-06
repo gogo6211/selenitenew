@@ -1376,4 +1376,10 @@
     "image": "image(bike).png",
     "recommended": "1"
   }
+  {
+    "name": "Dig to China",
+    "directory": "digtochina",
+    "image": "image.png",
+    "recommended": "3"
+  }
 ]
