@@ -1382,4 +1382,10 @@
     "image": "image.png",
     "recommended": "3"
   }
+  {
+    "name": "Learn to Fly 3",
+    "directory": "learntofly3",
+    "image": "image.jpeg",
+    "recommended": "3"
+  }
 ]
