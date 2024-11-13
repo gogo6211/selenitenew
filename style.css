@@ -114,6 +114,9 @@ p, a {
 link {
   font-size: 20px;
 }
+mail {
+  font-size: 20px;
+}
 commit {
   display: inline-block;
   font-family: monospace;
