@@ -27,13 +27,17 @@
     <link rel="stylesheet" href="/themes.css" />
     <link rel="stylesheet" href="/style.css" />
     <script>
-      fetch('https://api.github.com/repos/gogo6211/selenitenew/commits?per_page=1')
+      fetch('https://api.github.com/repos/ChocolateLoverRaj/canvideo/commits?per_page=1')
         .then(res => res.json())
         .then(res => {
-          document.getElementById('message').innerHTML = res[0].commit.message;
+          const messageElement = document.getElementById('message');
+          const codeBlock = document.createElement('commit');  // Create a new <v> element
+          codeBlock.textContent = res[0].commit.message;  // Set the message text
+          messageElement.innerHTML = '';                 // Clear existing content
+          messageElement.appendChild(codeBlock);          // Add the new <v> element
         })
         .catch(error => console.error('Error fetching commit message:', error));
-    </script>    
+    </script>   
   <head>
     <!-- seo + other things -->
     <title>Selenite</title>
