@@ -118,7 +118,7 @@ mail {
   font-size: 20px;
 }
 commit {
-  display: inline-block;
+  display: block;
   font-family: monospace;
   background-color: var(--inputbg);
   color: var(--textcolor);
@@ -128,7 +128,8 @@ commit {
   white-space: pre-wrap;
   overflow-x: auto;
   max-width: 100%;
-  box-shadow: var(--shadow, 2px 2px 5px rgba(0, 0, 0, 0.1)); /* Default shadow if not defined */
+  box-shadow: var(--shadow, 2px 2px 5px rgba(0, 0, 0, 0.1));
+  margin-bottom: 10px;
 }
 
   
