@@ -115,18 +115,19 @@ link {
   font-size: 20px;
 }
 commit {
-    display: inline-block;
-    font-family: monospace;
-    background-color: #f5f5f5;
-    color: #333;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    white-space: pre-wrap; /* Preserves whitespace and line breaks */
-    overflow-x: auto;      /* Adds horizontal scroll if the content is too wide */
-    max-width: 100%;       /* Ensures it doesn't overflow the container */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
-  }
+  display: inline-block;
+  font-family: monospace;
+  background-color: var(--inputbg);
+  color: var(--textcolor);
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid var(--inputborder);
+  white-space: pre-wrap;
+  overflow-x: auto;
+  max-width: 100%;
+  box-shadow: var(--shadow, 2px 2px 5px rgba(0, 0, 0, 0.1)); /* Default shadow if not defined */
+}
+
   
 
 button, input#websubmit.submit, input[type=submit] {
