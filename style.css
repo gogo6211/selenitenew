@@ -114,7 +114,7 @@ p, a {
 link {
   font-size: 20px;
 }
-v {
+commit {
     display: inline-block;
     font-family: monospace;
     background-color: #f5f5f5;
