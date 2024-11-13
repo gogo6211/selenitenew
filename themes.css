@@ -12,7 +12,7 @@ body[theme=custom] {
     --textcolor: #fff;
     --bg: #10002b;
 }
-/* Main Theme */
+
 body[theme=main] {
     --inputbg: #3c096c;
     --inputborder: #5a189a;
