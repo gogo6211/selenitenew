@@ -1216,5 +1216,11 @@
     "directory": "pvz",
     "image": "cover.png",
     "recommended": "1"
+  },
+  {
+    "name": "Block Blast",
+    "directory": "blockblast",
+    "image": "image.png",
+    "recommended": "1"
   }
 ]
