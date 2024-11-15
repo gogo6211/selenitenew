@@ -5,11 +5,7 @@
     "image": "cover.svg",
     "directory": "deal"
   },      
-      {
-    "name": "Slope 3",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+   
       {
     "name": "Spacebar Clicker",
     "image": "cover.svg",
@@ -46,11 +42,7 @@
     "directory": "drag",
     "recommended": "2"
   },
-            {
-    "name": "Ayuncraft 1.5.2",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+   
       {
     "name": "Minecraft Infdev",
     "image": "cover.svg",
@@ -81,11 +73,7 @@
     "directory": "spankthemonkey",
     "recommended": "2"
   },
-      {
-    "name": "CMM Client",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+    
      {
     "name": "Pool",
     "image": "cover.svg",
@@ -145,22 +133,14 @@
     "directory": "adofai",
     "image": "icon.png"
   },
-  {
-    "name": "Resent Client",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+
   {
     "name": "Eaglercraft 1.5.2",
     "directory": "offline-mc",
     "image": "logo.png",
     "recommended": "1"
   },
-  {
-    "name": "Friday Night Funkin",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+  
   {
     "name": "Worlds Hardest Game",
     "directory": "worldshardestgame",
@@ -187,21 +167,13 @@
     "directory": "60sburgerrun",
     "image": "icon.png"
   },
-  {
-    "name": "Cluster Rush",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+
   {
     "name": "Vex 3",
     "directory": "vex3",
     "image": "icon.png"
   },
-  {
-    "name": "Adventure Capitalist",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+
   {
     "name": "Bloons Tower Defense 3",
     "directory": "btd3",
@@ -306,11 +278,7 @@
     "directory": "dino",
     "image": "icon.png"
   },
-  {
-    "name": "Turbowarp",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+  
   {
     "name": "Tetris",
     "directory": "tetris",
@@ -388,11 +356,7 @@
     "image": "img/perfectCookie.png",
     "recommended": "1"
   },
-  {
-    "name": "Superhot",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+ 
   {
     "name": "Super Mario 64",
     "directory": "supermario64",
@@ -414,11 +378,7 @@
     "directory": "hexgl",
     "image": "icon_128.png"
   },
-  {
-    "name": "Champion Island",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+ 
   {
     "name": "Learn to Fly",
     "directory": "learntofly",
@@ -512,11 +472,7 @@
     "directory": "ducklife3",
     "image": "ducklife3.png"
   },
-  {
-    "name": "ovo",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+ 
   {
     "name": "There Is No Game",
     "directory": "thereisnogame",
@@ -636,16 +592,8 @@
     "image": "icon.jpg",
     "recommended": "1"
   },
-  {
-    "name": "Drift Hunters",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "Rocket League",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+
+
   {
     "name": "Little Alchemy",
     "directory": "littlealchemy",
@@ -685,11 +633,7 @@
     "directory": "fnaf",
     "image": "splash.jpg"
   },
-  {
-    "name": "Burrito Bison",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+ 
   {
     "name": "Cut The Rope Holday",
     "directory": "cuttherope-holiday",
@@ -710,21 +654,13 @@
     "directory": "jetpackjoyride",
     "image": "logo.jpeg"
   },
-  {
-    "name": "Fruit Ninja",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+
   {
     "name": "Tron",
     "directory": "tron",
     "image": "icon.png"
   },
-  {
-    "name": "Thirty Dollar Website",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+
   {
     "name": "n-gon",
     "directory": "ngon",
@@ -735,11 +671,7 @@
     "directory": "subway-surfers-ny",
     "image": "NewYorkIcon.png"
   },
-  {
-    "name": "Madalin Cars",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+
   {
     "name": "Run 3",
     "directory": "run3",
@@ -822,41 +754,7 @@
     "directory": "ducklife5",
     "image": "ducklife5.png"
   },
-  {
-    "name": "Duck Life 6",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "webretro",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "osu!mania",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "Five Nights at Freddy's 2",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "Five Nights at Freddy's 3",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "Five Nights at Freddy's 4",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "Temple Run 2",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+  
   {
     "name": "Happy Wheels",
     "directory": "happywheels",
@@ -892,11 +790,7 @@
     "directory": "sprinter",
     "image": "icon.jpeg"
   },
-  {
-    "name": "Amazing Rope Police",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+  
   {
     "name": "Ruffle - Flash Games",
     "directory": "ruffle",
@@ -928,11 +822,7 @@
     "directory": "btd4",
     "image": "logo.jpg"
   },
-  {
-    "name": "Bloons Tower Defense 6",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+  
   {
     "name": "Bloons Tower Defense 5",
     "directory": "btd5",
@@ -1033,11 +923,7 @@
     "directory": "factoryballsforever",
     "image": "fac.png"
   },
-  {
-    "name": "Funny Shooter 2",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+ 
   {
     "name": "Bad Time Simulator",
     "directory": "badtimesimulator",
@@ -1088,11 +974,7 @@
     "directory": "boxingrandom",
     "image": "512x512.jpg"
   },
-  {
-    "name": "Funny Mad Racing",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+  
   {
     "name": "hole.io",
     "directory": "holeio",
@@ -1114,11 +996,7 @@
     "directory": "timeshooter3",
     "image": "logo.png"
   },
-  {
-    "name": "Townscaper",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+  
   {
     "name": "Bad Ice Cream",
     "directory": "badicecream",
@@ -1134,21 +1012,7 @@
     "directory": "badicecream3",
     "image": "bad-ice-cream-3.png"
   },
-  {
-    "name": "Bob the Robber 2",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "Boxing Physics 2",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "Burger and Frights",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+  
   {
     "name": "Flippy Fish",
     "directory": "flippyfish",
@@ -1196,16 +1060,7 @@
     "directory": "tu46",
     "image": "tu-46.webp"
   },
-  {
-    "name": "Russian Car Driver",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "Legend of Zelda - Ocarina of Time",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+
   {
     "name": "Metroid: Zero Mission",
     "directory": "metroidzeromission",
@@ -1241,31 +1096,7 @@
     "directory": "funnyballgame",
     "image": "ball.jpg"
   },
-  {
-    "name": "Henry Stickmin - Stealing the Diamond",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "Henry Stickmin - Breaking the Bank",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "Henry Stickmin - Escaping the Prison",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "Henry Stickmin - Fleeing the Complex",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-  {
-    "name": "Henry Stickmin - Infiltrating the Airship",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+
   {
     "name": "Pandemic",
     "directory": "pandemic",
@@ -1296,11 +1127,7 @@
     "directory": "2drocketleague",
     "image": "unnamed.png"
   },
-  {
-    "name": "Pizza Tower",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+
   {
     "name": "Monster Tracks",
     "directory": "monstertracks",
@@ -1322,11 +1149,7 @@
     "directory": "thefinalearth2",
     "image": "icons/favicon.png"
   },
-  {
-    "name": "Baldi's Basics",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
+
   {
     "name": "Cubefield",
     "directory": "cubefield",
