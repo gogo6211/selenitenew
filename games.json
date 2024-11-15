@@ -1210,5 +1210,11 @@
     "directory": "learntofly3",
     "image": "image.jpeg",
     "recommended": "3"
+  },
+  {
+    "name": "Plants vs Zombies",
+    "directory": "pvz",
+    "image": "cover.png",
+    "recommended": "1"
   }
 ]
