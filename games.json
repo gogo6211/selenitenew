@@ -1222,5 +1222,11 @@
     "directory": "blockblast",
     "image": "image.png",
     "recommended": "1"
+  },
+  {
+    "name": "Core Ball",
+    "directory": "coreball",
+    "image": "image.png",
+    "recommended": "1"
   }
 ]
