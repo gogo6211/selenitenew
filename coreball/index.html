@@ -1,245 +1,98 @@
-<!DOCTYPE HTML>
-<!--
-	Forty by HTML5
-	jq22.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (jq22.net/license)
--->
+<!DOCTYPE html>
 <html>
 
 <head>
-    <title>主页</title>
-    <link rel="shortcut icon" href="images/icon/heart.ico" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-    <link rel="stylesheet" href="assets/css/main.css" />
-    <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css">
-    <!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-    <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+    <title>CoreBall</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 
+    <style type="text/css">
+        body {
+            background-color: #c8c8c8;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            /*font-family:Helvetica;*/
+            /*font-family: 'Open Sans', sans-serif, Helvetica;*/
+            font-family: Lato;
+        }
+        
+        .center-box {
+            text-align: center;
+            position: absolute;
+            width: 300px;
+            height: 400px;
+            margin: -200px 0 0 -150px;
+            left: 50%;
+            top: 50%;
+        }
+        
+        .title {
+            font-size: 50px;
+            /*font-family: sans-serif;*/
+        }
+        
+        .button {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            left: 50%;
+            top: 50%;
+            margin: -100px 0 0 -50px;
+            border: 2px solid #666;
+            color: #666;
+            -moz-border-radius: 15px;
+            -webkit-border-radius: 15px;
+            border-radius: 15px;
+            font-size: 55px;
+        }
+        
+        .button .text {
+            font-size: 10px;
+            padding: 0 10px;
+            width: 80px
+        }
+        
+        .op {
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            left: 50%;
+            top: 70%;
+            margin: -50px 0 0 -100px;
+        }
+        
+        .home {
+            color: #666;
+        }
+    </style>
 </head>
 
-<body style="height:500px;">
-
-    <!-- Wrapper -->
-    <div id="wrapper">
-
-        <!-- Header -->
-        <header id="header" class="alt">
-            <a href="index.html" class="logo"><strong>FEI</strong> <span>MENG</span></a>
-            <nav>
-                <a href="#menu">菜单</a>
-            </nav>
-        </header>
-
-        <!-- Menu 菜单-->
-        <nav id="menu">
-            <ul class="links">
-                <li><a href="index.html" class="button special fit">主页</a></li>
-                <li><a href="album.html" class="button fit">Our</a></li>
-                <li><a href="landing.html" class="button fit">日常</a></li>
-                <li><a href="generic.html" class="button fit">通用</a></li>
-                <li><a href="queen.html" class="button fit">Girl</a></li>
-                <li><a href="King.html" class="button fit">Boy</a></li>
-                <li><a href="about.html" class="button fit">Our friends</a></li>
-                <li><a href="game.html" class="button fit">见缝插针</a></li>
-                <li><a href="chase.html" class="button fit">追逐兔子</a></li>
-            </ul>
-        </nav>
-
-        <!-- Banner -->
-        <section id="banner" class="major">
-            <div class="inner">
-                <header class="major">
-                    <h1>Hi, welcome to my home page</h1>
-                </header>
-                <div class="content">
-                    <p>诗和远方,<br /> 越远越脏!</p>
-                    <ul class="actions">
-                        <li><a href="#one" class="button next scrolly">走起</a></li>
-                    </ul>
-                </div>
+<body>
+    <canvas style="display:none;" id="stage"></canvas>
+    <div id="begin">
+        <section class="center-box">
+            <span class="title">Core Ball</span>
+            <div class="button">
+                <div id="txtAr" style="margin-top: 5px;"></div>
+                <div class="text"></div>
+            </div>
+            <div class="op">
+                <a id="btnFW" href="javascript:;">
+                </a>
+                <a class="home">Hi!</a>
+                <span id="btnReset" style="display:inline-block;margin-left: 10px;color:#666">关卡重置</span>
+                <div id="tip" style="font-size:14px;color:#555;margin-top: 15px;display:none;">关卡重置完毕</div>
             </div>
         </section>
-
-        <!-- Main -->
-        <div id="main">
-
-            <!-- One -->
-            <section id="one" class="tiles">
-                <article>
-                    <span class="image">
-										<img src="images/pic01.jpg" alt="" />
-									</span>
-                    <header class="major">
-                        <h3><a href="album.html" class="link">Our</a></h3>
-                        <p>Our</p>
-                    </header>
-                </article>
-                <article>
-                    <span class="image">
-										<img src="images/pic02.jpg" alt="" />
-									</span>
-                    <header class="major">
-                        <h3><a href="landing.html" class="link">日常</a></h3>
-                        <p>日常日常</p>
-                    </header>
-                </article>
-                <article>
-                    <span class="image">
-										<img src="images/pic03.jpg" alt="" />
-									</span>
-                    <header class="major">
-                        <h3><a href="generic.html" class="link">通用</a></h3>
-                        <p>通用</p>
-                    </header>
-                </article>
-                <article>
-                    <span class="image">
-										<img src="images/pic06.jpg" alt="" />
-									</span>
-                    <header class="major">
-                        <h3><a href="queen.html" class="link">Girl</a></h3>
-                        <p>Girl</p>
-                    </header>
-                </article>
-                <article>
-                    <span class="image">
-										<img src="images/pic08.jpg" alt="" />
-									</span>
-                    <header class="major">
-                        <h3>
-                            <a href="King.html" class="link">Boy</a>
-                        </h3>
-                        <p>Boy</p>
-                    </header>
-                </article>
-                <article>
-                    <span class="image">
-										<img src="images/pic06.jpg" alt="" />
-									</span>
-                    <header class="major">
-                        <h3><a href="about.html" class="link">Our friends</a></h3>
-                        <p>Our friends</p>
-                    </header>
-                </article>
-                <article>
-                    <span class="image">
-                  <img src="images/pic12.jpg" alt="" />
-                </span>
-                    <header class="major">
-                        <h3><a href="game.html" class="link">见缝插针</a></h3>
-                        <p>试试你的手速，你能连过几关~</p>
-                    </header>
-                </article>
-                <article>
-                    <span class="image">
-                  <img src="images/pic13.jpg" alt="" />
-                </span>
-                    <header class="major">
-                        <h3><a href="chase.html" class="link">追逐兔子~</a></h3>
-                        <p>快跑~要被抓到了！<sub> (如果打开是空白，更换浏览器试试~) </sub></p>
-                    </header>
-                </article>
-            </section>
-
-            <!-- Two -->
-            <section id="two">
-                <div class="inner">
-                    <header class="major">
-                        <h2>寄语</h2>
-                    </header>
-                    <p>朋友常常说，人生最美好的事情就是在你想结婚的时候，遇到了愿意和你相守一生的人。也许你有时候会问：为什么命运不让我们从一开始就遇到愿意和自己相守一生的人呢？其实我们生命中出现的每一个人，都会对我们的人生会有或多或少的影响，有些人的出现，让我们知道了什么是思念的滋味；有些人的出现，让我们知道了什么是浪漫的爱情；有些人的出现，让我们知道了伤心痛苦的感觉。只有现任的出现，才让我们知道了什么才是生活的真实。</p>
-                    <ul class="actions">
-                        <li><a href="landing.html" class="button next">去看看</a></li>
-                    </ul>
-                </div>
-            </section>
-
-        </div>
-
-        <!-- Contact -->
-        <!-- <section id="contact">
-            <div class="inner">
-                <section>
-                    <form method="post" action="#">
-                        <div class="field half first">
-                            <label for="name">姓名</label>
-                            <input type="text" name="name" id="name" />
-                        </div>
-                        <div class="field half">
-                            <label for="email">Email</label>
-                            <input type="text" name="email" id="email" />
-                        </div>
-                        <div class="field">
-                            <label for="message">信息</label>
-                            <textarea name="message" id="message" rows="6"></textarea>
-                        </div>
-                        <ul class="actions">
-                            <li><input type="submit" value="发送消息" class="special" /></li>
-                            <li><input type="reset" value="清除" /></li>
-                        </ul>
-                    </form>
-                </section>
-                <section class="split">
-                    <section>
-                        <div class="contact-method">
-                            <span class="icon alt fa-envelope"></span>
-                            <h3>Email</h3>
-                            <a href="#">leesq15@163.com</a>
-                        </div>
-                    </section>
-                    <section>
-                        <div class="contact-method">
-                            <span class="icon alt fa-phone"></span>
-                            <h3>电话</h3>
-                            <span>(021) 6064-0083</span>
-                        </div>
-                    </section>
-                    <section>
-                        <div class="contact-method">
-                            <span class="icon alt fa-home"></span>
-                            <h3>地址</h3>
-                            <span>上海市徐汇区<br />
-										虹桥路<br />
-										慧谷305</span>
-                        </div>
-                    </section>
-                </section>
+        <section id="wxArrow" style="display: none;">
+            <div style="position:absolute;width:100%;height:100%;opacity: 0.7;background-color:#000">
             </div>
-        </section> -->
-
-        <!-- Footer -->
-        <footer id="footer">
-            <div class="inner">
-                <ul class="copyright">
-                    <li>&copy; LEE</li>
-                    <li>制作: <a href="#">LEE</a></li>
-                    <li id="demo"></li>
-                </ul>
-            </div>
-        </footer>
-
+            <img style="position: absolute;right:25px;" src="images/Reset.png" />
+        </section>
     </div>
-    <script>
-        var myVar = setInterval(function() {
-            myTimer()
-        }, 1000);
-
-        function myTimer() {
-            var d = new Date();
-            var t = d.toLocaleTimeString();
-            document.getElementById("demo").innerHTML = t;
-        }
-    </script>
-    <!-- Scripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.scrolly.min.js"></script>
-    <script src="assets/js/jquery.scrollex.min.js"></script>
-    <script src="assets/js/skel.min.js"></script>
-    <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script>
-
+    <script src="js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="js/game.js"></script>
 </body>
 
 </html>
