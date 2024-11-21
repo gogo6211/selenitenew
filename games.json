@@ -1215,7 +1215,7 @@
     "name": "Plants vs Zombies",
     "directory": "pvz",
     "image": "cover.png",
-    "recommended": "1"
+    "recommended": "3"
   },
   {
     "name": "Block Blast",
@@ -1226,6 +1226,12 @@
   {
     "name": "Core Ball",
     "directory": "coreball",
+    "image": "image.png",
+    "recommended": "1"
+  },
+  {
+    "name": "Plants vs Zombies Js",
+    "directory": "pvzjs",
     "image": "image.png",
     "recommended": "1"
   }
