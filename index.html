@@ -27,16 +27,16 @@
     <link rel="stylesheet" href="/themes.css" />
     <link rel="stylesheet" href="/style.css" />
     <script>
-    fetch('https://api.github.com/repos/gogo6211/selenitenew/commits?per_page=3')
+    fetch('https://api.github.com/repos/gogo6211/selenitenew/commits?per_page=4')
     .then(res => res.json())
     .then(res => {
       const messageElement = document.getElementById('message');
-      messageElement.innerHTML = ''; // Clear existing content
+      messageElement.innerHTML = '';
       
       res.forEach(commit => {
-        const codeBlock = document.createElement('commit'); // Create a new <p> element for each commit
-        codeBlock.textContent = commit.commit.message;  // Set the message text
-        messageElement.appendChild(codeBlock);          // Add the new <p> element to the message element
+        const codeBlock = document.createElement('commit');
+        codeBlock.textContent = commit.commit.message;
+        messageElement.appendChild(codeBlock);
       });
     })
     .catch(error => console.error('Error fetching commit messages:', error));
