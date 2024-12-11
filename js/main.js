@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	if (localStorage.getItem("selenite.theme")) {
 		document.body.setAttribute("theme", localStorage.getItem("selenite.theme"));
 	} else {
-		document.body.setAttribute("theme", "main");
+		document.body.setAttribute("theme", "dark");
 	}
 	if (document.querySelector("widgetbot-crate")) {
 		if (localStorage.getItem("selenite.discordIcon") == "true") {
