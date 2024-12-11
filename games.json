@@ -1234,5 +1234,20 @@
     "directory": "pvzjs",
     "image": "image.png",
     "recommended": "1"
+  },
+  {
+    "name": "Dolphin Olympics",
+    "directory": "dolphinolympics",
+    "image": "d1.jpeg"
+  },
+  {
+    "name": "Dolphin Olympics 2",
+    "directory": "dolphinolympics2",
+    "image": "d2.jpeg"
+  },
+  {
+    "name": "Dolphin Olympics 3",
+    "directory": "dolphinolympics3",
+    "image": "d3.jpeg"
   }
 ]
