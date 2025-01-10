@@ -1249,5 +1249,11 @@
     "name": "Dolphin Olympics Cup (3)",
     "directory": "dolphinolympics3",
     "image": "d3.jpeg"
+  },
+  {
+    "name": "2048 Cupcake",
+    "directory": "2048cupcake",
+    "image": "image.png",
+    "recommended": "1"
   }
 ]
