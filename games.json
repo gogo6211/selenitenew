@@ -1255,5 +1255,15 @@
     "directory": "2048cupcake",
     "image": "image.png",
     "recommended": "1"
+  },
+  {
+    "name": "Into Space",
+    "directory": "intospace",
+    "image": "image.png"
+  },
+  {
+    "name": "Into Space 2",
+    "directory": "intospace2",
+    "image": "image.png"
   }
 ]
