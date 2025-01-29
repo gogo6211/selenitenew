@@ -1265,5 +1265,10 @@
     "name": "Into Space 2",
     "directory": "intospace2",
     "image": "image.png"
+  },
+  {
+    "name": "Poker Texas Hold'em",
+    "directory": "poker",
+    "image": "image.png"
   }
 ]
