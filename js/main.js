@@ -15,6 +15,36 @@ function check() {
 	}
 }
 
+
+
+// Add this at the end of your body tag
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('mousemove', (e) => {
+        const rect = link.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        link.style.setProperty('--x', `${x}px`);
+        link.style.setProperty('--y', `${y}px`);
+    });
+
+    link.addEventListener('click', function() {
+        document.querySelector('.nav-link.active').classList.remove('active');
+        this.classList.add('active');
+    });
+});
+
+// Update active link based on current page
+const currentPage = window.location.pathname.split('/').pop();
+document.querySelectorAll('.nav-link').forEach(link => {
+    if (link.getAttribute('href').includes(currentPage)) {
+        link.classList.add('active');
+    }
+});
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
 	if(document.querySelectorAll('[id=adcontainer]')) {
 		for(let i = 0; i < document.querySelectorAll('[id=adcontainer]').length; i++) {

@@ -51,14 +51,39 @@
   </alerts>
   <body id="noscroll">
     <header>
-      <a href="/index.html">Home</a>
-      <a href="/bookmarklets.html">Bookmarklets</a>
-      <a href="/projects.html">Games</a>
-      <a href="/settings.html">Settings</a>
-      <a href="/support.html">Proxy</a>
-      <a id="blank" href="#">Open Blank</a>
-      <a href="/about.html">About</a>
-    </header>
+      <nav class="navbar">
+          <a href="/index.html" class="nav-link active">
+              <i class="fas fa-home"></i>
+              <span>Home</span>
+          </a>
+          <a href="/bookmarklets.html" class="nav-link">
+              <i class="fas fa-bookmark"></i>
+              <span>Bookmarklets</span>
+          </a>
+          <a href="/projects.html" class="nav-link">
+              <i class="fas fa-gamepad"></i>
+              <span>Games</span>
+              <span class="badge">New</span>
+          </a>
+          <a href="/settings.html" class="nav-link">
+              <i class="fas fa-cog"></i>
+              <span>Settings</span>
+          </a>
+          <a href="https://piranha-a81.pages.dev/" class="nav-link">
+              <i class="fas fa-shield-alt"></i>
+              <span>Proxy</span>
+          </a>
+          <a href="#" id="blank" class="nav-link">
+              <i class="fas fa-external-link-alt"></i>
+              <span>Open Blank</span>
+          </a>
+          <a href="/about.html" class="nav-link">
+              <i class="fas fa-info-circle"></i>
+              <span>About</span>
+          </a>
+      </nav>
+      <div class="nav-highlight"></div>
+  </header>
     <main id="main" class="noscroll">
       <h1>selenite.</h1>
       <h3>you made it to the beta/testing site.</h3>
@@ -82,6 +107,5 @@
       <a href="/suggest.html">Suggestions</a>
       <a href="/contact.html">Contact</a>
     </footer>
-    
-  </body>
+    </body>
 </html>
