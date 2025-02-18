@@ -1270,5 +1270,10 @@
     "name": "Poker Texas Hold'em",
     "directory": "poker texas holdem",
     "image": "image.png"
+  },
+  {
+    "name": "Little Alchemy 2",
+    "directory": "littlealchemy2",
+    "image": "image.png"
   }
 ]
