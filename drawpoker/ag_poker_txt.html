@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <!--
+    New Perspectives on HTML5, CSS3, and JavaScript 6th Edition
+    Tutorial 14
+    Tutorial Case
+    
+    Draw Poker at Arthur's Games
+    Author: 
+    Date:   
+
+    Filename: ag_poker.html
+   -->
+   
+   <title>Draw Poker at Arthur's Games</title>
+   <meta charset="utf-8" />
+   <link href="ag_base.css" rel="stylesheet"  />
+   <link href="ag_layout.css" rel="stylesheet"  />
+</head>
+
+<body>
+   <header>
+      <img src="ag_logo.png" alt="Arthur's Games" />  
+      <div id="loginDIV">
+         <label for="login">Member ID</label>
+         <input id="login" name="login" type="text" />
+         <label for="pwd">Password</label>
+         <input id="pwd" name="pwd" type="password" />
+      </div>
+      <nav id="middle">
+         <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Online Games</a></li>
+            <li><a href="#">Tournaments</a></li>
+            <li><a href="#">Forums</a></li>
+            <li><a href="#">My Account</a></li>
+            <li><a href="#">Support</a></li>           
+         </ul>
+      </nav>      
+   </header>
+   
+   <nav id="left">
+      <h1>Card Games</h1>
+      <ul>
+         <li><a href="#">Draw Poker</a></li>
+         <li><a href="#">Pick 'Em Poker</a></li>
+         <li><a href="#">5 Card Stud</a></li>
+         <li><a href="#">7 Card Stud</a></li>
+         <li><a href="#">Blackjack</a></li>
+         <li><a href="#">Omaha</a></li>
+         <li><a href="#">Aces and Eights</a></li>
+         <li><a href="#">Deuces Wild</a></li>
+         <li><a href="#">Jokers Wild</a></li>
+         <li><a href="#">Spin Poker</a></li>         
+         <li><a href="#">Flush Attack</a></li>         
+         <li><a href="#">White Hot Aces</a></li>         
+         <li class="newgroup"><a href="#">Board Games</a></li>
+         <li><a href="#">Strategy Games</a></li>
+         <li><a href="#">Logic Games</a></li>
+         <li><a href="#">Kid's Games</a></li>
+         <li><a href="#">Puzzles</a></li>
+         <li><a href="#">Trivia</a></li>
+         <li class="newgroup"><a href="#">Registration</a></li>
+         <li class="newgroup"><a href="#">Chat Room</a></li>
+         <li><a href="#">Tech Support</a></li>
+         <li><a href="#">Contact Us</a></li>       
+     </ul>                                              
+   </nav>
+
+   <section id="pokerTable">
+      <h1>Draw Poker</h1>
+      <div id="hand">
+
+         <img src="ag_cardstack.png" alt="" id="cardstack" />        
+         <img id="card0" class="cardImg" src="ag_trans.gif" />
+         <img id="card1" class="cardImg" src="ag_trans.gif" />
+         <img id="card2" class="cardImg" src="ag_trans.gif" />
+         <img id="card3" class="cardImg" src="ag_trans.gif" />
+         <img id="card4" class="cardImg" src="ag_trans.gif" />
+         <div id="handValue"></div> 
+
+         <label id="bankLabel" for="bank">BANK</label>
+         <input type="text" readonly id="bank" name="bank" />
+         
+         <div id="board">
+            <input type="button" id="dealB" value="Deal" class="pokerButton" />
+            <input type="button" id="drawB" value="Draw" class="pokerButton" disabled="disabled" />
+            <input type="button" id="standB" value="Stand" class="pokerButton" disabled="disabled" />
+            <input type="button" id="resetB" value="Reset" class="pokerButton" /> 
+            <label id="betLabel" for="bet">BET</label>
+            <select id="bet" name="bet">
+               <option value="25">$25</option>
+               <option value="50">$50</option>
+               <option value="75">$75</option>
+               <option value="100">$100</option>
+            </select>
+            </div>                                                  
+         </div>                 
+      <p id="instructions">
+         Select the size of your bet from the drop-down list box and then
+         click the <strong>Deal</strong> button to deal the hand. To draw new
+         cards, click the cards to be discarded and then click the 
+         <strong>Draw</strong> button. To stand pat, click the 
+         <strong>Stand</strong> button. To restart the game, click the 
+         <strong>Reset</strong> button.
+      </p>
+
+      <table id="oddsTable">
+         <colgroup>
+            <col class="firstCol" />
+            <col class="secondCol" />
+            <col class="firstCol" />
+            <col class="secondCol" />
+         </colgroup>
+         <tr>
+            <th>Hand</th>
+            <th>Payoff</th>
+            <th>Hand</th>
+            <th>Payoff</th>
+         </tr>
+         <tr>
+            <td>Royal Flush</td>
+            <td>x 250</td>
+            <td>Straight</td>
+            <td>x 4</td>
+         </tr>
+         <tr>
+            <td>Straight Flush</td>
+            <td>x 50</td>
+            <td>3 of a Kind</td>
+            <td>x 3</td>
+         </tr>
+         <tr>
+            <td>4 of a Kind</td>
+            <td>x 25</td>
+            <td>2 Pair</td>
+            <td>x 2</td>
+         </tr>
+         <tr>
+            <td>Full House</td>
+            <td>x 9</td>
+            <td>Jacks or Better</td>
+            <td>x 1</td>
+         </tr>
+         <tr>
+            <td>Flush</td>
+            <td>x 6</td>
+            <td></td>
+            <td></td>
+         </tr>
+      </table>
+      
+   <footer>
+      <p>Arthur's Games &copy; 2018 All Rights Reserved</p>
+   </footer>      
+   </section>      
+
+   
+
+</body>
+</html>

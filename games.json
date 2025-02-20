@@ -1275,5 +1275,10 @@
     "name": "Little Alchemy 2",
     "directory": "littlealchemy2",
     "image": "image.png"
+  },
+  {
+    "name": "Draw Poker",
+    "directory": "drawpoker",
+    "image": "image.png"
   }
 ]
