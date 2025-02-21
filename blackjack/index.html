@@ -1,163 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <script src="/js/all.js"></script>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no"/>
-    <link href="./dist/tailwind.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/002ca1177f.js" crossorigin="anonymous"></script>
-    <title>Black Jack</title>
-  </head>
-  <body>
-    <div id="root" class="bg-green-700 w-screen h-screen">
-      <!-- <section id="start-page" class="w-full h-full flex justify-center align-ce"> -->
-        <!-- <div class="container m-auto text-center p-5">
-          <h1 class="mb-5 font-semibold text-3xl text-gray-100 tracking-tight">Welcome to Card Game!</h1>
-          <input type="text" name="name" id="name-input" placeholder="username" class="shadow mb-5 w-72 border bg-gray-100 text-gray-700 border-gray-300 py-2 pl-3 rounded-md outline-none focus:outline-none focus:bg-white focus:border-gray-500" />
-          <div class="relative w-72 m-auto mb-5">
-            <select id="game-type-select" class="shadow block appearance-none w-full bg-gray-100 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-              <option>brackjack</option>
-              <option>porker</option>
-            </select>
-            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-            </div>
-          </div>
-          <div>
-            <button id="start-button" class="shadow py-3 w-72 text-xl text-white bg-green-500 hover:bg-green-400 rounded-xl">Start Game</button>
-          </div>
-        </div>
-      </section> -->
-      <!-- <section class="w-full h-full flex justify-center align-center">
-        <div class="container m-auto text-center h-4/5">
-          <div class="h-2/6 w-full flex justify-center">
-            <div id="dealer-cards" class="bg-green-700 h-full w-1/3">
-              <div class="mb-2">
-                <span class="shadow text-2xl inline-block bg-white rounded-full px-4 py-1 text-xl font-semibold text-gray-800">Dealer</span>
-              </div>
-              <div class="h-4 flex justify-center items-center gap-2">
-                <span id="host-status" class="rounded-full px-2 bg-pink-600 uppercase shadow-lg text-white text-sm">BUST</span>
-              </div>
-              <div class="flex gap-2 align-center justify-center mt-3">
-                <div id="host-card-1" class="relative flex justify-center align-ceter w-20 h-32 bg-white rounded shadow text-center">
-                  <img src="/img/club.png" class="h-10 m-auto" />
-                  <span class="absolute top-0 left-1 text-2xl mt-2">A</span>
-                </div>
-                <div id="host-card-2" class="relative flex justify-center align-ceter w-20 h-32 bg-gray-900 rounded shadow text-center">
-                  <p class="text-white text-3xl m-auto">?</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="h-2/6 w-full flex justify-around">
-            <div id="ai1-container" class="h-full w-1/3">
-              <div class="mb-2">
-                <span class="shadow text-2xl inline-block bg-gray-700 rounded-full px-4 py-1 text-xl font-semibold text-white">AI1</span>
-              </div>
-              <div class="h-4 flex justify-center items-center gap-2">
-                <span class="rounded-full h-4 w-4 flex items-center justify-center bg-yellow-600 shadow-lg text-white text-sm">c</span>
-                <span id="ai1-money" class="text-white">400</span>
-                <span id="ai1-status" class="rounded-full px-2 bg-blue-500 shadow-lg text-white text-sm uppercase">hit</span>
-              </div>
-              <div id="ai1-cards" class="flex gap-2 align-center justify-center mt-3">
-                <div id="ai-card-1" class="relative flex justify-center align-ceter w-16 h-24 bg-white rounded shadow text-center">
-                  <img src="/img/club.png" class="h-8 m-auto" />
-                  <span class="absolute top-0 left-1 text-xl mt-2">10</span>
-                </div>
-                <div id="ai-card-2" class="relative flex justify-center align-ceter w-16 h-24 bg-white rounded shadow text-center">
-                  <img src="/img/club.png" class="h-8 m-auto" />
-                  <span class="absolute top-0 left-1 text-xl mt-2">10</span>
-                </div>
-              </div>
-            </div>
-            <div id="bet-space" class="h-full w-1/3 flex justify-center items-center gap-0">
-              <div id="ai1-betmoney" class="rounded-full h-12 w-12 flex items-center justify-center bg-gray-700 shadow-lg text-white text-sm">100</div>
-              <div id="player-betmoney" class="mt-24 rounded-full h-12 w-12 flex items-center justify-center bg-white shadow-lg text-gray-800 text-sm">100</div>
-              <div id="ai2-betmoney" class="rounded-full h-12 w-12 flex items-center justify-center bg-gray-700 shadow-lg text-white text-sm">100</div>
-            </div>
-            <div id="ai2-container" class="h-full w-1/3">
-              <div class="mb-2">
-                <span class="shadow text-2xl inline-block bg-gray-700 rounded-full px-4 py-1 text-xl font-semibold text-white">AI2</span>
-              </div>
-              <div class="h-4 flex justify-center items-center gap-2">
-                <span class="rounded-full h-4 w-4 flex items-center justify-center bg-yellow-600 shadow-lg text-white text-sm">c</span>
-                <span id="ai2-money" class="text-white">400</span>
-                <span id="ai2-status" class="rounded-full px-2 bg-purple-500 shadow-lg text-white text-sm uppercase">double</span>
-              </div>
-              <div id="ai2-cards" class="flex gap-2 align-center justify-center mt-3">
-                <div id="ai2-card-1" class="relative flex justify-center align-ceter w-16 h-24 bg-white rounded shadow text-center">
-                  <img src="/img/club.png" class="h-8 m-auto" />
-                  <span class="absolute top-0 left-1 text-xl mt-2">10</span>
-                </div>
-                <div id="ai2-card-2" class="relative flex justify-center align-ceter w-16 h-24 bg-white rounded shadow text-center">
-                  <img src="/img/club.png" class="h-8 m-auto" />
-                  <span class="absolute top-0 left-1 text-xl mt-2">10</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="h-2/6 w-full flex justify-center">
-            <div id="player-container" class="bg-green-700 h-full w-2/5">
-              <div class="mb-2">
-                <span id="player-name" class="shadow text-2xl inline-block bg-white rounded-full px-4 py-1 text-xl font-semibold text-gray-800">User</span>
-              </div>
-              <div class="h-4 flex justify-center items-center gap-2">
-                <span class="rounded-full h-4 w-4 flex items-center justify-center bg-yellow-600 shadow-lg text-white text-sm">c</span>
-                <span id="player-money" class="text-white">400</span>
-                <div id="player-status">
-                  <span class="rounded-full px-2 bg-yellow-500 shadow-lg text-white text-sm">stand</span>
-                </div>
-              </div>
-              <div id="player-cards" class="flex gap-2 align-center justify-center mt-3">
-                <div id="player-card-1" class="relative flex justify-center align-ceter w-20 h-32 bg-white rounded shadow text-center">
-                  <img src="/img/club.png" class="h-10 m-auto" />
-                  <span class="absolute top-0 left-1 text-2xl mt-2">10</span>
-                </div>
-                <div id="player-card-2" class="relative flex justify-center align-ceter w-20 h-32 bg-white rounded shadow text-center">
-                  <img src="/img/club.png" class="h-10 m-auto" />
-                  <span class="absolute top-0 left-1 text-2xl mt-2">10</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="operation-space" class="z-10 fixed pb-2 w-full bottom-0 flex justify-center gap-5 align-center">
-          <button id="surrender" disabled class="rounded-full h-24 w-24 flex items-center justify-center bg-red-500 disabled:opacity-50 hover:bg-red-600 shadow-lg text-white text-sm">SURRENDER</button>
-          <button id="stand" class="rounded-full h-24 w-24 flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 shadow-lg text-white">STAND</button>
-          <button id="hit" class="rounded-full h-24 w-24 flex items-center justify-center bg-blue-500 hover:bg-blue-600 shadow-lg text-white">HIT</button>
-          <button id="double" class="rounded-full h-24 w-24 flex items-center justify-center bg-purple-500 hover:bg-purple-600 shadow-lg text-white">DOUBLE</button>
-        </div>
-        <div id="bet-operation-space" class="hidden z-20 fixed w-1/3 h-2/3 top-36 bg-white rounded-2xl flex justify-center items-center flex-col gap-10 shadow-2xl">
-          <div>
-            <p class="text-2xl text-gray-800 font-bold">You Bet <span>100</span> </p>
-          </div>
-          <div class="h-auto flex justify-center items-center gap-2">
-            <span class="rounded-full h-8 w-8 flex items-center justify-center bg-yellow-600 shadow-lg text-white text-sm">c</span>
-            <span id="cuurent-chip" class="text-gray-700 font-semibold">400</span>
-          </div>
-          <div class="h-auto flex justify-center items-center gap-2">
-            <button id="bet-5" class="rounded-full h-12 w-12 flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 shadow-lg text-white text-sm">5</button>
-            <button id="bet-10" class="rounded-full h-12 w-12 flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 shadow-lg text-white text-sm">10</button>
-            <button id="bet-50" class="rounded-full h-12 w-12 flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 shadow-lg text-white text-sm">50</button>
-            <button id="bet-100" class="rounded-full h-12 w-12 flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 shadow-lg text-white text-sm">100</button>
-          </div>
-          <div class="p-3  mt-2 text-center space-x-4 md:block">
-            <button id="rest-btn" class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">
-                Reset
-            </button>
-            <button id="bet-desicion-btn" class="mb-2 md:mb-0 bg-red-500 border border-red-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-red-600">Bet</button>
-          </div>
-        </div>
-        <div id="log" class="z-5 fixed pb-2 w-1/3 h-52 bottom-0 right-0 text-center">
-          <p class="text-white text-sm md:text-lg">Dealer has a card </p>
-          <p class="text-white text-sm md:text-lg">Dealer has a card </p>
-          <p class="text-white text-sm md:text-lg">Dealer has a card </p>
-          <p class="text-white text-sm md:text-lg">Dealer has a card </p>
-          <p class="text-white text-sm md:text-lg">Dealer has a card </p>
-        </div>
-      </section> -->
-    </div>
-    <script src="./dist/index.js"></script>
-  </body>
+<head>
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "ocwa441dmy");
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Alchemy 2</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <iframe allow="fullscreen; autoplay; encrypted-media" 
+            src="https://gogo6211.github.io/BlackJack/" 
+            frameborder="0" 
+            allowfullscreen="true" 
+            msallowfullscreen="true" 
+            mozallowfullscreen="true" 
+            webkitallowfullscreen="true" 
+            allowpaymentrequest="false" 
+            referrerpolicy="unsafe-url" 
+            sandbox="allow-same-origin allow-forms allow-scripts allow-pointer-lock allow-orientation-lock allow-popups" 
+            scrolling="no"></iframe>
+</body>
 </html>
