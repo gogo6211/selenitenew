@@ -1280,5 +1280,15 @@
     "name": "Draw Poker",
     "directory": "drawpoker",
     "image": "image.png"
+  },
+  {
+    "name": "Black Jack",
+    "directory": "blackjack",
+    "image": "image.png"
+  },
+  {
+    "name": "Black Jack but w/ 2 players",
+    "directory": "blackjack2",
+    "image": "image.png"
   }
 ]
