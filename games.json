@@ -1290,5 +1290,10 @@
     "name": "Black Jack but w/ 2 players",
     "directory": "blackjack2",
     "image": "image.png"
+  },
+  {
+    "name": "Sticky Ninja Academy",
+    "directory": "stickyninja",
+    "image": "image.png"
   }
 ]
