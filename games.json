@@ -1295,5 +1295,10 @@
     "name": "Sticky Ninja Academy",
     "directory": "stickyninja",
     "image": "image.png"
+  },
+  {
+    "name": "Poly Track",
+    "directory": "polytack",
+    "image": "image.png"
   }
 ]
