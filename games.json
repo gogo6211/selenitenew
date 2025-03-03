@@ -1300,5 +1300,10 @@
     "name": "Poly Track",
     "directory": "polytrack",
     "image": "image.png"
+  },
+  {
+    "name": "Twitch Tetris",
+    "directory": "twitchtetris",
+    "image": "image.png"
   }
 ]
