@@ -1307,8 +1307,13 @@
     "image": "image.png"
   },
   {
-    "name": "Super Star Car(Broken will fix later)",
+    "name": "Super Star Car",
     "directory": "superstarcar",
+    "image": "image.png"
+  },
+  {
+    "name": "Getting Over It",
+    "directory": "gettingoverit",
     "image": "image.png"
   }
 ]
