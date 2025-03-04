@@ -1305,5 +1305,10 @@
     "name": "Twitch Tetris",
     "directory": "twitchtetris",
     "image": "image.png"
+  },
+  {
+    "name": "Super Star Car",
+    "directory": "superstarcar",
+    "image": "image.png"
   }
 ]
