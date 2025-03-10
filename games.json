@@ -2,7 +2,7 @@
 
       {
     "name": "Deal or No Deal",
-    "image": "cover.svg",
+    "image": "image.jpg",
     "directory": "deal"
   },      
    
@@ -627,11 +627,6 @@
     "directory": "motox3m-pool",
     "image": "splash.jpg",
     "recommended": "1"
-  },
-  {
-    "name": "Five Nights at Freddy's",
-    "directory": "fnaf",
-    "image": "splash.jpg"
   },
  
   {
