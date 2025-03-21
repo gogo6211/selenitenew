@@ -80,6 +80,102 @@
       <button id="history" onclick="window.location.href='https://github.com/gogo6211/selenitenew/commits/main/'">
         Version History
       </button>
+      <style>
+        .bb-button {
+            --inputbg: #1a1a1a;
+            --inputborder: #ff9525;
+            
+            position: relative;
+            width: 120px;
+            height: 80px;
+            border: 3px solid var(--inputborder);
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            background-color: var(--inputbg);
+            padding: 7px;
+            margin: 10px !important;
+            margin-left: 20px !important;
+            margin-right: 20px !important;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: inline-block;
+            box-sizing: border-box;
+        }
+        
+        .bb-button img {
+            width: calc(100% - 2px);
+            height: calc(100% - 2px);
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            border-radius: 6px;
+            display: block;
+        }
+        
+        .bb-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(255,195,34,0.4) 0%, rgba(255,87,34,0.2) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .bb-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.4) 50%, transparent 60%);
+            animation: bb-sparkle 3s infinite linear;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .bb-button:hover {
+            transform: scale(1.07);
+            filter: brightness(80%);
+            box-shadow: 0 6px 12px rgba(255,87,34,0.3);
+        }
+        
+        .bb-button:hover img {
+            transform: scale(1.05);
+        }
+        
+        .bb-button:hover::before {
+            opacity: 0.8;
+        }
+        
+        .bb-button:hover::after {
+            opacity: 0.3;
+        }
+        
+        .bb-button:active {
+            transform: scale(0.98);
+        }
+        
+        @keyframes bb-sparkle {
+            0% { transform: rotate(0deg) translate(-50%, -50%); }
+            100% { transform: rotate(360deg) translate(-50%, -50%); }
+        }
+        
+        .bb-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255,149,37,0.4);
+        }
+        </style>
+        
+        <a href="https://www.ncaa.com/march-madness" target="_blank" class="bb-button">
+            <img src="https://www.ncaa.com/_flysystem/public-s3/images/2024-03/MML_logo.png" alt="March Madness">
+        </a>
       <p id="randomquote"></p>
     </main>
     
