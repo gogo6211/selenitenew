@@ -290,14 +290,14 @@
       });
       
       document.getElementById("noBtn").addEventListener("click", function(){
-        setCookie("voted", "no", 365);
+        // Do not set the cookie here, so the modal will show up again.
         modal.remove();
         overlay.remove();
         showFadePopup();
       });
     }
     
-    // Displays a "Try again" popup that fades out.
+    // Displays a "Try again" popup that fades out and then re-displays the modal.
     function showFadePopup() {
       var fadePopup = document.createElement("div");
       fadePopup.className = "fade-popup";
@@ -307,6 +307,8 @@
         fadePopup.style.opacity = 0;
         setTimeout(function(){
           fadePopup.remove();
+          // Re-show the modal after the fade popup is removed.
+          showModal();
         }, 1000);
       }, 500);
     }
@@ -386,6 +388,7 @@
       }, 5000);
     }
   </script>
+  
 
 
 
