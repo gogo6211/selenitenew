@@ -57,6 +57,11 @@
     </script>
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Voting Modal</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap');
 
@@ -68,7 +73,6 @@
       --inputborder: #ccc;
       --shadow: rgba(0, 0, 0, 0.2) 2px 2px 5px;
     }
-    /* Dark theme override if <body theme="dark"> is used */
     body[theme="dark"] {
       --inputbg: #333333;
       --inputborder: #444444;
@@ -77,8 +81,6 @@
       --bg: #0c0c0c;
       --shadow: 2px 2px 5px rgba(255, 255, 255, 0.1);
     }
-    
-    /* Base styling */
     * {
       transition-duration: 0.5s;
       outline: none;
@@ -153,8 +155,6 @@
       padding: 0;
       text-shadow: var(--shadow);
     }
-    
-    /* Button styles */
     button {
       cursor: pointer;
       background-color: var(--inputbg);
@@ -172,7 +172,6 @@
       filter: brightness(90%);
       transform: scale(1.03);
     }
-    /* Specific glowing green style for Yes button */
     button#yesBtn {
       background-color: #28a745;
       box-shadow: 0 0 15px #28a745;
@@ -182,8 +181,6 @@
     button#yesBtn:hover {
       filter: brightness(110%);
     }
-    
-    /* Modal styles */
     .modal {
       position: fixed;
       top: 50%;
@@ -198,6 +195,15 @@
       text-align: center;
       width: 90%;
       max-width: 400px;
+      opacity: 1;
+    }
+    /* New animation for modal fade-in and scale */
+    @keyframes fadeInScale {
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+      100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+    .animate-modal {
+      animation: fadeInScale 0.5s ease-out;
     }
     .overlay {
       position: fixed;
@@ -220,8 +226,6 @@
       opacity: 1;
       transition: opacity 1s ease-out;
     }
-    
-    /* Confetti canvas */
     .confetti {
       position: fixed;
       top: 0;
@@ -240,12 +244,12 @@
   <canvas id="confettiCanvas" class="confetti"></canvas>
   
   <script>
-    /* Cookie helper functions */
-    function setCookie(name, value, days) {
+    /* Cookie helper functions – now using hours instead of days */
+    function setCookie(name, value, hours) {
       var expires = "";
-      if (days) {
+      if (hours) {
         var date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
+        date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
         expires = "; expires=" + date.toUTCString();
       }
       document.cookie = name + "=" + (value || "")  + expires + "; path=/";
@@ -275,29 +279,30 @@
       
       // Create the modal box.
       var modal = document.createElement("div");
-      modal.className = "modal";
+      modal.className = "modal animate-modal"; // add animation class
       modal.innerHTML = "<h2>Will you vote for Dawson?</h2>" +
-                        "<button id='yesBtn'>Yes, totally and this site is awesome</button>" +
+                        "<button id='yesBtn'>Yes</button>" +
                         "<button id='noBtn'>Nah</button>";
       document.getElementById("modalContainer").appendChild(modal);
       
       // Add click events for both buttons.
       document.getElementById("yesBtn").addEventListener("click", function(){
-        setCookie("voted", "yes", 365);
+        // Set cookie to expire in 8 hours.
+        setCookie("voted", "yes", 8);
         modal.remove();
         overlay.remove();
         launchConfetti();
       });
       
       document.getElementById("noBtn").addEventListener("click", function(){
-        // Do not set the cookie here, so the modal will show up again.
+        // Do not set the cookie so the modal will show again.
         modal.remove();
         overlay.remove();
         showFadePopup();
       });
     }
     
-    // Displays a "Try again" popup that fades out and then re-displays the modal.
+    // Displays a "Try again" popup that fades out and then re-displays the modal with animation.
     function showFadePopup() {
       var fadePopup = document.createElement("div");
       fadePopup.className = "fade-popup";
@@ -307,7 +312,6 @@
         fadePopup.style.opacity = 0;
         setTimeout(function(){
           fadePopup.remove();
-          // Re-show the modal after the fade popup is removed.
           showModal();
         }, 1000);
       }, 500);
@@ -388,6 +392,9 @@
       }, 5000);
     }
   </script>
+</body>
+</html>
+
   
 
 
