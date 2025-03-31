@@ -1294,7 +1294,8 @@
   {
     "name": "Poly Track",
     "directory": "polytrack",
-    "image": "image.png"
+    "image": "image.png",
+    "recommended": "1"
   },
   {
     "name": "Twitch Tetris",
@@ -1309,6 +1310,16 @@
   {
     "name": "Getting Over It",
     "directory": "gettingoverit",
+    "image": "image.png"
+  },
+  {
+    "name": "Cactus McCoy",
+    "directory": "cactusmccoy",
+    "image": "image.png"
+  },
+  {
+    "name": "Cactus McCoy 2",
+    "directory": "cactusmccoy2",
     "image": "image.png"
   }
 ]
