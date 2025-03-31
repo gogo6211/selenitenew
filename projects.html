@@ -460,4 +460,158 @@
       <a href="/contact.html">Contact</a>
     </footer>
   </body>
+  <style>
+    /* Remove default margins/padding */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    /* Fullscreen canvas as a background */
+    #waterCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      z-index: -1; /* Place behind page content */
+    }
+  </style>
+</head>
+<body>
+  <canvas id="waterCanvas"></canvas>
+  <script>
+    (function(){
+      var canvas = document.getElementById('waterCanvas');
+      var ctx = canvas.getContext('2d');
+
+      // Adjust canvas size to window dimensions
+      function resize(){
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        init();
+      }
+      window.addEventListener('resize', resize, false);
+      resize();
+
+      // Variables used by the ripple effect
+      var width, height, halfWidth, halfHeight, size, delay, oldIdx, newIdx, rippleRad;
+      var rippleMap, lastMap, mapIdx;
+      var ripple, texture;
+      var stripeWidth, step, count;
+
+      function init(){
+        width = canvas.width;
+        height = canvas.height;
+        halfWidth = width >> 1;
+        halfHeight = height >> 1;
+        size = width * (height + 2) * 2;
+        delay = 30;
+        oldIdx = width;
+        newIdx = width * (height + 3);
+        rippleRad = 3;
+
+        // Initialize the maps
+        rippleMap = [];
+        lastMap = [];
+        for (var i = 0; i < size; i++) {
+          rippleMap[i] = 0;
+          if(i < width * height) lastMap[i] = 0;
+        }
+
+        // Create a simple background texture
+        stripeWidth = 25;
+        step = stripeWidth * 2;
+        count = Math.ceil(height / stripeWidth);
+
+        ctx.fillStyle = '#008888';
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = '#00ff77';
+        ctx.save();
+        ctx.rotate(-0.25);
+        for (var i = 0; i < count; i++) {
+          ctx.fillRect(-width, i * step, width * 3, stripeWidth);
+        }
+        ctx.restore();
+
+        // Save image data for texture and initialize ripple data
+        texture = ctx.getImageData(0, 0, width, height);
+        ripple = ctx.getImageData(0, 0, width, height);
+      }
+
+      // Main loop: update and render ripple
+      function run() {
+        newframe();
+        ctx.putImageData(ripple, 0, 0);
+      }
+
+      // Create a drop at location (dx, dy)
+      function dropAt(dx, dy) {
+        dx = dx | 0;
+        dy = dy | 0;
+        for (var j = dy - rippleRad; j < dy + rippleRad; j++) {
+          for (var k = dx - rippleRad; k < dx + rippleRad; k++) {
+            rippleMap[oldIdx + (j * width) + k] += 512;
+          }
+        }
+      }
+
+      // Compute next frame of the ripple effect
+      function newframe() {
+        var i, a, b, data, oldData, curPixel, newPixel;
+        i = oldIdx;
+        oldIdx = newIdx;
+        newIdx = i;
+        i = 0;
+        mapIdx = oldIdx;
+
+        for (var y = 0; y < height; y++) {
+          for (var x = 0; x < width; x++) {
+            data = (rippleMap[mapIdx - width] +
+                    rippleMap[mapIdx + width] +
+                    rippleMap[mapIdx - 1] +
+                    rippleMap[mapIdx + 1]) >> 1;
+            data -= rippleMap[newIdx + i];
+            data -= data >> 5;
+            rippleMap[newIdx + i] = data;
+            data = 1024 - data;
+            oldData = lastMap[i];
+            lastMap[i] = data;
+            if (oldData !== data) {
+              a = (((x - halfWidth) * data / 1024) | 0) + halfWidth;
+              b = (((y - halfHeight) * data / 1024) | 0) + halfHeight;
+              a = a >= width ? width - 1 : (a < 0 ? 0 : a);
+              b = b >= height ? height - 1 : (b < 0 ? 0 : b);
+              newPixel = (a + (b * width)) * 4;
+              curPixel = i * 4;
+              ripple.data[curPixel]     = texture.data[newPixel];
+              ripple.data[curPixel + 1] = texture.data[newPixel + 1];
+              ripple.data[curPixel + 2] = texture.data[newPixel + 2];
+            }
+            mapIdx++;
+            i++;
+          }
+        }
+      }
+
+      // Random drops to keep the water moving
+      function randomDrop() {
+        if (Math.random() > 0.3) {
+          dropAt(Math.random() * width, Math.random() * height);
+        }
+      }
+
+      // Add mouse interactivity
+      canvas.addEventListener('mousemove', function(evt) {
+        var rect = canvas.getBoundingClientRect();
+        dropAt(evt.clientX - rect.left, evt.clientY - rect.top);
+      });
+
+      // Start the animation loops
+      setInterval(run, delay);
+      setInterval(randomDrop, 1250);
+    })();
+  </script>
 </html>
