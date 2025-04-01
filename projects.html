@@ -132,7 +132,7 @@
       
         if (elapsedTime < duration) {
         // Calculate the rotation angle based on the elapsed time
-        angle = (elapsedTime / duration) * 360;
+        angle = (elapsedTime / duration) * 180;
       
         // Apply the rotation transform to the body
         document.body.style.transform = `rotate(${angle}deg)`;
