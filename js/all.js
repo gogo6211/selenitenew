@@ -197,3 +197,39 @@ if (location.hash) {
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "ocwa441dmy");
+
+
+
+
+
+
+
+    function rotatePage() {
+      let angle = 0;
+      const duration = 5000; // Rotation duration in milliseconds (e.g., 60000 for 60 seconds)
+      const startTime = performance.now();
+      
+      function animate(currentTime) {
+        const elapsedTime = currentTime - startTime;
+      
+        if (elapsedTime < duration) {
+        // Calculate the rotation angle based on the elapsed time
+        angle = (elapsedTime / duration) * 1440;
+      
+        // Apply the rotation transform to the body
+        document.body.style.transform = `rotate(${angle}deg)`;
+      
+        // Request the next animation frame
+        requestAnimationFrame(animate);
+        } else {
+         // Ensure the final rotation is exactly 360 degrees
+         document.body.style.transform = `rotate(360deg)`;
+        }
+      }
+      
+      // Start the animation
+      requestAnimationFrame(animate);
+      }
+      
+      // Call the rotatePage function when the page loads
+      window.onload = rotatePage;
