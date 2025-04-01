@@ -62,6 +62,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Voting Modal</title>
+ 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap');
 
@@ -280,9 +281,9 @@
       // Create the modal box.
       var modal = document.createElement("div");
       modal.className = "modal animate-modal"; // add animation class
-      modal.innerHTML = "<h2>Will you vote for Dawson?</h2>" +
-                        "<button id='yesBtn'>Yes</button>" +
-                        "<button id='noBtn'>Nah</button>";
+      modal.innerHTML = "<h3>Will you vote Dawson for StuCo Public Relaions?</h3>" +
+                        "<button id='yesBtn'>Yes 💯</button>" +
+                        "<button id='noBtn'>Nah 😡</button>";
       document.getElementById("modalContainer").appendChild(modal);
       
       // Add click events for both buttons.
