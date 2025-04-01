@@ -214,7 +214,7 @@ if (location.hash) {
       
         if (elapsedTime < duration) {
         // Calculate the rotation angle based on the elapsed time
-        angle = (elapsedTime / duration) * 1800;
+        angle = (elapsedTime / duration) * 1020;
       
         // Apply the rotation transform to the body
         document.body.style.transform = `rotate(${angle}deg)`;
