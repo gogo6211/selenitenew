@@ -124,7 +124,7 @@
 <script>
     function rotatePage() {
       let angle = 0;
-      const duration = 7000; // Rotation duration in milliseconds (e.g., 60000 for 60 seconds)
+      const duration = 5000; // Rotation duration in milliseconds (e.g., 60000 for 60 seconds)
       const startTime = performance.now();
       
       function animate(currentTime) {
@@ -132,7 +132,7 @@
       
         if (elapsedTime < duration) {
         // Calculate the rotation angle based on the elapsed time
-        angle = (elapsedTime / duration) * 180;
+        angle = (elapsedTime / duration) * 360;
       
         // Apply the rotation transform to the body
         document.body.style.transform = `rotate(${angle}deg)`;
