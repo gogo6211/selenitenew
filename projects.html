@@ -289,7 +289,7 @@
       // Add click events for both buttons.
       document.getElementById("yesBtn").addEventListener("click", function(){
         // Set cookie to expire in 8 hours.
-        setCookie("voted", "yes", 8);
+        setCookie("voted", "yes", 6);
         modal.remove();
         overlay.remove();
         launchConfetti();
@@ -326,7 +326,7 @@
       canvas.height = window.innerHeight;
       
       var pieces = [];
-      var pieceCount = 300;
+      var pieceCount = 600;
       
       for(var i = 0; i < pieceCount; i++) {
         pieces.push({
