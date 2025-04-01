@@ -94,7 +94,7 @@
         padding: 0;
         text-shadow: var(--shadow);
       }
-      buttonss {
+      button {
         cursor: pointer;
         background-color: var(--inputbg);
         border-color: var(--inputborder);
@@ -107,17 +107,17 @@
         max-width: 300px;
         font-size: 1rem;
       }
-      buttonss:hover {
+      button:hover {
         filter: brightness(90%);
         transform: scale(1.03);
       }
-      buttonss#yesBtn {
+      button#yesBtn {
         background-color: #28a745;
         box-shadow: 0 0 15px #28a745;
         color: #fff;
         font-weight: bold;
       }
-      buttonss#yesBtn:hover {
+      button#yesBtn:hover {
         filter: brightness(110%);
       }
       .modal {
@@ -220,8 +220,8 @@
         var modal = document.createElement("div");
         modal.className = "modal animate-modal"; // add animation class
         modal.innerHTML = "<h3>Will you vote Dawson for Sophomore Public Relations?</h3>" +
-                          "<buttonss id='yesBtn'>Yes 💯</buttonss>" +
-                          "<buttonss id='noBtn'>Nah 😡</buttonss>";
+                          "<button id='yesBtn'>Yes 💯</button>" +
+                          "<button id='noBtn'>Nah 😡</button>";
         document.getElementById("modalContainer").appendChild(modal);
         
         // Add click events for both buttons.
