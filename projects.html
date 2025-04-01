@@ -267,13 +267,13 @@
       return null;
     }
     
-    // Only show the pop-up if the user hasn't already voted.
+    // Only show the pop-up if the user hasn't already voted. Also why you looking through my code?
     if (!getCookie("voted")) {
       showModal();
     }
     
     function showModal() {
-      // Create a dark overlay.
+      // Create a dark overlay so you cant escape it!!
       var overlay = document.createElement("div");
       overlay.className = "overlay";
       document.body.appendChild(overlay);
@@ -281,7 +281,7 @@
       // Create the modal box.
       var modal = document.createElement("div");
       modal.className = "modal animate-modal"; // add animation class
-      modal.innerHTML = "<h3>Will you vote Dawson for StuCo Public Relaions?</h3>" +
+      modal.innerHTML = "<h3>Will you vote Dawson for Sophomore Public Relations?</h3>" +
                         "<button id='yesBtn'>Yes 💯</button>" +
                         "<button id='noBtn'>Nah 😡</button>";
       document.getElementById("modalContainer").appendChild(modal);
@@ -303,11 +303,11 @@
       });
     }
     
-    // Displays a "Try again" popup that fades out and then re-displays the modal with animation.
+    // Displays a  the Try again popup
     function showFadePopup() {
       var fadePopup = document.createElement("div");
       fadePopup.className = "fade-popup";
-      fadePopup.innerText = "Try again";
+      fadePopup.innerText = "Wrong Anwser";
       document.body.appendChild(fadePopup);
       setTimeout(function(){
         fadePopup.style.opacity = 0;
@@ -318,7 +318,7 @@
       }, 500);
     }
     
-    // Simple confetti animation using canvas.
+    // Simple confetti!!!!!!!!!
     function launchConfetti() {
       var canvas = document.getElementById("confettiCanvas");
       var ctx = canvas.getContext("2d");
@@ -326,7 +326,7 @@
       canvas.height = window.innerHeight;
       
       var pieces = [];
-      var pieceCount = 100;
+      var pieceCount = 300;
       
       for(var i = 0; i < pieceCount; i++) {
         pieces.push({
