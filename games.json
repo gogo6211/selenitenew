@@ -1321,5 +1321,10 @@
     "name": "Cactus McCoy 2",
     "directory": "cactusmccoy2",
     "image": "image.png"
+  },
+  {
+    "name": "Terraria",
+    "directory": "terraria",
+    "image": "image.png"
   }
 ]
