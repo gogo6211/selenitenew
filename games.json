@@ -137,8 +137,7 @@
   {
     "name": "Eaglercraft 1.5.2",
     "directory": "offline-mc",
-    "image": "logo.png",
-    "recommended": "1"
+    "image": "logo.png"
   },
   
   {
@@ -1326,5 +1325,11 @@
     "name": "Terraria",
     "directory": "terraria",
     "image": "image.png"
+  },
+  {
+    "name": "EaglerCraft1 1.12 (2x more FPS than 1.5)",
+    "directory": "eaglercraft1.12",
+    "image": "image.png",
+    "recommended": "1"
   }
 ]
