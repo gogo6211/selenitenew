@@ -199,55 +199,93 @@ if (location.hash) {
     })(window, document, "clarity", "script", "ocwa441dmy");
 
 	document.addEventListener("DOMContentLoaded", function () {
-		// Only inject if not already accepted
 		if (getCookie("acceptCookies")) return;
 	  
+		// Inject minimal styles
+		const style = document.createElement("style");
+		style.textContent = `
+		  .cookie-alert {
+			position: fixed;
+			bottom: 15px;
+			right: 15px;
+			max-width: 300px;
+			background: #fff;
+			border: 1px solid #ddd;
+			border-radius: 6px;
+			padding: 16px;
+			box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+			font-family: sans-serif;
+			font-size: 14px;
+			z-index: 10000;
+			opacity: 0;
+			transform: translateY(100%);
+			transition: all 0.5s ease-out;
+		  }
+		  .cookie-alert.show {
+			opacity: 1;
+			transform: translateY(0%);
+		  }
+		  .cookie-alert .buttons {
+			display: flex;
+			justify-content: flex-end;
+			margin-top: 12px;
+		  }
+		  .cookie-alert button,
+		  .cookie-alert a {
+			margin-left: 8px;
+			padding: 6px 12px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			text-decoration: none;
+			font-size: 13px;
+		  }
+		  .cookie-alert .accept-btn {
+			background-color: #007bff;
+			color: white;
+		  }
+		  .cookie-alert .learn-btn {
+			background-color: transparent;
+			color: #007bff;
+		  }
+		`;
+		document.head.appendChild(style);
+	  
+		// HTML to inject
 		const cookieHTML = `
-		  <div class="card cookie-alert">
-			<div class="card-body">
-			  <h5 class="card-title">&#x1F36A; Do you like cookies?</h5>
-			  <p class="card-text">We use cookies to ensure you get the best experience on our website.</p>
-			  <div class="btn-toolbar justify-content-end">
-				<a href="http://cookiesandyou.com/" target="_blank" class="btn btn-link">Learn more</a>
-				<a href="#" class="btn btn-primary accept-cookies">Accept</a>
-			  </div>
+		  <div class="cookie-alert">
+			<div>🍪 We use cookies to ensure you get the best experience on our website.</div>
+			<div class="buttons">
+			  <a href="http://cookiesandyou.com/" target="_blank" class="learn-btn">Learn more</a>
+			  <button class="accept-btn">Accept</button>
 			</div>
 		  </div>
 		`;
 	  
 		document.body.insertAdjacentHTML("beforeend", cookieHTML);
 	  
-		const cookieAlert = document.querySelector(".cookie-alert");
-		const acceptBtn = document.querySelector(".accept-cookies");
+		const alert = document.querySelector(".cookie-alert");
+		const accept = document.querySelector(".accept-btn");
 	  
-		cookieAlert.offsetHeight; // force reflow
-		cookieAlert.classList.add("show");
+		// Show it
+		alert.offsetHeight;
+		alert.classList.add("show");
 	  
-		acceptBtn.addEventListener("click", function (e) {
-		  e.preventDefault();
-		  setCookie("acceptCookies", true, 180);
-		  cookieAlert.classList.remove("show");
+		accept.addEventListener("click", function () {
+		  setCookie("acceptCookies", true, 180); // Store for 6 months
+		  alert.classList.remove("show");
 		});
 	  });
 	  
-	  // Cookie functions
+	  // Simple cookie helpers
 	  function setCookie(cname, cvalue, exdays) {
-		var d = new Date();
-		d.setTime(d.getTime() + (exdays*24*60*60*1000));
-		var expires = "expires=" + d.toUTCString();
-		document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+		const d = new Date();
+		d.setTime(d.getTime() + exdays * 86400000);
+		document.cookie = `${cname}=${cvalue};expires=${d.toUTCString()};path=/`;
 	  }
 	  
 	  function getCookie(cname) {
-		var name = cname + "=";
-		var ca = document.cookie.split(';');
-		for (var i = 0; i < ca.length; i++) {
-		  var c = ca[i].trim();
-		  if (c.indexOf(name) === 0) {
-			return c.substring(name.length);
-		  }
-		}
-		return "";
+		return document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith(cname + '='))?.split('=')[1] || '';
 	  }
 	  
 	  
