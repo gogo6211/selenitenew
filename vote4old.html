@@ -1,0 +1,100 @@
+// Cookie helper functions (set expiration in hours)
+function setCookie(name, value, hours) {
+  const expires = hours ? "; expires=" + new Date(Date.now() + hours * 3600000).toUTCString() : "";
+  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
+function getCookie(name) {
+  const nameEQ = name + "=";
+  const ca = document.cookie.split(';');
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) === ' ') c = c.substring(1);
+    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
+  }
+  return null;
+}
+
+// Check cookie: if no cookie found, show the popup
+if (!getCookie("freshmanPopupSeen")) {
+  askIfFreshman();
+}
+
+// First modal: ask if the user is a freshman
+function askIfFreshman() {
+  const overlay = document.createElement("div");
+  overlay.className = "overlay";
+  document.body.appendChild(overlay);
+  
+  const modal = document.createElement("div");
+  modal.className = "modal animate-modal";
+  modal.innerHTML = `
+    <h3>Are you a freshman?</h3>
+    <button id="yesFreshmanBtn">Yes ✅</button>
+    <button id="noFreshmanBtn">No ❌</button>
+  `;
+  document.getElementById("modalContainer").appendChild(modal);
+
+  document.getElementById("noFreshmanBtn").addEventListener("click", () => {
+    setCookie("freshmanPopupSeen", "no", 7 * 24);
+    modal.remove();
+    overlay.remove();
+  });
+
+  document.getElementById("yesFreshmanBtn").addEventListener("click", () => {
+    modal.remove();
+    overlay.remove();
+    showFreshmanPopup();
+  });
+}
+
+// Second modal: welcome the freshman with a near full-screen embed and a countdown button
+function showFreshmanPopup() {
+  const overlay = document.createElement("div");
+  overlay.className = "overlay";
+  document.body.appendChild(overlay);
+  
+  const modal = document.createElement("div");
+  modal.className = "modal animate-modal";
+  // Adjust modal to nearly fill the viewport
+  modal.style.width = "95vw";
+  modal.style.height = "95vh";
+  modal.style.maxWidth = "none";
+  modal.style.borderRadius = "0";
+  modal.style.padding = "0";
+  modal.style.overflow = "hidden";
+  modal.innerHTML = `
+    <div style="display: flex; flex-direction: column; height: 100%;">
+      <div style="background: var(--uibg); padding: 10px;">
+        <h2 style="margin: 0;">🎓 Vote for Sophomore Student council 🎓</h2>
+        <h3> Did you vote already? just wait 15 seconds, if not vote now!</h3>
+        <p>Note: this is just an embed of the google form, I can't see/control who you vote for</p>
+      </div>
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe7tVRzYSYrI3g92S3lN29YTr8TxSdPS8myZ_mFKfj0xAbqFA/viewform?entry.366340186=Dawson+Jordan" style="flex: 1; width: 100%; border: 0; border-bottom: 1px solid var(--inputborder);" allowfullscreen></iframe>
+      <button id="finishBtn" disabled style="padding: 15px; font-size: 1.2rem;">Finished (15s)</button>
+    </div>
+  `;
+  document.getElementById("modalContainer").appendChild(modal);
+
+  let seconds = 15;
+  const finishBtn = document.getElementById("finishBtn");
+  const countdown = setInterval(() => {
+    seconds--;
+    finishBtn.innerText = `Finished (${seconds}s)`;
+    if (seconds <= 0) {
+      clearInterval(countdown);
+      finishBtn.disabled = false;
+      finishBtn.innerText = "Finished ✅";
+      finishBtn.style.backgroundColor = "#28a745";
+      finishBtn.style.color = "#fff";
+      finishBtn.style.fontWeight = "bold";
+    }
+  }, 1000);
+
+  finishBtn.addEventListener("click", () => {
+    setCookie("freshmanPopupSeen", "yes", 7 * 24);
+    modal.remove();
+    overlay.remove();
+  });
+}
+});
+</script>
