@@ -199,4 +199,56 @@ if (location.hash) {
     })(window, document, "clarity", "script", "ocwa441dmy");
 
 
+// The small cookie notice popup with ajax
+document.addEventListener("DOMContentLoaded", function () {
+	fetch('cookienotice.html')
+	  .then(response => {
+		if (!response.ok) {
+		  throw new Error("Network response was not ok " + response.statusText);
+		}
+		return response.text();
+	  })
+	  .then(html => {
+		document.body.insertAdjacentHTML("beforeend", html);
+  
+		var cookieAlert = document.querySelector(".cookie-alert");
+		var acceptCookies = document.querySelector(".accept-cookies");
+  
+		cookieAlert.offsetHeight;
+  
+		if (!getCookie("acceptCookies")) {
+		  cookieAlert.classList.add("show");
+		}
+  
+		acceptCookies.addEventListener("click", function (event) {
+		  event.preventDefault();
+		  setCookie("acceptCookies", true, 60);
+		  cookieAlert.classList.remove("show");
+		});
+	  })
+	  .catch(error => {
+		console.error("Oops there was a error loading the cookie notice:", error);
+	  });
+  });
+  
+  function setCookie(cname, cvalue, exdays) {
+	var d = new Date();
+	d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	var expires = "expires=" + d.toUTCString();
+	document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+  
+  function getCookie(cname) {
+	var name = cname + "=";
+	var decodedCookie = decodeURIComponent(document.cookie);
+	var ca = decodedCookie.split(';');
+	for (var i = 0; i < ca.length; i++) {
+	  var c = ca[i].trim();
+	  if (c.indexOf(name) === 0) {
+		return c.substring(name.length, c.length);
+	  }
+	}
+	return "";
+  }
+  
 
