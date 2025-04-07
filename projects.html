@@ -1,336 +1,98 @@
 <!DOCTYPE html>
 <html class="sl-theme-dark" lang="en">
   <head>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap');
-  
-      :root {
-        --bg: #f0f0f0;
-        --textcolor: #333;
-        --uibg: #ffffff;
-        --inputbg: #ffffff;
-        --inputborder: #ccc;
-        --shadow: rgba(0, 0, 0, 0.2) 2px 2px 5px;
-      }
-      body[theme="dark"] {
-        --inputbg: #333333;
-        --inputborder: #444444;
-        --uibg: #242424;
-        --textcolor: #fff;
-        --bg: #0c0c0c;
-        --shadow: 2px 2px 5px rgba(255, 255, 255, 0.1);
-      }
-      * {
-        transition-duration: 0.5s;
-        outline: none;
-        border: none;
-        box-sizing: border-box;
-        text-align: center;
-        font-family: 'Prompt', sans-serif;
-        color: var(--textcolor);
-      }
-      body {
-        margin: 0;
-        padding: 0;
-        background: var(--bg);
-        color: var(--textcolor);
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-attachment: fixed;
-      }
-      header,
-      footer {
-        background-color: var(--uibg);
-        display: flex;
-        padding: 0.7rem;
-        width: 100%;
-        z-index: 1;
-        justify-content: center;
-      }
-      header {
-        top: 0;
-        border-radius: 0 0 20px 20px;
-        position: fixed;
-        box-shadow: 0 5px 10px var(--uibg);
-      }
-      footer.noscroll {
-        position: fixed;
-        overflow: hidden;
-      }
-      footer {
-        bottom: 0;
-        border-radius: 20px 20px 0 0;
-        box-shadow: 0 -5px 10px var(--uibg);
-      }
-      footer a,
-      header a {
-        text-align: center;
-        font-weight: 700;
-        text-decoration: none;
-        margin-right: 2rem;
-        margin-left: 1rem;
-      }
-      footer a:hover,
-      header a:hover {
-        text-shadow: 2px 2px 6px var(--textcolor);
-      }
-      main {
-        animation: 1.25s ease-in-out 0s 1 loadInAnimation;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        min-height: calc(100vh - 1.4rem);
-        margin: auto;
-        margin-top: 4rem;
-        width: 90%;
-      }
-      @keyframes loadInAnimation {
-        0% { opacity: 0; }
-        100% { opacity: 1; }
-      }
-      h1, h2, h3, p, a, label {
-        margin: 0;
-        padding: 0;
-        text-shadow: var(--shadow);
-      }
-      button {
-        cursor: pointer;
-        background-color: var(--inputbg);
-        border-color: var(--inputborder);
-        border-width: 3px;
-        border-radius: 10px;
-        border-style: solid;
-        padding: 10px 15px;
-        margin: 10px auto;
-        width: 80%;
-        max-width: 300px;
-        font-size: 1rem;
-      }
-      button:hover {
-        filter: brightness(90%);
-        transform: scale(1.03);
-      }
-      button#yesBtn {
-        background-color: #28a745;
-        box-shadow: 0 0 15px #28a745;
-        color: #fff;
-        font-weight: bold;
-      }
-      button#yesBtn:hover {
-        filter: brightness(110%);
-      }
-      .modal {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: var(--uibg);
-        border: 2px solid var(--inputborder);
-        border-radius: 10px;
-        padding: 20px;
-        z-index: 1000;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        text-align: center;
-        width: 90%;
-        max-width: 400px;
-        opacity: 1;
-      }
-      /* New animation for modal fade-in and scale */
-      @keyframes fadeInScale {
-        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-        100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-      }
-      .animate-modal {
-        animation: fadeInScale 0.5s ease-out;
-      }
-      .overlay {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.5);
-        z-index: 999;
-      }
-      .fade-popup {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(255,0,0,0.8);
-        color: #fff;
-        padding: 30px;
-        border-radius: 10px;
-        font-size: 2rem;
-        z-index: 1100;
-        opacity: 1;
-        transition: opacity 1s ease-out;
-      }
-      .confetti {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 2000;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Container for modal (if needed) -->
-    <div id="modalContainer"></div>
-    <!-- Canvas for confetti animation -->
-    <canvas id="confettiCanvas" class="confetti"></canvas>
-    
+
+
     <script>
-      /* Cookie helper functions – now using hours instead of days */
       function setCookie(name, value, hours) {
-        var expires = "";
-        if (hours) {
-          var date = new Date();
-          date.setTime(date.getTime() + (hours * 60 * 60 * 1000));
-          expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        const expires = hours
+          ? "; expires=" + new Date(Date.now() + hours * 3600000).toUTCString()
+          : "";
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
       }
-      
+    
       function getCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-          var c = ca[i];
-          while (c.charAt(0)==' ') c = c.substring(1);
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == ' ') c = c.substring(1);
           if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length);
         }
         return null;
       }
-      
-      // Only show the pop-up if the user hasn't already voted. Also why you looking through my code?
-      if (!getCookie("voted")) {
-        showModal();
+    
+      if (!getCookie("freshmanPopupSeen")) {
+        askIfFreshman();
       }
-      
-      function showModal() {
-        // Create a dark overlay so you cant escape it!!
-        var overlay = document.createElement("div");
+    
+      function askIfFreshman() {
+        const overlay = document.createElement("div");
         overlay.className = "overlay";
         document.body.appendChild(overlay);
-        
-        // Create the modal box.
-        var modal = document.createElement("div");
-        modal.className = "modal animate-modal"; // add animation class
-        modal.innerHTML = "<h3>Will you vote Dawson for Sophomore Public Relations?</h3>" +
-                          "<button id='yesBtn'>Yes 💯</button>" +
-                          "<button id='noBtn'>Nah 😡</button>";
+    
+        const modal = document.createElement("div");
+        modal.className = "modal animate-modal";
+        modal.innerHTML = `
+          <h3>Are you a freshman?</h3>
+          <button id="yesFreshmanBtn">Yes ✅</button>
+          <button id="noFreshmanBtn">No ❌</button>
+        `;
         document.getElementById("modalContainer").appendChild(modal);
-        
-        // Add click events for both buttons.
-        document.getElementById("yesBtn").addEventListener("click", function(){
-          // Set cookie to expire in 8 hours.
-          setCookie("voted", "yes", 6);
+    
+        document.getElementById("noFreshmanBtn").addEventListener("click", () => {
+          setCookie("freshmanPopupSeen", "no", 24 * 7);
           modal.remove();
           overlay.remove();
-          launchConfetti();
         });
-        
-        document.getElementById("noBtn").addEventListener("click", function(){
-          // Do not set the cookie so the modal will show again.
+    
+        document.getElementById("yesFreshmanBtn").addEventListener("click", () => {
+          modal.remove();
+          showFreshmanPopup();
+        });
+      }
+    
+      function showFreshmanPopup() {
+        const overlay = document.createElement("div");
+        overlay.className = "overlay";
+        document.body.appendChild(overlay);
+    
+        const modal = document.createElement("div");
+        modal.className = "modal animate-modal";
+        modal.style.maxWidth = "600px";
+        modal.innerHTML = `
+          <h2>🎓 Welcome, Freshman!</h2>
+          <iframe src="https://www.example.com" width="100%" height="300px" style="border:0; margin: 1rem 0; border-radius: 10px;"></iframe>
+          <button id="finishBtn" disabled>Finished (15s)</button>
+        `;
+        document.getElementById("modalContainer").appendChild(modal);
+    
+        let seconds = 15;
+        const finishBtn = document.getElementById("finishBtn");
+        const countdown = setInterval(() => {
+          seconds--;
+          finishBtn.innerText = `Finished (${seconds}s)`;
+          if (seconds <= 0) {
+            clearInterval(countdown);
+            finishBtn.disabled = false;
+            finishBtn.innerText = "Finished ✅";
+            finishBtn.style.backgroundColor = "#28a745";
+            finishBtn.style.color = "#fff";
+            finishBtn.style.fontWeight = "bold";
+          }
+        }, 1000);
+    
+        finishBtn.addEventListener("click", () => {
+          setCookie("freshmanPopupSeen", "yes", 24 * 7);
           modal.remove();
           overlay.remove();
-          showFadePopup();
         });
-      }
-      
-      // Displays a  the Try again popup
-      function showFadePopup() {
-        var fadePopup = document.createElement("div");
-        fadePopup.className = "fade-popup";
-        fadePopup.innerText = "Try again 😡";
-        document.body.appendChild(fadePopup);
-        setTimeout(function(){
-          fadePopup.style.opacity = 0;
-          setTimeout(function(){
-            fadePopup.remove();
-            showModal();
-          }, 1000);
-        }, 500);
-      }
-      
-      // Simple confetti!!!!!!!!!
-      function launchConfetti() {
-        var canvas = document.getElementById("confettiCanvas");
-        var ctx = canvas.getContext("2d");
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        var pieces = [];
-        var pieceCount = 100000;
-        
-        for(var i = 0; i < pieceCount; i++) {
-          pieces.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height - canvas.height,
-            r: Math.random() * 15 + 5,
-            d: Math.random() * pieceCount,
-            color: "hsl(" + Math.floor(Math.random()*360) + ",100%,50%)",
-            tilt: Math.floor(Math.random() * 10) - 10,
-            tiltAngleIncremental: (Math.random() * 0.07) + 0.05,
-            tiltAngle: 0
-          });
-        }
-        
-        function draw() {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-          for(var i = 0; i < pieceCount; i++) {
-            var p = pieces[i];
-            ctx.beginPath();
-            ctx.lineWidth = p.r;
-            ctx.strokeStyle = p.color;
-            ctx.moveTo(p.x + p.tilt + (p.r/2), p.y);
-            ctx.lineTo(p.x + p.tilt, p.y + p.tilt + (p.r/2));
-            ctx.stroke();
-          }
-          update();
-        }
-        
-        function update() {
-          for(var i = 0; i < pieceCount; i++) {
-            var p = pieces[i];
-            p.tiltAngle += p.tiltAngleIncremental;
-            p.y += (Math.cos(0) + 3 + p.r/2) / 2;
-            p.x += Math.sin(0);
-            p.tilt = Math.sin(p.tiltAngle) * 15;
-            if(p.y > canvas.height) {
-              pieces[i] = {
-                x: Math.random() * canvas.width,
-                y: -20,
-                r: p.r,
-                d: p.d,
-                color: p.color,
-                tilt: p.tilt,
-                tiltAngleIncremental: p.tiltAngleIncremental,
-                tiltAngle: p.tiltAngle
-              };
-            }
-          }
-        }
-        
-        var animationComplete = false;
-        function confettiFrame() {
-          if (!animationComplete) {
-            draw();
-            requestAnimationFrame(confettiFrame);
-          }
-        }
-        confettiFrame();
-        
-        // Stop confetti after 5 seconds.
-        setTimeout(function(){
-          animationComplete = true;
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-        }, 50000);
       }
     </script>
+
+
+
+
     <!-- initialize theme vars
     https://coolors.co/10002b-240046-3c096c-5a189a-7b2cbf-9d4edd-c77dff-e0aaff -->
 
