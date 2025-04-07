@@ -198,5 +198,67 @@ if (location.hash) {
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "ocwa441dmy");
 
-
+	function showCookieNotice() {
+		fetch('cookienotice.html')
+		  .then(response => {
+			if (!response.ok) throw new Error("Failed to load cookie notice: " + response.statusText);
+			return response.text();
+		  })
+		  .then(html => {
+			const container = document.createElement("div");
+			document.body.appendChild(container);
+	  
+			const shadowRoot = container.attachShadow({ mode: "open" });
+	  
+			const style = document.createElement("link");
+			style.setAttribute("rel", "stylesheet");
+			style.setAttribute("href", "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
+	  
+			const customStyle = document.createElement("style");
+			customStyle.textContent = `
+			  .cookie-alert {
+				position: fixed;
+				bottom: 15px;
+				right: 15px;
+				width: 320px;
+				margin: 0 !important;
+				z-index: 9999;
+				opacity: 0;
+				transform: translateY(100%);
+				transition: all 500ms ease-out;
+				pointer-events: auto;
+			  }
+	  
+			  .cookie-alert.show {
+				opacity: 1;
+				transform: translateY(0%);
+				transition-delay: 1000ms;
+			  }
+			`;
+	  
+			const wrapper = document.createElement("div");
+			wrapper.innerHTML = html;
+	  
+			shadowRoot.appendChild(style);
+			shadowRoot.appendChild(customStyle);
+			shadowRoot.appendChild(wrapper);
+	  
+			const cookieAlert = shadowRoot.querySelector(".cookie-alert");
+			const acceptCookies = shadowRoot.querySelector(".accept-cookies");
+	  
+			cookieAlert.offsetHeight;
+	  
+			if (!getCookie("acceptCookies")) {
+			  cookieAlert.classList.add("show");
+			}
+	  
+			acceptCookies.addEventListener("click", function (event) {
+			  event.preventDefault();
+			  setCookie("acceptCookies", true, 60);
+			  cookieAlert.classList.remove("show");
+			});
+		  })
+		  .catch(error => console.error(error));
+	  }
+	  
 
