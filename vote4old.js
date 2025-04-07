@@ -66,7 +66,7 @@ function showFreshmanPopup() {
     <div style="display: flex; flex-direction: column; height: 100%;">
       <div style="background: var(--uibg); padding: 10px;">
         <h2 style="margin: 0;">🎓 Vote for Sophomore Student council 🎓</h2>
-        <h3> Did you vote already? just wait 15 seconds, if not vote now!</h3>
+        <h3> Did you vote already? just wait 15 seconds, if not  check your email and vote</h3>
         <p>Note: this is just an embed of the google form, I can't see/control who you vote for</p>
       </div>
       <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe7tVRzYSYrI3g92S3lN29YTr8TxSdPS8myZ_mFKfj0xAbqFA/viewform?entry.366340186=Dawson+Jordan" style="flex: 1; width: 100%; border: 0; border-bottom: 1px solid var(--inputborder);" allowfullscreen></iframe>
