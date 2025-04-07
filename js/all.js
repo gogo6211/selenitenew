@@ -199,7 +199,6 @@ if (location.hash) {
     })(window, document, "clarity", "script", "ocwa441dmy");
 
 
-// The small cookie notice popup with ajax
-
+// The small cookie notice popup with aja
   
 
