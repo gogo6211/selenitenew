@@ -198,67 +198,57 @@ if (location.hash) {
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "ocwa441dmy");
 
-	function showCookieNotice() {
-		fetch('cookienotice.html')
-		  .then(response => {
-			if (!response.ok) throw new Error("Failed to load cookie notice: " + response.statusText);
-			return response.text();
-		  })
-		  .then(html => {
-			const container = document.createElement("div");
-			document.body.appendChild(container);
+	document.addEventListener("DOMContentLoaded", function () {
+		// Only inject if not already accepted
+		if (getCookie("acceptCookies")) return;
 	  
-			const shadowRoot = container.attachShadow({ mode: "open" });
+		const cookieHTML = `
+		  <div class="card cookie-alert">
+			<div class="card-body">
+			  <h5 class="card-title">&#x1F36A; Do you like cookies?</h5>
+			  <p class="card-text">We use cookies to ensure you get the best experience on our website.</p>
+			  <div class="btn-toolbar justify-content-end">
+				<a href="http://cookiesandyou.com/" target="_blank" class="btn btn-link">Learn more</a>
+				<a href="#" class="btn btn-primary accept-cookies">Accept</a>
+			  </div>
+			</div>
+		  </div>
+		`;
 	  
-			const style = document.createElement("link");
-			style.setAttribute("rel", "stylesheet");
-			style.setAttribute("href", "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
+		document.body.insertAdjacentHTML("beforeend", cookieHTML);
 	  
-			const customStyle = document.createElement("style");
-			customStyle.textContent = `
-			  .cookie-alert {
-				position: fixed;
-				bottom: 15px;
-				right: 15px;
-				width: 320px;
-				margin: 0 !important;
-				z-index: 9999;
-				opacity: 0;
-				transform: translateY(100%);
-				transition: all 500ms ease-out;
-				pointer-events: auto;
-			  }
+		const cookieAlert = document.querySelector(".cookie-alert");
+		const acceptBtn = document.querySelector(".accept-cookies");
 	  
-			  .cookie-alert.show {
-				opacity: 1;
-				transform: translateY(0%);
-				transition-delay: 1000ms;
-			  }
-			`;
+		cookieAlert.offsetHeight; // force reflow
+		cookieAlert.classList.add("show");
 	  
-			const wrapper = document.createElement("div");
-			wrapper.innerHTML = html;
+		acceptBtn.addEventListener("click", function (e) {
+		  e.preventDefault();
+		  setCookie("acceptCookies", true, 180);
+		  cookieAlert.classList.remove("show");
+		});
+	  });
 	  
-			shadowRoot.appendChild(style);
-			shadowRoot.appendChild(customStyle);
-			shadowRoot.appendChild(wrapper);
-	  
-			const cookieAlert = shadowRoot.querySelector(".cookie-alert");
-			const acceptCookies = shadowRoot.querySelector(".accept-cookies");
-	  
-			cookieAlert.offsetHeight;
-	  
-			if (!getCookie("acceptCookies")) {
-			  cookieAlert.classList.add("show");
-			}
-	  
-			acceptCookies.addEventListener("click", function (event) {
-			  event.preventDefault();
-			  setCookie("acceptCookies", true, 60);
-			  cookieAlert.classList.remove("show");
-			});
-		  })
-		  .catch(error => console.error(error));
+	  // Cookie functions
+	  function setCookie(cname, cvalue, exdays) {
+		var d = new Date();
+		d.setTime(d.getTime() + (exdays*24*60*60*1000));
+		var expires = "expires=" + d.toUTCString();
+		document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 	  }
+	  
+	  function getCookie(cname) {
+		var name = cname + "=";
+		var ca = document.cookie.split(';');
+		for (var i = 0; i < ca.length; i++) {
+		  var c = ca[i].trim();
+		  if (c.indexOf(name) === 0) {
+			return c.substring(name.length);
+		  }
+		}
+		return "";
+	  }
+	  
 	  
 
