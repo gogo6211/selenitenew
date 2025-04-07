@@ -209,14 +209,15 @@ if (location.hash) {
 			bottom: 15px;
 			right: 15px;
 			max-width: 300px;
-			background: #fff;
-			border: 1px solid #ddd;
+			background: #0c0c0c;
+			border: 1px solid #333;
 			border-radius: 6px;
 			padding: 16px;
-			box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+			box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 			font-family: sans-serif;
 			font-size: 14px;
 			z-index: 10000;
+			color: #fff;
 			opacity: 0;
 			transform: translateY(100%);
 			transition: all 0.5s ease-out;
@@ -246,7 +247,7 @@ if (location.hash) {
 		  }
 		  .cookie-alert .learn-btn {
 			background-color: transparent;
-			color: #007bff;
+			color: #66b2ff;
 		  }
 		`;
 		document.head.appendChild(style);
@@ -287,6 +288,7 @@ if (location.hash) {
 	  function getCookie(cname) {
 		return document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith(cname + '='))?.split('=')[1] || '';
 	  }
+	  
 	  
 	  
 
