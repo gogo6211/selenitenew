@@ -308,26 +308,34 @@ function recommendedGames() {
 // Fallback UI: Display error logger if games never load
 // ===============================
 
-// After 1 second, check if games loaded by seeing if the placeholder (with id "message") still exists.
+// Fallback UI: Display error logger if games never load
 setTimeout(() => {
-  if ($("#message").length) {
-    // Inject an error reporting UI block below the current #games container.
-    $("#games").append(`
-      <div id="errorReport" style="margin-top:20px; padding: 10px; border: 1px solid red;">
-        <p style="font-weight:bold; color:red;">Games not loading?</p>
-        <a href="/suggest.html" style="color: blue; text-decoration: underline;">Make a bug report</a>
-        <pre id="consoleLogs" style="max-height:150px; overflow-y:auto; background:#eee; color:#333; padding:10px; margin-top:10px;">${errorLogs.join("\n")}</pre>
-        <button id="copyLogs" style="margin-top:10px; padding:5px 10px;">Copy</button>
-      </div>
-    `);
-    // Setup copy button
-    $("#copyLogs").on("click", function(){
-      const text = errorLogs.join("\n");
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Error logs copied to clipboard!");
-      }).catch(err => {
-        console.error("Failed to copy error logs:", err);
-      });
-    });
-  }
-}, 1000);
+	if ($("#message").length) {
+	  // Inject an error reporting UI block below the current #games container.
+	  $("#games").append(`
+		<div id="errorReport" style="margin-top:20px; padding: 10px; border: 1px solid red;">
+		  <p style="font-weight:bold; color:red;">Games not loading?</p>
+		  <a href="/suggest.html" style="color: blue; text-decoration: underline;">Make a bug report</a>
+		  <pre id="consoleLogs" style="max-height:150px; overflow-y:auto; background:#eee; color:#333; padding:10px; margin-top:10px;">${errorLogs.join("\n")}</pre>
+		  <button id="copyLogs" style="margin-top:10px; padding:5px 10px;">Copy</button>
+		  <button id="fixButton" style="margin-top:10px; padding:5px 10px; background:#ffc107; border: none; border-radius: 5px;">click me to fix it maybe?</button>
+		</div>
+	  `);
+	  // Setup copy button
+	  $("#copyLogs").on("click", function(){
+		const text = errorLogs.join("\n");
+		navigator.clipboard.writeText(text).then(() => {
+		  alert("Error logs copied to clipboard!");
+		}).catch(err => {
+		  console.error("Failed to copy error logs:", err);
+		});
+	  });
+	  // Setup fix button to try and load a new version of games.json
+	  $("#fixButton").on("click", function(){
+		// Open a new tab with a modified URL so it bypasses cache issues.
+		// You can modify the URL string as needed.
+		window.open("/games.json/?", "_blank");
+	  });
+	}
+  }, 1000);
+  
