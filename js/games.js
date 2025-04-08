@@ -332,9 +332,7 @@ setTimeout(() => {
 	  });
 	  // Setup fix button to try and load a new version of games.json
 	  $("#fixButton").on("click", function(){
-		// Open a new tab with a modified URL so it bypasses cache issues.
-		// You can modify the URL string as needed.
-		window.open("/games.json/?", "_blank");
+		window.open("/games.json/", "_blank");
 	  });
 	}
   }, 1000);
