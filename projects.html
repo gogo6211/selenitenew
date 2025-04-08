@@ -195,8 +195,7 @@
 
 
 
-    <!-- initialize theme vars
-    https://coolors.co/10002b-240046-3c096c-5a189a-7b2cbf-9d4edd-c77dff-e0aaff -->
+    <!-- initialize theme vars https://coolors.co/10002b-240046-3c096c-5a189a-7b2cbf-9d4edd-c77dff-e0aaff -->
 
     <!-- initialize externals -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
@@ -218,8 +217,6 @@
     <script src="/js/games.js"></script>
     <script src="/js/search.js"></script>
     <script src="/js/main.js"></script>
-<script src="/js/themes.js"></script>
-    <script src="/js/cookie.js"></script>
 
     </script>
     <link rel="stylesheet" href="/style.css" />
@@ -231,24 +228,6 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-    <!-- toastify -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        setTimeout(() => {
-          const container = document.querySelector("alerts");
-          const safemodealert = container.querySelector(`sl-alert.safemodeinfo`);
-          const tooltip = document.querySelector('.manual-tooltip');
-          if (Math.random() < 0.33) {
-            safemodealert.toast();
-          } else if(Math.random() < 0.5) {
-            tooltip.open = !tooltip.open;
-            setTimeout(() => {
-              tooltip.open = !tooltip.open;
-            }, 5000)
-          }
-        }, 500);
-      });
-    </script>
   </head>
   <alerts>
     <sl-alert class="safemodeinfo" variant="primary" duration="6000" closable>
