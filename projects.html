@@ -2,6 +2,41 @@
 <html class="sl-theme-dark" lang="en">
   <head>
 
+
+    <script>
+      // Create a global array to store console messages
+      window.errorLogs = [];
+    
+      // Store original console functions
+      const originalLog = console.log;
+      const originalError = console.error;
+      const originalWarn = console.warn;
+      const originalInfo = console.info;
+    
+      // Helper to store and pass along messages
+      function interceptConsole(method, originalFn) {
+        return function (...args) {
+          try {
+            const message = args.map(a => 
+              typeof a === 'object' ? JSON.stringify(a, null, 2) : String(a)
+            ).join(' ');
+            window.errorLogs.push(`[${method}] ${message}`);
+          } catch (e) {
+            window.errorLogs.push(`[${method}] (unserializable object)`);
+          }
+          originalFn.apply(console, args); // Still call the original method
+        };
+      }
+    
+      // Override console methods
+      console.log = interceptConsole("log", originalLog);
+      console.error = interceptConsole("error", originalError);
+      console.warn = interceptConsole("warn", originalWarn);
+      console.info = interceptConsole("info", originalInfo);
+    </script>
+
+
+
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap');
     
