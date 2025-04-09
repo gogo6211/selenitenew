@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html class="sl-theme-dark" lang="en">
   <head>
+    <!--Hey quick heads up my code is quite cachotic and tends to break when i make changes lol BUT it works-->
 
 
 
 
-
-
+    <!--Hey you your the first to know that i might be adding ads soon-->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8235412706795196"
      crossorigin="anonymous"></script>
 
@@ -18,8 +18,7 @@
 
 
 
-    <!-- initialize theme vars
-    https://coolors.co/10002b-240046-3c096c-5a189a-7b2cbf-9d4edd-c77dff-e0aaff -->
+    <!-- initialize theme vars https://coolors.co/10002b-240046-3c096c-5a189a-7b2cbf-9d4edd-c77dff-e0aaff -->
 
     <!-- initialize externals -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
@@ -43,6 +42,7 @@
     <script src="/js/randomquote.js"></script>
     <link rel="stylesheet" href="/themes.css" />
     <link rel="stylesheet" href="/style.css" />
+    
     <script>
     fetch('https://api.github.com/repos/gogo6211/selenitenew/commits?per_page=3')
     .then(res => res.json())
@@ -51,7 +51,8 @@
       messageElement.innerHTML = '';
       
       res.forEach(commit => {
-        const codeBlock = document.createElement('commit');
+        const codeBlock = document.createElement('div');
+        codeBlock.className = 'commit-message';
         codeBlock.textContent = commit.commit.message;
         messageElement.appendChild(codeBlock);
       });
@@ -59,16 +60,15 @@
     .catch(error => console.error('Error fetching commit messages:', error));
     </script>
     
-  <head>
+  
     <!-- seo(yes i know i have noindex tags) + other things -->
     <title>Sodalite</title>
     <link rel="icon" href="/favicon.ico" />
     <meta name="robots" content="noindex, nofollow" />
-
   </head>
   <alerts>
     <sl-dialog label="Welcome to Sodalite" class="dialog-width" style="--width: 60vw;display:none;">
-      Thank you for choosing Sodalite! You will be able to play over 230 high quality games, and we have many tools to make your experience better.
+      Thank you for choosing Sodalite! You will be able to play over 250 high quality games, and we have many tools to make your experience better.
       <br>
       Wanting to transfer your data from another website? Try the transfer utility in the footer!
       <br>
@@ -92,37 +92,14 @@
       <h1>Sodalite</h1>
       <h3>Type "game" on <a href="https://lbhsmath.com">lbhsmath.com</a> and you will be redirected to the current unblocked Sodalite site.</h3>
       <div id="message">
-        <commit>Loading...</commit>
+        <div class="commit-message">Loading...</div>
       </div>
       <button id="history" onclick="window.location.href='https://github.com/gogo6211/selenitenew/commits/main/'">
         Version History
       </button>
       <p id="randomquote"></p>
 
-      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8235412706795196"
-     crossorigin="anonymous"></script>
-<!-- jhome -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-8235412706795196"
-     data-ad-slot="3355998482"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
     </main>
-    
-
-
-
-
-    
-
-
-
-
 
     <footer class="noscroll">
       <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
@@ -132,4 +109,5 @@
       <a href="/suggest.html">Suggestions</a>
       <a href="/contact.html">Contact</a>
     </footer>
-    
+  </body>
+</html>
