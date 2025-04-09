@@ -117,7 +117,7 @@ link {
 mail {
   font-size: 20px;
 }
-commit {
+.commit-message {
   display: block;
   font-family: monospace;
   background-color: var(--inputbg);
@@ -351,8 +351,4 @@ label {
   transform: scale(1.05);
   animation: none;
 }
-.commit-message {
-  white-space: pre-wrap;
-  word-break: break-word;
-  margin-bottom: 0.5em;
-}
+
