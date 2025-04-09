@@ -274,7 +274,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	alert.classList.add("show");
   
 	accept.addEventListener("click", function () {
-	  setCookie("acceptCookies", true, 180); 
+		setCookie("acceptCookies", JSON.stringify(true), 180);
 	  alert.classList.remove("show");
 	});
   });
@@ -282,10 +282,22 @@ document.addEventListener("DOMContentLoaded", function () {
   function setCookie(cname, cvalue, exdays) {
 	const d = new Date();
 	d.setTime(d.getTime() + exdays * 86400000);
-	document.cookie = `${cname}=${cvalue};expires=${d.toUTCString()};path=/`;
-  }
-  
-  function getCookie(cname) {
-	return document.cookie.split(';').map(c => c.trim()).find(c => c.startsWith(cname + '='))?.split('=')[1] || '';
-  }
+	const encodedValue = encodeURIComponent(JSON.stringify(cvalue));
+	document.cookie = `${cname}=${encodedValue};expires=${d.toUTCString()};path=/`;
+}
+
+function getCookie(cname) {
+	try {
+		const cookie = document.cookie
+			.split(';')
+			.map(c => c.trim())
+			.find(c => c.startsWith(cname + '='));
+		if (!cookie) return null;
+		return JSON.parse(decodeURIComponent(cookie.split('=')[1]));
+	} catch (err) {
+		console.error(`Error parsing cookie "${cname}":`, err);
+		return null;
+	}
+}
+
 
