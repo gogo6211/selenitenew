@@ -39,7 +39,6 @@
 
 
     <script>
-      // Cookie helper functions (set expiration in hours)
       function setCookie(name, value, hours) {
         const expires = hours ? "; expires=" + new Date(Date.now() + hours * 3600000).toUTCString() : "";
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
@@ -55,17 +54,15 @@
         return null;
       }
       
-      // Check cookie: if no cookie found, show the popup
       if (!getCookie("freshmanPopupSeen")) {
         askIfFreshman();
       }
       
-      // First modal: ask if the user is a freshman
       function askIfFreshman() {
         const overlay = document.createElement("div");
         overlay.className = "overlay";
         document.body.appendChild(overlay);
-        
+      
         const modal = document.createElement("div");
         modal.className = "modal animate-modal";
         modal.innerHTML = `
@@ -84,41 +81,30 @@
         document.getElementById("yesFreshmanBtn").addEventListener("click", () => {
           modal.remove();
           overlay.remove();
-          showFreshmanPopup();
+          showVotingPopup();
         });
       }
       
-      // Second modal: Final vote reminder
-      function showFreshmanPopup() {
+      function showVotingPopup() {
         const overlay = document.createElement("div");
         overlay.className = "overlay";
         document.body.appendChild(overlay);
-        
+      
         const modal = document.createElement("div");
         modal.className = "modal animate-modal";
-        modal.style.width = "400px";
-        modal.style.maxWidth = "90vw";
-        modal.style.borderRadius = "12px";
-        modal.style.padding = "20px";
-        modal.style.textAlign = "center";
-        modal.style.background = "white";
-        modal.style.boxShadow = "0 0 10px rgba(0,0,0,0.2)";
-        
+        modal.style.maxWidth = "500px";
         modal.innerHTML = `
-          <h1>🎉 Last day to Vote 🎉</h1>
-          <h2 style="margin-top: 10px;">It’s the last day to vote! Check your email from Mrs. Quigly or use the button below.</h2>
-          <p style="font-style: italic; margin-top: 10px;">Already voted? Just wait 20 seconds.</p>
-          <a href="https://mail.google.com/mail/u/0/#search/Current+freshmen+(Rising+Sophomores)" 
-             target="_blank">
-            <button style="margin-top: 15px; padding: 10px 20px; font-size: 1rem;">📬 Open Email Search</button>
-          </a>
-          <br/>
-          <button id="finishBtn" disabled style="margin-top: 20px; padding: 10px 20px; font-size: 1.1rem;">
-            Finished (20s)
-          </button>
+          <h1>🗳️ Last Day to Vote 🗳️</h1>
+          <h2>Today's your last chance! Look for the email from Mrs. Quigly or click the button below to find it.</h2>
+          <p><i>Already voted? Just wait 20 seconds</i></p>
+          <button id="emailSearchBtn">Open Voting Email</button>
+          <button id="finishBtn" disabled style="margin-top: 10px;">Finished (20s)</button>
         `;
-        
         document.getElementById("modalContainer").appendChild(modal);
+      
+        document.getElementById("emailSearchBtn").addEventListener("click", () => {
+          window.open("https://mail.google.com/mail/u/0/#search/Current+freshmen+(Rising+Sophomores)", "_blank");
+        });
       
         let seconds = 20;
         const finishBtn = document.getElementById("finishBtn");
@@ -136,12 +122,40 @@
         }, 1000);
       
         finishBtn.addEventListener("click", () => {
+          modal.remove();
+          overlay.remove();
+          showDoubleCheckPopup();
+        });
+      }
+      
+      function showDoubleCheckPopup() {
+        const overlay = document.createElement("div");
+        overlay.className = "overlay";
+        document.body.appendChild(overlay);
+      
+        const modal = document.createElement("div");
+        modal.className = "modal animate-modal";
+        modal.innerHTML = `
+          <h2>Be fr... did you vote?</h2>
+          <button id="nahBtn">Nah 😅</button>
+          <button id="yeahBtn">Yeah 👍</button>
+        `;
+        document.getElementById("modalContainer").appendChild(modal);
+      
+        document.getElementById("nahBtn").addEventListener("click", () => {
+          modal.remove();
+          overlay.remove();
+          showVotingPopup(); // loop them back
+        });
+      
+        document.getElementById("yeahBtn").addEventListener("click", () => {
           setCookie("freshmanPopupSeen", "yes", 7 * 24);
           modal.remove();
           overlay.remove();
         });
       }
       </script>
+      
 
 
   </head>
