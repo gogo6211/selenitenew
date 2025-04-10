@@ -42,7 +42,6 @@
     .catch(error => console.error('Error fetching commit messages:', error));
     </script>
     
-  <head>
     <!-- seo(yes i know i have noindex tags) + other things -->
     <title>Sodalite</title>
     <link rel="icon" href="/favicon.ico" />
@@ -82,8 +81,10 @@
       </button>
       <p id="randomquote"></p>
     </main>
-    
 
+    <!-- Modal Container (added for popups) -->
+    <div id="modalContainer"></div>
+    
     <script>
       // Helper: Set cookie with expiration in hours
       function setCookie(name, value, hours) {
@@ -130,7 +131,7 @@
           document.getElementById("noFreshmanBtn").disabled = false;
         }, 3000);
       
-        // "No" option: store a cookie to avoid re-showing (using the existing cookie name).
+        // "No" option: store a cookie to avoid re-showing.
         document.getElementById("noFreshmanBtn").addEventListener("click", () => {
           setCookie("freshmanPopupSeen", "no", 7 * 24); // expires in 7 days
           modal.remove();
@@ -147,7 +148,7 @@
         });
       }
       
-      // Second modal: Ask "Be fr did you vote?" with two normal-styled buttons (disabled for 3 seconds initially)
+      // Second modal: Ask "Be fr did you vote?" with two normal-styled buttons (disabled for 3 seconds initially).
       // Top button: "nah" ; Bottom button: "Yes"
       function showVoteCheckPopup() {
         const overlay = document.createElement("div");
@@ -194,7 +195,7 @@
       }
       
       // Final modal: A reminder popup with a 30-second countdown.
-      // Text encourages them to vote by checking email, etc. When finished, a cookie is stored for 2 weeks.
+      // When finished, a cookie is stored for 2 weeks.
       function showFinalPopup() {
         const overlay = document.createElement("div");
         overlay.className = "overlay";
@@ -247,13 +248,6 @@
       }
     </script>
     
-
-
-
-
-
-
-
     <footer class="noscroll">
       <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
       <a id="panicmode">Panic Mode</a>
@@ -262,4 +256,5 @@
       <a href="/suggest.html">Suggestions</a>
       <a href="/contact.html">Contact</a>
     </footer>
-    
+  </body>
+</html>
