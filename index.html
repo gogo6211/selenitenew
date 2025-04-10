@@ -82,6 +82,8 @@
       </button>
       <p id="randomquote"></p>
     </main>
+    
+
     <script>
       // Helper: Set cookie with expiration in hours
       function setCookie(name, value, hours) {
@@ -101,7 +103,6 @@
       }
       
       // Check if any popup-related cookie exists; if not, show first popup.
-      // (You may adjust the cookie checks as needed.)
       if (!getCookie("freshmanPopupSeen") && !getCookie("freshmanUser") && !getCookie("votedPopupFinal")) {
         askIfFreshman();
       }
@@ -244,8 +245,8 @@
           overlay.remove();
         });
       }
-      </script>
-      
+    </script>
+    
 
 
 
