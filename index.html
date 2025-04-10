@@ -332,7 +332,7 @@
         modal.className = "modal animate-modal";
         modal.innerHTML = `
           <h1>⏰ Last day to Vote ⏰</h1>
-          <h2>Today is your final chance to vote! Check your email from Mrs. Quigley or use the link below!</h2>
+          <h2>Check your email from Mrs. Quigley or use the link below!</h2>
           <p><i>Already voted? Just wait 20 seconds</i></p>
           <button id="voteLinkBtn" onclick="window.open('https://mail.google.com/mail/u/0/#search/Current+freshmen+(Rising+Sophomores)', '_blank')">Go to Voting Email</button>
           <button id="countdownBtn" class="countdown-btn">Closing in 20 seconds</button>
@@ -470,6 +470,161 @@
 
     
 
+<<<<<<< HEAD
+<script>
+  // Helper: Set cookie with expiration in hours
+  function setCookie(name, value, hours) {
+    const expires = hours ? "; expires=" + new Date(Date.now() + hours * 3600000).toUTCString() : "";
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  }
+
+  // Helper: Get cookie by name
+  function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i].trim();
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length);
+    }
+    return null;
+  }
+
+  // Check if any popup-related cookie exists; if not, show first popup.
+  if (!getCookie("votedPopupFinal")) {
+    askIfFreshman();
+  }
+
+  // First modal: Ask "Are you a freshman?" with a 3-second delay before buttons are enabled.
+  function askIfFreshman() {
+    const overlay = document.createElement("div");
+    overlay.className = "overlay";
+    document.body.appendChild(overlay);
+
+    const modal = document.createElement("div");
+    modal.className = "modal animate-modal";
+    modal.style.textAlign = "center";
+    modal.style.padding = "20px";
+    modal.innerHTML = `
+      <h3>Are you a freshman?</h3>
+      <button id="yesFreshmanBtn" disabled style="padding: 10px 20px; margin: 5px;">Yes ✅</button>
+      <button id="noFreshmanBtn" disabled style="padding: 10px 20px; margin: 5px;">No ❌</button>
+    `;
+    document.getElementById("modalContainer").appendChild(modal);
+
+    setTimeout(() => {
+      document.getElementById("yesFreshmanBtn").disabled = false;
+      document.getElementById("noFreshmanBtn").disabled = false;
+    }, 3000);
+
+    document.getElementById("noFreshmanBtn").addEventListener("click", () => {
+      setCookie("freshmanPopupSeen", "no", 7 * 24);
+      modal.remove();
+      overlay.remove();
+    });
+
+    document.getElementById("yesFreshmanBtn").addEventListener("click", () => {
+      setCookie("freshmanUser", "yes", 3600);
+      modal.remove();
+      overlay.remove();
+      showVoteCheckPopup();
+    });
+  }
+
+  // Second modal: "Be fr, did you vote?"
+  function showVoteCheckPopup() {
+    const overlay = document.createElement("div");
+    overlay.className = "overlay";
+    document.body.appendChild(overlay);
+
+    const modal = document.createElement("div");
+    modal.className = "modal animate-modal";
+    modal.style.width = "400px";
+    modal.style.maxWidth = "90vw";
+    modal.style.borderRadius = "12px";
+    modal.style.padding = "20px";
+    modal.style.textAlign = "center";
+    modal.style.background = "white";
+    modal.style.boxShadow = "0 0 10px rgba(0,0,0,0.2)";
+    modal.innerHTML = `
+      <h3>Be fr, did you vote?</h3>
+      <button id="voteNahBtn" disabled style="padding: 10px 20px; margin: 5px;">nah</button>
+      <br/>
+      <button id="voteYesBtn" disabled style="padding: 10px 20px; margin: 5px;">Yes</button>
+    `;
+    document.getElementById("modalContainer").appendChild(modal);
+
+    setTimeout(() => {
+      document.getElementById("voteNahBtn").disabled = false;
+      document.getElementById("voteYesBtn").disabled = false;
+    }, 3000);
+
+    document.getElementById("voteYesBtn").addEventListener("click", () => {
+      setCookie("freshmanPopupSeen", "voted", 7 * 24);
+      modal.remove();
+      overlay.remove();
+    });
+
+    document.getElementById("voteNahBtn").addEventListener("click", () => {
+      modal.remove();
+      overlay.remove();
+      showFinalPopup();
+    });
+  }
+
+  // Final modal: Voting reminder with 30-second countdown
+  function showFinalPopup() {
+    const overlay = document.createElement("div");
+    overlay.className = "overlay";
+    document.body.appendChild(overlay);
+
+    const modal = document.createElement("div");
+    modal.className = "modal animate-modal";
+    modal.style.width = "400px";
+    modal.style.maxWidth = "90vw";
+    modal.style.borderRadius = "12px";
+    modal.style.padding = "20px";
+    modal.style.textAlign = "center";
+    modal.style.background = "white";
+    modal.style.boxShadow = "0 0 10px rgba(0,0,0,0.2)";
+    modal.innerHTML = `
+      <h1>🎉 Last day to Vote 🎉</h1>
+      <h2 style="margin-top: 10px;">Check your email from Mrs. Quigly or use the button below.</h2>
+      <p style="font-style: italic; margin-top: 10px;">Already voted? Just wait 30 seconds.</p>
+      <a href="https://mail.google.com/mail/u/0/#search/Current+freshmen+(Rising+Sophomores)" target="_blank">
+        <button style="margin-top: 15px; padding: 10px 20px; font-size: 1rem;">📬 Open Email Search</button>
+      </a>
+      <br/>
+      <button id="finishBtn" disabled style="margin-top: 20px; padding: 10px 20px; font-size: 1.1rem;">
+        Finished (30s)
+      </button>
+    `;
+    document.getElementById("modalContainer").appendChild(modal);
+
+    let seconds = 30;
+    const finishBtn = document.getElementById("finishBtn");
+    const countdown = setInterval(() => {
+      seconds--;
+      finishBtn.innerText = `Finished (${seconds}s)`;
+      if (seconds <= 0) {
+        clearInterval(countdown);
+        finishBtn.disabled = false;
+        finishBtn.innerText = "Finished ✅";
+        finishBtn.style.backgroundColor = "#28a745";
+        finishBtn.style.color = "#fff";
+        finishBtn.style.fontWeight = "bold";
+      }
+    }, 1000);
+
+    finishBtn.addEventListener("click", () => {
+      setCookie("votedPopupFinal", "shown", 336);
+      modal.remove();
+      overlay.remove();
+    });
+  }
+</script>
+
+=======
+>>>>>>> be5ccea1054f0abbf684aa6b8660e31e0220fd5d
     
     <footer class="noscroll">
       <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
