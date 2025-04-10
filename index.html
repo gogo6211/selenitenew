@@ -104,7 +104,7 @@
   }
 
   // Check if any popup-related cookie exists; if not, show first popup.
-  if (!getCookie("freshmanPopupSeen") && !getCookie("freshmanUser") && !getCookie("votedPopupFinal")) {
+  if (!getCookie("votedPopupFinal")) {
     askIfFreshman();
   }
 
