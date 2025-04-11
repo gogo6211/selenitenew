@@ -1330,5 +1330,10 @@
     "directory": "eaglercraft1.12",
     "image": "image.png",
     "recommended": "1"
-  }
+  },
+  {
+		"name": "Temple Run 2",
+		"directory": "templerun2",
+		"image": "img/icons/icon-128x128.png"
+	}
 ]
