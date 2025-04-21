@@ -1340,5 +1340,10 @@
 		"name": "Banjo Kazooie",
 		"directory": "banjokazooie",
 		"image": "image.png"
-	}
+	},
+  {
+    "name": "Crazy Cattle 3D",
+    "directory": "crazycattle3d",
+    "image": "image.png"
+  }
 ]
