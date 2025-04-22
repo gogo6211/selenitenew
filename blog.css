@@ -1,5 +1,5 @@
 @import url('/style.css');
-
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
 /* Base Styles */
 body {
     background: var(--bg);
