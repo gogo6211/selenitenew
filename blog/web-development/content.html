@@ -1,72 +1,69 @@
 <!-- ARTICLE METADATA -->
 <script type="application/article-meta">
     {
-        "title": "Your Article Title",
-        "author": "Author Name",
+        "title": "JavaScript Fundamentals",
+        "author": "Code Master",
         "date": "2024-03-20",
-        "thumbnail": "/blog/images/your-image.jpg",
-        "thumbnailAlt": "Description of image for accessibility",
-        "tags": ["Technology", "Web Development"],
-        "excerpt": "Brief summary of your article content"
+        "thumbnail": "/blog/images/js-code.jpg",
+        "thumbnailAlt": "JavaScript code example",
+        "tags": ["JavaScript", "Programming"],
+        "excerpt": "Learn basic JavaScript concepts"
     }
     </script>
     
     <!-- ARTICLE CONTENT -->
     <div id="article-content">
-        <h2>Introduction</h2>
-        <p>Start your article content here...</p>
+        <h2>Basic Syntax</h2>
+        <p>Here's a simple function:</p>
     
-        <sl-code-block language="javascript">
-            // Example code block
-            function example() {
-                console.log("Hello World!");
+        <sl-code-block language="javascript" style="margin: 1rem 0;">
+            // Function declaration
+            function greet(name) {
+                return `Hello, ${name}!`;
             }
+            
+            // Arrow function
+            const add = (a, b) => a + b;
         </sl-code-block>
     
-        <h3>Section Title</h3>
-        <p>More content...</p>
+        <h3>DOM Manipulation</h3>
+        <p>Example event listener:</p>
     
-        <div class="custom-warning">
-            <sl-alert variant="warning" open>
-                <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
-                Important note for readers
-            </sl-alert>
-        </div>
+        <sl-code-block language="javascript">
+            document.querySelector('button').addEventListener('click', () => {
+                console.log('Button clicked!');
+            });
+        </sl-code-block>
     
-        <h4>Subsection</h4>
-        <ul>
-            <li>List item 1</li>
-            <li>List item 2</li>
-        </ul>
-    
-        <img src="/blog/images/inline-image.jpg" 
-             alt="Inline image description" 
-             class="content-image">
-    
-        <blockquote>
-            <p>Interesting quote from the article</p>
-            <cite>- Source Name</cite>
-        </blockquote>
+        <sl-code-block language="html" style="margin: 1rem 0;">
+            <!-- HTML Example -->
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Sample Page</title>
+            </head>
+            <body>
+                <h1>Hello World</h1>
+            </body>
+            </html>
+        </sl-code-block>
     </div>
     
     <style>
-    /* Article-specific styling */
-    .content-image {
-        max-width: 80%;
-        margin: 1rem auto;
-        border-radius: 10px;
-        border: 2px solid var(--inputborder);
-    }
-    
-    .custom-warning {
-        margin: 2rem 0;
-    }
-    
-    blockquote {
-        padding: 1rem;
-        border-left: 4px solid var(--inputborder);
+    /* Custom code block styling */
+    sl-code-block {
+        border-radius: 8px;
         margin: 1.5rem 0;
+        --sl-font-mono: 'Fira Code', monospace;
+    }
+    
+    sl-code-block::part(base) {
         background: var(--uibg);
-        border-radius: 5px;
+        border: 1px solid var(--inputborder);
+    }
+    
+    sl-code-block::part(header) {
+        background: var(--inputbg);
+        border-bottom: 1px solid var(--inputborder);
     }
     </style>
