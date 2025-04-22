@@ -300,4 +300,10 @@ function getCookie(cname) {
 	}
 }
 
+// js error tracking to make fixing bugs easier
+<script
+  src="https://js.sentry-cdn.com/5665070c9990952d408e1c6dc7337ed4.min.js"
+  crossorigin="anonymous"
+></script>
+
 
