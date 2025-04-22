@@ -1,12 +1,72 @@
-<h2>Introduction</h2>
-<p>article content here...</p>
-
-<sl-code-block language="javascript">
-// Example code block
-function example() {
-    console.log("Hello World!");
-}
-</sl-code-block>
-
-<h3>Subsection</h3>
-<p>More article content...</p>
+<!-- ARTICLE METADATA -->
+<script type="application/article-meta">
+    {
+        "title": "Your Article Title",
+        "author": "Author Name",
+        "date": "2024-03-20",
+        "thumbnail": "/blog/images/your-image.jpg",
+        "thumbnailAlt": "Description of image for accessibility",
+        "tags": ["Technology", "Web Development"],
+        "excerpt": "Brief summary of your article content"
+    }
+    </script>
+    
+    <!-- ARTICLE CONTENT -->
+    <div id="article-content">
+        <h2>Introduction</h2>
+        <p>Start your article content here...</p>
+    
+        <sl-code-block language="javascript">
+            // Example code block
+            function example() {
+                console.log("Hello World!");
+            }
+        </sl-code-block>
+    
+        <h3>Section Title</h3>
+        <p>More content...</p>
+    
+        <div class="custom-warning">
+            <sl-alert variant="warning" open>
+                <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+                Important note for readers
+            </sl-alert>
+        </div>
+    
+        <h4>Subsection</h4>
+        <ul>
+            <li>List item 1</li>
+            <li>List item 2</li>
+        </ul>
+    
+        <img src="/blog/images/inline-image.jpg" 
+             alt="Inline image description" 
+             class="content-image">
+    
+        <blockquote>
+            <p>Interesting quote from the article</p>
+            <cite>- Source Name</cite>
+        </blockquote>
+    </div>
+    
+    <style>
+    /* Article-specific styling */
+    .content-image {
+        max-width: 80%;
+        margin: 1rem auto;
+        border-radius: 10px;
+        border: 2px solid var(--inputborder);
+    }
+    
+    .custom-warning {
+        margin: 2rem 0;
+    }
+    
+    blockquote {
+        padding: 1rem;
+        border-left: 4px solid var(--inputborder);
+        margin: 1.5rem 0;
+        background: var(--uibg);
+        border-radius: 5px;
+    }
+    </style>

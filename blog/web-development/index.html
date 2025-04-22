@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Article Title | Sodalite</title>
+    <!-- Title will be set dynamically -->
+    <title>Loading Article... | Sodalite</title>
     
     <!-- Required Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
@@ -13,96 +14,102 @@
     <!-- Site Styles -->
     <link rel="stylesheet" href="/blog.css">
     <link rel="stylesheet" href="/themes.css">
-    
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Article Title",
-        "datePublished": "2024-03-20",
-        "author": {
-            "@type": "Person",
-            "name": "Author Name"
-        },
-        "image": "/blog/images/article-thumbnail.jpg"
-    }
-    </script>
 </head>
 <body>
     <!-- Header -->
     <header>
         <nav class="main-nav">
-            <a href="/index.html">Home</a>
-            <a href="/bookmarklets.html">Bookmarklets</a>
-            <a href="/projects.html">Games</a>
-            <a href="/blog.html">Blog</a>
-            <a href="/settings.html">Settings</a>
-            <a href="https://piranha-a81.pages.dev/">Proxy</a>
-            <a id="blank" href="#">Open Blank</a>
-            <a href="/about.html">About</a>
+            <!-- Keep your existing navigation links -->
         </nav>
     </header>
 
     <!-- Main Content -->
     <main class="article-content">
-        <!-- Navigation -->
         <a href="/blog.html" class="back-button">
             <sl-icon name="arrow-left"></sl-icon> Back to Articles
         </a>
 
-        <!-- Article Header -->
-        <article>
-            <h1 class="article-title">Article Title</h1>
-            
-            <div class="article-meta">
-                <span class="publish-date">March 20, 2024</span>
-                <span class="author">By Author Name</span>
-            </div>
-
-            <!-- Thumbnail -->
-            <img class="article-thumbnail" src="/blog/images/article-thumbnail.jpg" alt="Article thumbnail">
-
-            <!-- Content -->
-            <div class="article-body" id="content">
-                <!-- Content will be injected here -->
-                Loading article content...
+        <article id="article-container">
+            <!-- Content will be loaded here -->
+            <div class="loading-state">
+                <sl-spinner style="font-size: 2rem;"></sl-spinner>
+                <p>Loading article...</p>
             </div>
         </article>
     </main>
 
     <!-- Footer -->
     <footer class="main-footer">
-        <div class="footer-content">
-            <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
-            <a id="panicmode">Panic Mode</a>
-            <a href="/privacy.html">Privacy Policy</a>
-            <a href="/suggest.html">Bug Reports</a>
-            <a href="/suggest.html">Suggestions</a>
-            <a href="/contact.html">Contact</a>
-        </div>
+        <!-- Keep your existing footer -->
     </footer>
 
-    <!-- Content Loader -->
     <script>
-    // Get article data from URL
+    // Get article slug from URL
     const slug = window.location.pathname.split('/')[2];
     
     // Load article content
     $.get(`/blog/${slug}/content.html`)
         .done(content => {
-            $('#content').html(content);
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(content, 'text/html');
+            
+            // Extract metadata
+            const meta = JSON.parse(
+                doc.querySelector('script[type="application/article-meta"]').textContent
+            );
+
+            // Update page metadata
+            document.title = `${meta.title} | Sodalite`;
+            
+            // Build article structure
+            const articleHTML = `
+                ${meta.thumbnail ? `
+                <img class="article-thumbnail" 
+                     src="${meta.thumbnail}" 
+                     alt="${meta.thumbnailAlt || ''}">` : ''}
+
+                <div class="article-header">
+                    <h1 class="article-title">${meta.title}</h1>
+                    <div class="article-meta">
+                        ${meta.date ? `<span>${new Date(meta.date).toLocaleDateString()}</span>` : ''}
+                        ${meta.author ? `<span>By ${meta.author}</span>` : ''}
+                        ${meta.tags ? `<div class="tags">${meta.tags.map(t => `<sl-tag>${t}</sl-tag>`).join('')}</div>` : ''}
+                    </div>
+                </div>
+
+                <div class="article-body">
+                    ${doc.getElementById('article-content').innerHTML}
+                </div>
+            `;
+
+            $('#article-container').html(articleHTML);
+            
+            // Add structured data
+            const structuredData = {
+                "@context": "https://schema.org",
+                "@type": "Article",
+                "headline": meta.title,
+                "datePublished": meta.date,
+                "author": meta.author,
+                "image": meta.thumbnail,
+                "articleBody": doc.getElementById('article-content').textContent
+            };
+            
+            const script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.textContent = JSON.stringify(structuredData);
+            document.head.appendChild(script);
         })
         .fail(error => {
-            $('#content').html(`
+            $('#article-container').html(`
                 <sl-alert variant="danger" open>
                     <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
-                    Failed to load article content: ${error.statusText}
+                    Failed to load article: ${error.statusText}
                 </sl-alert>
             `);
         });
 
-    // Theme management
+    // Apply theme
     document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
     </script>
 </body>
