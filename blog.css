@@ -1,6 +1,27 @@
 @import url('/style.css');
 
-/* Blog-specific styles */
+body {
+    background: var(--bg);
+    color: var(--textcolor);
+}
+
+main {
+    background: var(--bg); 
+}
+
+.article-card,
+.main-footer,
+header {
+    background: var(--uibg);
+    color: var(--textcolor);
+}
+
+#blogsearch {
+    background: var(--inputbg);
+    border-color: var(--inputborder);
+    color: var(--textcolor);
+}
+
 main {
     margin-top: 6rem;
     animation: 1.25s ease-in-out 0s 1 loadInAnimation;
