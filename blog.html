@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html class="sl-theme-dark" lang="en">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/themes/dark.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/shoelace-autoloader.js"></script>
+    <script src="/js/all.js"></script>
+    <script src="/js/blog.js"></script>
+    <link rel="stylesheet" href="/blog.css" />
+    <link rel="stylesheet" href="/themes.css" />
+    <title>Blog | Sodalite</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+</head>
+<body>
+    <header>
+        <a href="/index.html">Home</a>
+        <a href="/bookmarklets.html">Bookmarklets</a>
+        <a href="/projects.html">Games</a>
+        <a href="/blog.html">Blog</a>
+        <a href="/settings.html">Settings</a>
+        <a href="https://piranha-a81.pages.dev/">Proxy</a>
+        <a id="blank" href="#">Open Blank</a>
+        <a href="/about.html">About</a>
+    </header>
+    <main>
+        <input type="text" id="blogsearch" placeholder="Search articles..." />
+        
+        <div class="samerow">
+            <button id="random" onclick="selectRandomArticle()">
+                Random Article
+            </button>
+        </div>
+
+        <h2>Pinned Articles</h2>
+        <p id="pinnedmessage">Pin articles to see them here!</p>
+        <div id="pinned-articles"></div>
+
+        <h2>All Articles</h2>
+        <div id="articles">
+            <p id="loading-message">Loading articles...</p>
+        </div>
+    </main>
+    <footer>
+        <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
+        <a id="panicmode">Panic Mode</a>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/suggest.html">Bug Reports</a>
+        <a href="/suggest.html">Suggestions</a>
+        <a href="/contact.html">Contact</a>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,107 @@
+/* Blog Main Page */
+.article, .suggest {
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: var(--uibg);
+    box-shadow: 0 4px 6px var(--uibg);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.article:hover {
+    transform: translateY(-5px);
+    filter: brightness(90%);
+}
+
+.article h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--textcolor);
+}
+
+.article .excerpt {
+    font-size: 16px;
+    color: var(--textcolor);
+    opacity: 0.8;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.article .meta {
+    font-size: 14px;
+    color: var(--textcolor);
+    opacity: 0.6;
+    display: flex;
+    justify-content: space-between;
+}
+
+.article img.thumbnail {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 2px solid var(--inputborder);
+}
+
+#blogsearch {
+    width: 70%;
+    margin: 20px auto;
+    background-color: var(--inputbg);
+    border: 2px solid var(--inputborder);
+    color: var(--textcolor);
+}
+
+/* Article Content Page */
+.article-content {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: left;
+}
+
+.article-content .hero {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin: 20px 0;
+    border: 2px solid var(--inputborder);
+}
+
+.article-content #content {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--textcolor);
+}
+
+.article-content #content h2 {
+    font-size: 28px;
+    margin: 30px 0 15px;
+    color: var(--textcolor);
+}
+
+.article-content #content p {
+    margin-bottom: 15px;
+}
+
+.article-content button {
+    background-color: var(--inputbg);
+    border: 2px solid var(--inputborder);
+    color: var(--textcolor);
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.star {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 25px !important;
+    filter: invert(0.8);
+}

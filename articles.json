@@ -1,0 +1,12 @@
+[
+    {
+        "title": "Web Development Guide",
+        "slug": "web-dev",
+        "path": "/blog/web-development-guide/",
+        "date": "2024-03-15",
+        "author": "Sodalite Team",
+        "excerpt": "Learn web development...",
+        "thumbnail": "/blog/images/webdev.jpg",
+        "content": "content.html"
+    }
+]
