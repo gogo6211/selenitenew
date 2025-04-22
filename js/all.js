@@ -300,10 +300,4 @@ function getCookie(cname) {
 	}
 }
 
-// new thing to help find js bugs
-<script
-  src="https://js.sentry-cdn.com/5665070c9990952d408e1c6dc7337ed4.min.js"
-  crossorigin="anonymous"
-></script>
-
 
