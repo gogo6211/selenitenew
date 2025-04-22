@@ -80,3 +80,41 @@ function handleLoadError(error) {
         </div>
     `);
 }
+// i know its janky lol
+function syncTheme() {
+    const theme = localStorage.getItem('selenite.theme') || 'main';
+    document.body.setAttribute('theme', theme);
+    
+    // Update CSS variables
+    const customTheme = JSON.parse(localStorage.getItem('selenite.customTheme') || {};
+    Object.keys(customTheme).forEach(key => {
+        document.body.style.setProperty(`--${key}`, customTheme[key]);
+    });
+}
+
+
+$(document).ready(function() {
+    syncTheme();
+    loadArticles();
+});
+
+window.addEventListener('storage', function(e) {
+    if(e.key === 'selenite.theme' || e.key === 'selenite.customTheme') {
+        syncTheme();
+        applyThemeToElements();
+    }
+});
+
+function applyThemeToElements() {
+    $('#blogsearch').css({
+        'background-color': 'var(--inputbg)',
+        'border-color': 'var(--inputborder)',
+        'color': 'var(--textcolor)'
+    });
+    
+    $('.article-card').css({
+        'background-color': 'var(--uibg)',
+        'border-color': 'var(--inputborder)',
+        'color': 'var(--textcolor)'
+    });
+}
