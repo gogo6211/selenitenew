@@ -1,67 +1,109 @@
 <!DOCTYPE html>
 <html class="sl-theme-dark" lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Title | Sodalite</title>
+    
+    <!-- Required Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="/blog.css" />
-    <link rel="stylesheet" href="/themes.css" />
-    <title>Getting Started with Web Development | Sodalite</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/themes/dark.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/shoelace-autoloader.js"></script>
+    
+    <!-- Site Styles -->
+    <link rel="stylesheet" href="/blog.css">
+    <link rel="stylesheet" href="/themes.css">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "Article Title",
+        "datePublished": "2024-03-20",
+        "author": {
+            "@type": "Person",
+            "name": "Author Name"
+        },
+        "image": "/blog/images/article-thumbnail.jpg"
+    }
+    </script>
 </head>
 <body>
+    <!-- Header -->
     <header>
-        <nav>
+        <nav class="main-nav">
             <a href="/index.html">Home</a>
-			<a href="/bookmarklets.html">Bookmarklets</a>
-			<a href="/projects.html">Games</a>
-			<a href="/settings.html">Settings</a>
-			<a href="https://piranha-a81.pages.dev/">Proxy</a>
-			<a id="blank" href="#">Open Blank</a>
-			<a href="/about.html">About</a>
+            <a href="/bookmarklets.html">Bookmarklets</a>
+            <a href="/projects.html">Games</a>
+            <a href="/blog.html">Blog</a>
+            <a href="/settings.html">Settings</a>
+            <a href="https://piranha-a81.pages.dev/">Proxy</a>
+            <a id="blank" href="#">Open Blank</a>
+            <a href="/about.html">About</a>
         </nav>
     </header>
 
+    <!-- Main Content -->
     <main class="article-content">
+        <!-- Navigation -->
         <a href="/blog.html" class="back-button">
             <sl-icon name="arrow-left"></sl-icon> Back to Articles
         </a>
 
-        <h1>Getting Started with Web Development</h1>
-        
-        <div class="article-meta">
-            March 15, 2024 • Sodalite Team
-        </div>
-
-        <img class="article-thumbnail" src="/blog/images/webdev.jpg" alt="Web Development">
-
-        <div class="article-body">
-            <!-- Your full article content here -->
-            <h2>Introduction</h2>
-            <p>Web development is the process of building websites and web applications...</p>
+        <!-- Article Header -->
+        <article>
+            <h1 class="article-title">Article Title</h1>
             
-            <h2>HTML Basics</h2>
-            <p>HTML provides the structure for web pages...</p>
-            
-            <sl-code-block language="html">
-                &lt;!DOCTYPE html&gt;
-                &lt;html&gt;
-                &lt;head&gt;
-                    &lt;title&gt;Page Title&lt;/title&gt;
-                &lt;/head&gt;
-                &lt;body&gt;
-                    &lt;h1&gt;My First Heading&lt;/h1&gt;
-                    &lt;p&gt;My first paragraph.&lt;/p&gt;
-                &lt;/body&gt;
-                &lt;/html&gt;
-            </sl-code-block>
-        </div>
+            <div class="article-meta">
+                <span class="publish-date">March 20, 2024</span>
+                <span class="author">By Author Name</span>
+            </div>
+
+            <!-- Thumbnail -->
+            <img class="article-thumbnail" src="/blog/images/article-thumbnail.jpg" alt="Article thumbnail">
+
+            <!-- Content -->
+            <div class="article-body" id="content">
+                <!-- Content will be injected here -->
+                Loading article content...
+            </div>
+        </article>
     </main>
 
-    <footer>
-        <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
-        <a id="panicmode">Panic Mode</a>
-        <a href="/transfer.html">Transfer</a>
-        <a href="/suggest.html">Bug Reports</a>
-        <a href="/suggest.html">Suggestions</a>
-        <a href="/contact.html">Contact</a>
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
+            <a id="panicmode">Panic Mode</a>
+            <a href="/privacy.html">Privacy Policy</a>
+            <a href="/suggest.html">Bug Reports</a>
+            <a href="/suggest.html">Suggestions</a>
+            <a href="/contact.html">Contact</a>
+        </div>
     </footer>
+
+    <!-- Content Loader -->
+    <script>
+    // Get article data from URL
+    const slug = window.location.pathname.split('/')[2];
+    
+    // Load article content
+    $.get(`/blog/${slug}/content.html`)
+        .done(content => {
+            $('#content').html(content);
+        })
+        .fail(error => {
+            $('#content').html(`
+                <sl-alert variant="danger" open>
+                    <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                    Failed to load article content: ${error.statusText}
+                </sl-alert>
+            `);
+        });
+
+    // Theme management
+    document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
+    </script>
 </body>
 </html>
