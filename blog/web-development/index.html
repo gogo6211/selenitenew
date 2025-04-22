@@ -7,17 +7,14 @@
     
     <!-- Required Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/themes/dark.css" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/shoelace-autoloader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     
-    <!-- Site Styles -->
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/themes/dark.css" />
     <link rel="stylesheet" href="/blog.css">
     <link rel="stylesheet" href="/themes.css">
-    <link rel="stylesheet" 
-      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
-      integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" 
-      crossorigin="anonymous" 
-      referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
@@ -41,10 +38,7 @@
         </a>
 
         <article id="article-container">
-            <div class="loading-state">
-                <sl-spinner style="font-size: 2rem;"></sl-spinner>
-                <p>Loading article...</p>
-            </div>
+            <!-- Content loaded dynamically -->
         </article>
     </main>
 
@@ -64,64 +58,80 @@
         import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/utilities/base-path.js';
         setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/');
 
-        // Get article slug from URL
-        const slug = window.location.pathname.split('/')[2];
-        
+        // Load components
+        const loadComponents = async () => {
+            const components = await Promise.all([
+                import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/code-block/code-block.js'),
+                import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/alert/alert.js'),
+                import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/icon/icon.js'),
+                import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/tag/tag.js')
+            ]);
+
+            customElements.define('sl-code-block', components[0].SlCodeBlock);
+            customElements.define('sl-alert', components[1].SlAlert);
+            customElements.define('sl-icon', components[2].SlIcon);
+            customElements.define('sl-tag', components[3].SlTag);
+        };
+
         // Load article content
-        $.get(`/blog/${slug}/content.html`)
-            .done(async content => {
+        const loadArticle = async () => {
+            const slug = window.location.pathname.split('/')[2];
+            
+            try {
+                const response = await fetch(`/blog/${slug}/content.html`);
+                const content = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(content, 'text/html');
-                
+
                 // Extract metadata
                 const meta = JSON.parse(
                     doc.querySelector('script[type="application/article-meta"]').textContent
                 );
 
-                // Update page metadata
+                // Build article
+                const articleContent = doc.getElementById('article-content').innerHTML;
+                const customStyles = doc.querySelector('style')?.innerHTML || '';
+
                 document.title = `${meta.title} | Sodalite`;
-                
-                // Build article structure
-                const articleHTML = `
+                document.getElementById('article-container').innerHTML = `
                     ${meta.thumbnail ? `
                     <img class="article-thumbnail" 
                          src="${meta.thumbnail}" 
                          alt="${meta.thumbnailAlt || ''}">` : ''}
-
+                    
                     <div class="article-header">
-                        <h1 class="article-title">${meta.title}</h1>
-                        <div class="article-meta">
+                        <h1>${meta.title}</h1>
+                        <div class="meta">
                             ${meta.date ? `<span>${new Date(meta.date).toLocaleDateString()}</span>` : ''}
                             ${meta.author ? `<span>By ${meta.author}</span>` : ''}
-                            ${meta.tags ? `<div class="tags">${meta.tags.map(t => `<sl-tag>${t}</sl-tag>`).join('')}</div>` : ''}
+                            ${meta.tags?.map(tag => `<sl-tag>${tag}</sl-tag>`).join('') || ''}
                         </div>
                     </div>
-
+                    
                     <div class="article-body">
-                        ${doc.getElementById('article-content').innerHTML}
+                        ${articleContent}
                     </div>
+                    
+                    <style>
+                        ${customStyles}
+                        sl-code-block::part(base) {
+                            background: var(--uibg);
+                            border: 2px solid var(--inputborder);
+                            border-radius: 8px;
+                            margin: 2rem 0;
+                        }
+                        sl-code-block::part(header) {
+                            background: var(--inputbg);
+                            border-bottom: 2px solid var(--inputborder);
+                        }
+                    </style>
                 `;
 
-                $('#article-container').html(articleHTML);
+                // Apply syntax highlighting
+                Prism.highlightAll();
                 
-                // Dynamically import components
-                const { SlCodeBlock, SlTag, SlAlert, SlIcon, SpinnerIcon } = await Promise.all([
-                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/code-block/code-block.js'),
-                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/tag/tag.js'),
-                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/alert/alert.js'),
-                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/icon/icon.js'),
-                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/spinner/spinner.js')
-                ]);
-
-                // Register components
-                customElements.define('sl-code-block', SlCodeBlock);
-                customElements.define('sl-tag', SlTag);
-                customElements.define('sl-alert', SlAlert);
-                customElements.define('sl-icon', SlIcon);
-                customElements.define('sl-spinner', SpinnerIcon);
-
                 // Add structured data
-                const structuredData = {
+                const ldJson = {
                     "@context": "https://schema.org",
                     "@type": "Article",
                     "headline": meta.title,
@@ -133,20 +143,22 @@
                 
                 const script = document.createElement('script');
                 script.type = 'application/ld+json';
-                script.textContent = JSON.stringify(structuredData);
+                script.textContent = JSON.stringify(ldJson);
                 document.head.appendChild(script);
-            })
-            .fail(error => {
-                $('#article-container').html(`
+
+            } catch (error) {
+                document.getElementById('article-container').innerHTML = `
                     <sl-alert variant="danger" open>
                         <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
-                        Failed to load article: ${error.statusText}
+                        Error loading article: ${error.message}
                     </sl-alert>
-                `);
-            });
+                `;
+            }
+        };
 
-        // Apply theme
+        // Initialize
         document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
+        loadComponents().then(loadArticle);
     </script>
 </body>
 </html>

@@ -1,134 +1,75 @@
 <!-- ARTICLE METADATA -->
 <script type="application/article-meta">
     {
-        "title": "JavaScript Fundamentals",
+        "title": "Advanced JavaScript Techniques",
         "author": "Code Master",
         "date": "2024-03-20",
-        "thumbnail": "/blog/images/js-code.jpg",
-        "thumbnailAlt": "JavaScript code example",
-        "tags": ["JavaScript", "Programming"],
-        "excerpt": "Learn basic JavaScript concepts"
+        "thumbnail": "/blog/images/js-article.jpg",
+        "thumbnailAlt": "JavaScript code example visualization",
+        "tags": ["JavaScript", "Web Development", "Programming"]
     }
     </script>
     
     <!-- ARTICLE CONTENT -->
     <div id="article-content">
-        <h2>Basic Syntax</h2>
-        <p>Here's a simple function:</p>
-    
-        <sl-code-block language="javascript" style="margin: 2rem 0; --sl-font-mono: 'Fira Code', monospace;">
-            // Function declaration
-            function greet(name) {
-                return `Hello, ${name}!`;
-            }
+        <h2>Modern ES6 Features</h2>
+        
+        <sl-code-block language="javascript">
+            // Arrow functions
+            const add = (a, b) => a + b;
             
-            // Arrow function with default parameter
-            const add = (a = 0, b = 0) => a + b;
-            
-            // Class example
+            // Class syntax
             class Person {
                 constructor(name) {
                     this.name = name;
                 }
                 
-                sayHello() {
-                    console.log(greet(this.name));
+                greet() {
+                    console.log(`Hello, ${this.name}!`);
                 }
             }
-        </sl-code-block>
-    
-        <h3>DOM Manipulation</h3>
-        <p>Event listener example:</p>
-    
-        <sl-code-block language="javascript" style="margin: 2rem 0;">
-            document.querySelector('#myButton').addEventListener('click', () => {
-                const element = document.createElement('div');
-                element.textContent = 'Button clicked!';
-                element.classList.add('notification');
-                document.body.appendChild(element);
-            });
+            
+            // Template literals
+            const message = `User ${user.name} logged in at ${new Date().toLocaleTimeString()}`;
         </sl-code-block>
     
         <div class="custom-warning">
             <sl-alert variant="warning" open>
                 <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
-                Remember to handle errors properly in your code!
+                Always handle errors in asynchronous code!
             </sl-alert>
         </div>
     
-        <sl-code-block language="html" style="margin: 2rem 0;">
-            <!-- HTML Example -->
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <title>Demo Page</title>
-                <style>
-                    .notification {
-                        padding: 1rem;
-                        background: var(--uibg);
-                        border: 2px solid var(--inputborder);
-                    }
-                </style>
-            </head>
-            <body>
-                <button id="myButton">Click Me</button>
-            </body>
-            </html>
-        </sl-code-block>
+        <h3>Best Practices</h3>
+        <ul>
+            <li>Use const/let instead of var</li>
+            <li>Implement proper error handling</li>
+            <li>Follow semantic versioning</li>
+        </ul>
+    
+        <img src="/blog/images/code-quality.jpg" 
+             alt="Code quality metrics" 
+             class="content-image">
+    
+        <blockquote>
+            <p>"Any fool can write code that a computer can understand. 
+            Good programmers write code that humans can understand."</p>
+            <cite>- Martin Fowler</cite>
+        </blockquote>
     </div>
     
     <style>
-    /* Code Block Styling */
-    sl-code-block {
-        --sl-color-primary-600: var(--inputborder);
-        --sl-color-neutral-200: var(--inputborder);
-        --sl-color-neutral-0: var(--uibg);
-        --sl-color-neutral-100: var(--inputbg);
-        
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        margin: 2rem 0;
-    }
-    
-    sl-code-block::part(base) {
-        background: var(--uibg);
-        border: 2px solid var(--inputborder);
-    }
-    
-    sl-code-block::part(header) {
-        background: var(--inputbg);
-        border-bottom: 2px solid var(--inputborder);
-        padding: 0.5rem 1rem;
-    }
-    
-    sl-code-block::part(pre) {
-        padding: 1.5rem;
-        margin: 0;
-        background: var(--uibg) !important;
-    }
-    
-    sl-code-block::part(code) {
-        font-family: 'Fira Code', monospace;
-        font-size: 0.9rem;
-    }
-    
-    /* Custom warning styling */
-    .custom-warning {
-        margin: 2rem 0;
-        sl-alert::part(base) {
-            background: var(--inputbg);
-            border: 2px solid var(--inputborder);
-        }
-    }
-    
-    /* Responsive images */
+    /* Custom article styles */
     .content-image {
         max-width: 100%;
-        height: auto;
-        margin: 1.5rem 0;
-        border-radius: 8px;
-        border: 2px solid var(--inputborder);
+        border-radius: 12px;
+        border: 3px solid var(--inputborder);
+        margin: 2rem 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .custom-warning {
+        margin: 2.5rem 0;
     }
     
     blockquote {
@@ -136,19 +77,18 @@
         margin: 2rem 0;
         background: var(--inputbg);
         border-left: 4px solid var(--inputborder);
-        border-radius: 4px;
+        border-radius: 8px;
+        font-style: italic;
     }
     
-    @media (max-width: 768px) {
-        sl-code-block {
-            border-radius: 6px;
-            margin: 1.5rem -1rem;
-            width: calc(100% + 2rem);
-        }
-        
-        sl-code-block::part(pre) {
-            padding: 1rem;
-            overflow-x: auto;
-        }
+    sl-code-block {
+        --sl-font-mono: 'Fira Code', monospace;
+        font-size: 0.9rem;
+    }
+    
+    .article-header h1 {
+        font-size: 2.5rem;
+        color: var(--textcolor);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
     </style>
