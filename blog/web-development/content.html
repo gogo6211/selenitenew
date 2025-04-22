@@ -1,57 +1,154 @@
 <!-- ARTICLE METADATA -->
 <script type="application/article-meta">
     {
-        "title": "Your Article Title",
-        "author": "Author Name",
+        "title": "JavaScript Fundamentals",
+        "author": "Code Master",
         "date": "2024-03-20",
-        "thumbnail": "/blog/images/your-image.jpg",
-        "thumbnailAlt": "Description of image",
-        "tags": ["Technology", "Web Development"],
-        "excerpt": "Brief summary of your article"
+        "thumbnail": "/blog/images/js-code.jpg",
+        "thumbnailAlt": "JavaScript code example",
+        "tags": ["JavaScript", "Programming"],
+        "excerpt": "Learn basic JavaScript concepts"
     }
     </script>
     
     <!-- ARTICLE CONTENT -->
     <div id="article-content">
-        <h2>Main Section</h2>
-        <p>Start your content here...</p>
+        <h2>Basic Syntax</h2>
+        <p>Here's a simple function:</p>
     
-        <sl-code-block language="javascript">
-            // Example code block
-            function example() {
-                console.log("Hello World!");
+        <sl-code-block language="javascript" style="margin: 2rem 0; --sl-font-mono: 'Fira Code', monospace;">
+            // Function declaration
+            function greet(name) {
+                return `Hello, ${name}!`;
+            }
+            
+            // Arrow function with default parameter
+            const add = (a = 0, b = 0) => a + b;
+            
+            // Class example
+            class Person {
+                constructor(name) {
+                    this.name = name;
+                }
+                
+                sayHello() {
+                    console.log(greet(this.name));
+                }
             }
         </sl-code-block>
     
-        <h3>Subsection</h3>
-        <p>More content with <sl-tag>tags</sl-tag></p>
+        <h3>DOM Manipulation</h3>
+        <p>Event listener example:</p>
     
-        <sl-alert variant="primary" open>
-            <sl-icon slot="icon" name="info-circle"></sl-icon>
-            Important note for readers
-        </sl-alert>
+        <sl-code-block language="javascript" style="margin: 2rem 0;">
+            document.querySelector('#myButton').addEventListener('click', () => {
+                const element = document.createElement('div');
+                element.textContent = 'Button clicked!';
+                element.classList.add('notification');
+                document.body.appendChild(element);
+            });
+        </sl-code-block>
     
-        <h4>Image Example</h4>
-        <img src="/blog/images/demo.jpg" 
-             alt="Demo image" 
-             class="content-image">
+        <div class="custom-warning">
+            <sl-alert variant="warning" open>
+                <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+                Remember to handle errors properly in your code!
+            </sl-alert>
+        </div>
+    
+        <sl-code-block language="html" style="margin: 2rem 0;">
+            <!-- HTML Example -->
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <title>Demo Page</title>
+                <style>
+                    .notification {
+                        padding: 1rem;
+                        background: var(--uibg);
+                        border: 2px solid var(--inputborder);
+                    }
+                </style>
+            </head>
+            <body>
+                <button id="myButton">Click Me</button>
+            </body>
+            </html>
+        </sl-code-block>
     </div>
     
     <style>
-    /* Custom article styles */
-    .content-image {
-        max-width: 80%;
-        margin: 1rem auto;
-        border-radius: 10px;
+    /* Code Block Styling */
+    sl-code-block {
+        --sl-color-primary-600: var(--inputborder);
+        --sl-color-neutral-200: var(--inputborder);
+        --sl-color-neutral-0: var(--uibg);
+        --sl-color-neutral-100: var(--inputbg);
+        
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        margin: 2rem 0;
+    }
+    
+    sl-code-block::part(base) {
+        background: var(--uibg);
         border: 2px solid var(--inputborder);
     }
     
-    sl-code-block {
-        margin: 1.5rem 0;
-        --sl-font-mono: 'Fira Code', monospace;
+    sl-code-block::part(header) {
+        background: var(--inputbg);
+        border-bottom: 2px solid var(--inputborder);
+        padding: 0.5rem 1rem;
     }
     
-    sl-alert {
+    sl-code-block::part(pre) {
+        padding: 1.5rem;
+        margin: 0;
+        background: var(--uibg) !important;
+    }
+    
+    sl-code-block::part(code) {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.9rem;
+    }
+    
+    /* Custom warning styling */
+    .custom-warning {
+        margin: 2rem 0;
+        sl-alert::part(base) {
+            background: var(--inputbg);
+            border: 2px solid var(--inputborder);
+        }
+    }
+    
+    /* Responsive images */
+    .content-image {
+        max-width: 100%;
+        height: auto;
         margin: 1.5rem 0;
+        border-radius: 8px;
+        border: 2px solid var(--inputborder);
+    }
+    
+    blockquote {
+        padding: 1.5rem;
+        margin: 2rem 0;
+        background: var(--inputbg);
+        border-left: 4px solid var(--inputborder);
+        border-radius: 4px;
+    }
+    
+    @media (max-width: 768px) {
+        sl-code-block {
+            border-radius: 6px;
+            margin: 1.5rem -1rem;
+            width: calc(100% + 2rem);
+        }
+        
+        sl-code-block::part(pre) {
+            padding: 1rem;
+            overflow-x: auto;
+        }
     }
     </style>
