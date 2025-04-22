@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Title will be set dynamically -->
     <title>Loading Article... | Sodalite</title>
     
     <!-- Required Scripts -->
@@ -19,7 +18,14 @@
     <!-- Header -->
     <header>
         <nav class="main-nav">
-            <!-- Keep your existing navigation links -->
+            <a href="/index.html">Home</a>
+            <a href="/bookmarklets.html">Bookmarklets</a>
+            <a href="/projects.html">Games</a>
+            <a href="/blog.html">Blog</a>
+            <a href="/settings.html">Settings</a>
+            <a href="https://piranha-a81.pages.dev/">Proxy</a>
+            <a id="blank" href="#">Open Blank</a>
+            <a href="/about.html">About</a>
         </nav>
     </header>
 
@@ -30,7 +36,6 @@
         </a>
 
         <article id="article-container">
-            <!-- Content will be loaded here -->
             <div class="loading-state">
                 <sl-spinner style="font-size: 2rem;"></sl-spinner>
                 <p>Loading article...</p>
@@ -40,14 +45,20 @@
 
     <!-- Footer -->
     <footer class="main-footer">
-        <!-- Keep your existing footer -->
+        <div class="footer-content">
+            <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
+            <a id="panicmode">Panic Mode</a>
+            <a href="/privacy.html">Privacy Policy</a>
+            <a href="/suggest.html">Bug Reports</a>
+            <a href="/suggest.html">Suggestions</a>
+            <a href="/contact.html">Contact</a>
+        </div>
     </footer>
 
     <script type="module">
-        // Import Shoelace components properly
         import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/utilities/base-path.js';
         setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/');
-    
+
         // Get article slug from URL
         const slug = window.location.pathname.split('/')[2];
         
@@ -61,7 +72,7 @@
                 const meta = JSON.parse(
                     doc.querySelector('script[type="application/article-meta"]').textContent
                 );
-    
+
                 // Update page metadata
                 document.title = `${meta.title} | Sodalite`;
                 
@@ -71,7 +82,7 @@
                     <img class="article-thumbnail" 
                          src="${meta.thumbnail}" 
                          alt="${meta.thumbnailAlt || ''}">` : ''}
-    
+
                     <div class="article-header">
                         <h1 class="article-title">${meta.title}</h1>
                         <div class="article-meta">
@@ -80,18 +91,30 @@
                             ${meta.tags ? `<div class="tags">${meta.tags.map(t => `<sl-tag>${t}</sl-tag>`).join('')}</div>` : ''}
                         </div>
                     </div>
-    
+
                     <div class="article-body">
                         ${doc.getElementById('article-content').innerHTML}
                     </div>
                 `;
-    
+
                 $('#article-container').html(articleHTML);
                 
-                // Dynamically import code block component
-                const { SlCodeBlock } = await import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/code-block/code-block.js');
+                // Dynamically import components
+                const { SlCodeBlock, SlTag, SlAlert, SlIcon, SpinnerIcon } = await Promise.all([
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/code-block/code-block.js'),
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/tag/tag.js'),
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/alert/alert.js'),
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/icon/icon.js'),
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/spinner/spinner.js')
+                ]);
+
+                // Register components
                 customElements.define('sl-code-block', SlCodeBlock);
-                
+                customElements.define('sl-tag', SlTag);
+                customElements.define('sl-alert', SlAlert);
+                customElements.define('sl-icon', SlIcon);
+                customElements.define('sl-spinner', SpinnerIcon);
+
                 // Add structured data
                 const structuredData = {
                     "@context": "https://schema.org",
@@ -116,7 +139,7 @@
                     </sl-alert>
                 `);
             });
-    
+
         // Apply theme
         document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
     </script>
