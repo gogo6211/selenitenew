@@ -1,37 +1,67 @@
 <!DOCTYPE html>
 <html class="sl-theme-dark" lang="en">
 <head>
-    <!-- Same head content as blog.html -->
-    <title>Getting Started with Web Development | Sodalite</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <link rel="stylesheet" href="/blog.css" />
     <link rel="stylesheet" href="/themes.css" />
+    <title>Getting Started with Web Development | Sodalite</title>
 </head>
 <body>
     <header>
-        <!-- Same header as blog.html -->
+        <nav>
+            <a href="/index.html">Home</a>
+			<a href="/bookmarklets.html">Bookmarklets</a>
+			<a href="/projects.html">Games</a>
+			<a href="/settings.html">Settings</a>
+			<a href="https://piranha-a81.pages.dev/">Proxy</a>
+			<a id="blank" href="#">Open Blank</a>
+			<a href="/about.html">About</a>
+        </nav>
     </header>
+
     <main class="article-content">
-        <button onclick="history.back()">← Back to Articles</button>
+        <a href="/blog.html" class="back-button">
+            <sl-icon name="arrow-left"></sl-icon> Back to Articles
+        </a>
+
         <h1>Getting Started with Web Development</h1>
-        <div class="meta">
-            <span>Posted: March 15, 2024</span>
-            <span>Author: Sodalite Team</span>
+        
+        <div class="article-meta">
+            March 15, 2024 • Sodalite Team
         </div>
-        <img class="hero" src="/blog/images/webdev.jpg" alt="Web Development">
-        <div id="content">
-            <!-- Content loaded from external file -->
-            Loading article content...
+
+        <img class="article-thumbnail" src="/blog/images/webdev.jpg" alt="Web Development">
+
+        <div class="article-body">
+            <!-- Your full article content here -->
+            <h2>Introduction</h2>
+            <p>Web development is the process of building websites and web applications...</p>
+            
+            <h2>HTML Basics</h2>
+            <p>HTML provides the structure for web pages...</p>
+            
+            <sl-code-block language="html">
+                &lt;!DOCTYPE html&gt;
+                &lt;html&gt;
+                &lt;head&gt;
+                    &lt;title&gt;Page Title&lt;/title&gt;
+                &lt;/head&gt;
+                &lt;body&gt;
+                    &lt;h1&gt;My First Heading&lt;/h1&gt;
+                    &lt;p&gt;My first paragraph.&lt;/p&gt;
+                &lt;/body&gt;
+                &lt;/html&gt;
+            </sl-code-block>
         </div>
     </main>
+
     <footer>
-        <!-- Same footer as blog.html -->
+        <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
+        <a id="panicmode">Panic Mode</a>
+        <a href="/transfer.html">Transfer</a>
+        <a href="/suggest.html">Bug Reports</a>
+        <a href="/suggest.html">Suggestions</a>
+        <a href="/contact.html">Contact</a>
     </footer>
-    
-    <script>
-        // Load article content
-        $.get("/blog/web-dev-start/content.html", function(data) {
-            $("#content").html(data);
-        });
-    </script>
 </body>
 </html>

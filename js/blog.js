@@ -1,149 +1,82 @@
-let articleList = [];
+let articles = [];
 
-$(document).ready(function() {
-    $.getJSON("/articles.json", function(data) {
-        if (document.readyState === "complete") {
-            loadArticles(data);
-        } else {
-            let checkReady = setInterval(() => {
-                if (document.readyState === "complete") {
-                    loadArticles(data);
-                    clearInterval(checkReady);
-                }
-            }, 50);
-        }
-    }).fail(function(jqxhr, textStatus, error) {
-        console.error("Error loading articles:", textStatus, error);
-    });
+$(document).ready(() => {
+    loadArticles().catch(handleLoadError);
 });
 
-function loadArticles(data) {
+async function loadArticles() {
     try {
-        // Get pinned articles from cookie
-        let pinnedArticles = [];
-        try {
-            pinnedArticles = Cookies.get("pinned-articles") 
-                ? JSON.parse(Cookies.get("pinned-articles")) 
-                : [];
-        } catch (e) {
-            console.error("Error parsing pinned articles cookie:", e);
-        }
-
-        // Store sorted articles
-        articleList = data.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const response = await fetch('/articles.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
-        // Update search placeholder
-        $("#blogsearch").prop("placeholder", `Search ${data.length} articles...`);
-        $("#articles").empty().remove("#loading-message");
-
-        // Create article elements
-        articleList.forEach(article => {
-            if (!article.path) {
-                console.warn("Article missing path:", article.slug);
-                return;
-            }
-
-            const $article = $("<div>")
-                .addClass("article")
-                .attr("id", article.slug)
-                .data("article-data", article) // Store full article data
-                .append(
-                    $("<img>").addClass("thumbnail")
-                        .prop({ src: article.thumbnail, alt: article.title }),
-                    $("<h1>").text(article.title),
-                    $("<div>").addClass("excerpt").text(article.excerpt),
-                    $("<div>").addClass("meta").html(`
-                        <span>Posted: ${new Date(article.date).toLocaleDateString()}</span>
-                        <span>Author: ${article.author}</span>
-                    `),
-                    $("<img>").addClass("star")
-                        .prop({ src: "img/star.svg", alt: "Pin article" })
-                );
-
-            // Handle pinned state
-            if (pinnedArticles.includes(article.slug)) {
-                $article.find(".star").attr("src", "img/star-fill.svg");
-                $("#pinned-articles").append($article.clone(true));
-                $("#pinnedmessage").hide();
-            }
-
-            $("#articles").append($article);
-        });
-
-        // Search functionality
-        $("#blogsearch").on("input", function() {
-            const query = $(this).val().trim().toLowerCase();
-            $(".article").each(function() {
-                const $art = $(this);
-                const text = $art.text().toLowerCase();
-                const match = text.includes(query);
-                $art.toggle(match);
-            });
-        });
-
-        // Star click handler
-        $(document).on("click", ".star", function(e) {
-            e.stopPropagation();
-            const $article = $(this).closest(".article");
-            const slug = $article.attr("id");
-            const article = articleList.find(a => a.slug === slug);
-            
-            if (!article) return;
-
-            let pinned = Cookies.get("pinned-articles") 
-                ? JSON.parse(Cookies.get("pinned-articles"))
-                : [];
-
-            if (pinned.includes(slug)) {
-                // Remove from pinned
-                pinned = pinned.filter(s => s !== slug);
-                $(this).attr("src", "img/star.svg");
-                $(`#pinned-articles #${slug}`).remove();
-            } else {
-                // Add to pinned
-                pinned.push(slug);
-                $(this).attr("src", "img/star-fill.svg");
-                $("#pinned-articles").append($article.clone(true));
-            }
-
-            Cookies.set("pinned-articles", JSON.stringify(pinned), { 
-                expires: 180,
-                secure: true,
-                sameSite: 'lax'
-            });
-            
-            if ($("#pinned-articles").children().length === 0) {
-                $("#pinnedmessage").show();
-            }
-        });
-
-        // Article click handler
-        $(document).on("click", ".article", function() {
-            const article = $(this).data("article-data");
-            if (article?.path) {
-                window.location.href = article.path;
-            } else {
-                console.error("Article path missing for:", article?.slug);
-            }
-        });
-
+        articles = await response.json();
+        articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        renderArticles();
+        initSearch();
+        $('#articles').addClass('loaded');
     } catch (error) {
-        console.error("Error loading articles:", error);
-        $("#articles").html("<p>Error loading articles. Please try again later.</p>");
+        throw error;
     }
 }
 
-function selectRandomArticle() {
-    if (articleList.length === 0) {
-        alert("No articles available!");
+function renderArticles() {
+    const container = $('#articles').empty();
+    
+    if (articles.length === 0) {
+        container.html(`
+            <div class="no-articles">
+                <sl-icon name="journal-x" style="font-size: 3rem;"></sl-icon>
+                <p>No articles found</p>
+            </div>
+        `);
         return;
     }
-    
-    const article = articleList[Math.floor(Math.random() * articleList.length)];
-    if (article?.path) {
-        window.location.href = article.path;
-    } else {
-        console.error("Random article missing path:", article.slug);
-        alert("Error selecting random article!");
-    }
+
+    articles.forEach(article => {
+        const card = `
+            <div class="article-card" data-slug="${article.slug}">
+                ${article.thumbnail ? `
+                <img class="article-thumbnail" 
+                     src="${article.thumbnail}" 
+                     alt="${article.title}">` : ''}
+                <h2 class="article-title">${article.title}</h2>
+                <div class="article-meta">
+                    <span>${new Date(article.date).toLocaleDateString()}</span>
+                    <span>•</span>
+                    <span>${article.author}</span>
+                </div>
+                <div class="article-excerpt">${article.excerpt}</div>
+            </div>
+        `;
+        container.append(card);
+    });
+
+    $('.article-card').on('click', function() {
+        const slug = $(this).data('slug');
+        const article = articles.find(a => a.slug === slug);
+        if (article?.path) window.location.href = article.path;
+    });
+}
+
+function initSearch() {
+    $('#blogsearch').on('input', function() {
+        const query = $(this).val().toLowerCase();
+        $('.article-card').each(function() {
+            const text = $(this).text().toLowerCase();
+            $(this).toggle(text.includes(query));
+        });
+    });
+}
+
+function handleLoadError(error) {
+    console.error('Article load failed:', error);
+    $('#articles').html(`
+        <div class="error-state">
+            <sl-alert variant="danger" open>
+                <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                Failed to load articles: ${error.message}
+            </sl-alert>
+        </div>
+    `);
 }

@@ -1,12 +1,20 @@
 [
     {
-        "title": "Web Development Guide",
+        "title": "Web Development Masterclass",
         "slug": "web-dev",
-        "path": "/blog/web-development-guide/",
-        "date": "2024-03-15",
+        "path": "/blog/web-development/",
+        "date": "2024-03-20",
         "author": "Sodalite Team",
-        "excerpt": "Learn web development...",
-        "thumbnail": "/blog/images/webdev.jpg",
-        "content": "content.html"
+        "excerpt": "Complete guide to modern web development practices...",
+        "thumbnail": "/blog/images/webdev.jpg"
+    },
+    {
+        "title": "Future of Browser Gaming",
+        "slug": "future-gaming",
+        "path": "/blog/future-gaming/",
+        "date": "2024-03-18",
+        "author": "GameMaster",
+        "excerpt": "Next-gen gaming technologies in the browser...",
+        "thumbnail": "/blog/images/gaming.jpg"
     }
 ]
