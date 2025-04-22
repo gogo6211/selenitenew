@@ -2,27 +2,16 @@ let articles = [];
 
 $(document).ready(() => {
     loadArticles().catch(handleLoadError);
-    
-    // Remove the interval check since it's causing errors
-    // interval = setInterval(check, 1000);
 });
 
 async function loadArticles() {
     try {
-        $('#articles').html(`
-            <div class="loading-state">
-                <sl-spinner style="font-size: 2rem;"></sl-spinner>
-                <p>Loading articles...</p>
-            </div>
-        `);
-
         const response = await fetch('/articles.json');
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        if (!response.ok) throw new Error(`HTTP error! ${response.status}`);
         
         articles = await response.json();
         if (!Array.isArray(articles)) throw new Error('Invalid articles format');
         
-        articles.sort((a, b) => new Date(b.date) - new Date(a.date));
         renderArticles();
         initSearch();
 
