@@ -1,16 +1,14 @@
 let articles = [];
 
 $(document).ready(() => {
-    // Initialize blog functionality
-    loadArticles();
+    loadArticles().catch(handleLoadError);
     
-    // Set up periodic check (matches your existing pattern)
-    interval = setInterval(check, 1000);
+    // Remove the interval check since it's causing errors
+    // interval = setInterval(check, 1000);
 });
 
 async function loadArticles() {
     try {
-        // Show loading state
         $('#articles').html(`
             <div class="loading-state">
                 <sl-spinner style="font-size: 2rem;"></sl-spinner>
@@ -18,14 +16,12 @@ async function loadArticles() {
             </div>
         `);
 
-        // Load articles
         const response = await fetch('/articles.json');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
         articles = await response.json();
         if (!Array.isArray(articles)) throw new Error('Invalid articles format');
         
-        // Process articles
         articles.sort((a, b) => new Date(b.date) - new Date(a.date));
         renderArticles();
         initSearch();
@@ -34,6 +30,7 @@ async function loadArticles() {
         handleLoadError(error);
     }
 }
+
 
 function renderArticles() {
     const container = $('#articles').empty();

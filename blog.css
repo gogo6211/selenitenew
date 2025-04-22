@@ -1,3 +1,12 @@
+:root {
+    --bg: #10002b;
+    --uibg: #240046;
+    --inputbg: #3c096c;
+    --inputborder: #5a189a;
+    --textcolor: #ffffff;
+    --shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
 @import url('/style.css');
 
 body {
