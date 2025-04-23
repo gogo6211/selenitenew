@@ -16,6 +16,10 @@
       const articles = await res.json();
   
       const container = document.getElementById('articles');
+      // Remove loading state if present
+      const loading = container.querySelector('.loading-state');
+      if (loading) loading.remove();
+  
       if (!articles.length) {
         container.innerHTML = `<p>No articles found.</p>`;
         return;
@@ -45,7 +49,11 @@
       });
   
     } catch (err) {
-      document.getElementById('articles').innerHTML =
+      const container = document.getElementById('articles');
+      // Remove loading state if present
+      const loading = container.querySelector('.loading-state');
+      if (loading) loading.remove();
+      container.innerHTML =
         `<p class="error">Failed to load articles: ${err.message}</p>`;
     }
   }
