@@ -10,14 +10,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     
     <!-- Styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/themes/dark.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/themes/dark.css" />
     <link rel="stylesheet" href="/blog.css">
     <link rel="stylesheet" href="/themes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header -->
     <header>
         <nav class="main-nav">
             <a href="/index.html">Home</a>
@@ -31,18 +30,14 @@
         </nav>
     </header>
 
-    <!-- Main Content -->
     <main class="article-content">
         <a href="/blog.html" class="back-button">
             <sl-icon name="arrow-left"></sl-icon> Back to Articles
         </a>
 
-        <article id="article-container">
-            <!-- Content loaded dynamically -->
-        </article>
+        <article id="article-container"></article>
     </main>
 
-    <!-- Footer -->
     <footer class="main-footer">
         <div class="footer-content">
             <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
@@ -54,34 +49,70 @@
         </div>
     </footer>
 
+    <!-- Fixed Component Loading -->
     <script type="module">
         import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/utilities/base-path.js';
         import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/code-block/code-block.js';
         import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/alert/alert.js';
         import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/icon/icon.js';
         import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/tag/tag.js';
-    
-        // Set base path for icons
+
         setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist');
-    
-        // Load article content
-        const loadArticle = async () => {
+
+        async function loadArticleContent() {
             try {
-                const slug = window.location.pathname.split('/')[2];
+                const slug = window.location.pathname.split('/blog/')[1].split('/')[0];
                 const response = await fetch(`/blog/${slug}/content.html`);
+                
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                
                 const content = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(content, 'text/html');
-    
-                // Rest of your existing loadArticle code
-                // ... (keep your existing meta extraction and content loading logic)
+                const metaScript = doc.querySelector('script[type="application/article-meta"]');
+                const articleContent = doc.getElementById('article-content');
+
+                if (!metaScript || !articleContent) throw new Error('Invalid article format');
+
+                const meta = JSON.parse(metaScript.textContent);
+                const customStyles = doc.querySelector('style')?.innerHTML || '';
+
+                document.getElementById('article-container').innerHTML = `
+                    ${meta.thumbnail ? `<img class="article-thumbnail" src="${meta.thumbnail}" alt="${meta.thumbnailAlt || ''}">` : ''}
+                    <div class="article-header">
+                        <h1>${meta.title}</h1>
+                        <div class="meta">
+                            ${meta.date ? `<span>${new Date(meta.date).toLocaleDateString()}</span>` : ''}
+                            ${meta.author ? `<span>By ${meta.author}</span>` : ''}
+                            ${meta.tags?.map(tag => `<sl-tag>${tag}</sl-tag>`).join('') || ''}
+                        </div>
+                    </div>
+                    <div class="article-body">${articleContent.innerHTML}</div>
+                    <style>
+                        ${customStyles}
+                        sl-code-block {
+                            --sl-font-mono: 'Fira Code', monospace;
+                            margin: 2rem 0;
+                        }
+                    </style>
+                `;
+
+                Prism.highlightAll();
+                document.title = `${meta.title} | Sodalite`;
+
             } catch (error) {
-                console.error('Error loading article:', error);
+                document.getElementById('article-container').innerHTML = `
+                    <sl-alert variant="danger" open>
+                        <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                        Error loading article: ${error.message}
+                    </sl-alert>
+                `;
             }
-        };
-    
+        }
+
+        // Initialize
         document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
-        loadArticle();
+        loadArticleContent();
     </script>
 </body>
 </html>

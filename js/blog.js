@@ -1,11 +1,10 @@
 let articles = [];
 
 $(document).ready(() => {
-    // Check if we're on an article page or listing
-    if (window.location.pathname.startsWith('/blog/') {
+    if (window.location.pathname.startsWith('/blog/')) {
         const pathParts = window.location.pathname.split('/');
-        if (pathParts.length > 2) {
-            loadArticle();
+        if (pathParts.length > 2 && pathParts[2] !== '') {
+            // Article page - content will load via its own script
         } else {
             loadArticles().catch(handleLoadError);
         }
@@ -18,13 +17,17 @@ async function loadArticles() {
     try {
         const response = await fetch('/articles.json');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        
         articles = await response.json();
         
-        // Add proper paths to articles
-        articles = articles.map(article => ({
-            ...article,
-            path: `/blog/${article.slug}/`
-        }));
+        // Verify and normalize article paths
+        articles = articles.map(article => {
+            if (!article.slug) throw new Error('Article missing slug');
+            return {
+                ...article,
+                path: `/blog/${article.slug}/`
+            };
+        });
         
         renderArticles();
         initSearch();
@@ -32,6 +35,8 @@ async function loadArticles() {
         handleLoadError(error);
     }
 }
+
+// Keep your existing renderArticles, initSearch, handleLoadError functions
 
 function renderArticles() {
     const container = $('#articles').empty();
