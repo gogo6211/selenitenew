@@ -59,63 +59,48 @@
 
         setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist');
 
-      // Replace the existing loadArticleContent function with this
-async function loadArticleContent() {
-    try {
-        const slug = window.location.pathname.split('/blog/')[1].split('/')[0];
-        console.log('Loading article:', slug);
+        async function loadArticleContent() {
+            try {
+                const slug = window.location.pathname.split('/blog/')[1]?.split('/')[0];
+                if (!slug) throw new Error('Invalid URL structure: Missing slug');
 
-        // 1. Load content
-        const response = await fetch(`/blog/${slug}/content.html`);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        
-        // 2. Parse content
-        const content = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(content, 'text/html');
+                const response = await fetch(`/blog/${slug}/content.html`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}: Failed to fetch content`);
 
-        // 3. Verify required elements
-        const metaScript = doc.querySelector('script[type="application/article-meta"]');
-        const articleContent = doc.getElementById('article-content');
-        if (!metaScript || !articleContent) throw new Error('Invalid article format');
+                const content = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(content, 'text/html');
 
-        // 4. Apply to page
-        const meta = JSON.parse(metaScript.textContent);
-        document.getElementById('article-container').innerHTML = `
-            ${meta.thumbnail ? `
-            <img class="article-thumbnail" 
-                 src="${meta.thumbnail}" 
-                 alt="${meta.thumbnailAlt || ''}">` : ''}
-            
-            <div class="article-header">
-                <h1>${meta.title}</h1>
-                <div class="meta">
-                    ${meta.date ? `<span>${new Date(meta.date).toLocaleDateString()}</span>` : ''}
-                    ${meta.author ? `<span>By ${meta.author}</span>` : ''}
-                    ${meta.tags?.map(tag => `<sl-tag>${tag}</sl-tag>`).join('') || ''}
-                </div>
-            </div>
-            
-            <div class="article-body">
-                ${articleContent.innerHTML}
-            </div>
-        `;
+                const metaScript = doc.querySelector('script[type="application/article-meta"]');
+                const articleContent = doc.getElementById('article-content');
+                if (!metaScript || !articleContent) throw new Error('Invalid article format: Missing metadata or content');
 
-        // 5. Initialize components
-        await customElements.whenDefined('sl-code-block');
-        Prism.highlightAll();
-        document.title = `${meta.title} | Sodalite`;
+                const meta = JSON.parse(metaScript.textContent);
+                document.getElementById('article-container').innerHTML = `
+                    ${meta.thumbnail ? `<img class="article-thumbnail" src="${meta.thumbnail}" alt="${meta.thumbnailAlt || ''}">` : ''}
+                    <div class="article-header">
+                        <h1>${meta.title}</h1>
+                        <div class="meta">
+                            ${meta.date ? `<span>${new Date(meta.date).toLocaleDateString()}</span>` : ''}
+                            ${meta.author ? `<span>By ${meta.author}</span>` : ''}
+                            ${meta.tags?.map(tag => `<sl-tag>${tag}</sl-tag>`).join('') || ''}
+                        </div>
+                    </div>
+                    <div class="article-body">${articleContent.innerHTML}</div>
+                `;
 
-    } catch (error) {
-        console.error('Article load failed:', error);
-        document.getElementById('article-container').innerHTML = `
-            <sl-alert variant="danger" open>
-                <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
-                Failed to load article: ${error.message}
-            </sl-alert>
-        `;
-    }
-}
+                Prism.highlightAll();
+                document.title = `${meta.title} | Sodalite`;
+            } catch (error) {
+                console.error('Article load failed:', error);
+                document.getElementById('article-container').innerHTML = `
+                    <sl-alert variant="danger" open>
+                        <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                        Failed to load article: ${error.message}
+                    </sl-alert>
+                `;
+            }
+        }
 
         // Initialize
         document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
