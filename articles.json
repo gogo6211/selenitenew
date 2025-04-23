@@ -3,18 +3,18 @@
         "title": "Web Development Masterclass",
         "slug": "web-dev",
         "path": "/blog/web-development/",
-        "date": "2024-03-20",
-        "author": "Sodalite Team",
-        "excerpt": "Complete guide to modern web development practices...",
-        "thumbnail": "/blog/images/webdev.jpg"
+        "date": "2024-04-22",
+        "author": "gogogogo621",
+        "excerpt": "Complete test to modern web development practices...",
+        "thumbnail": "/blog/images/webdev.png"
     },
     {
-        "title": "Future of Browser Gaming",
-        "slug": "future-gaming",
+        "title": "So how does a test work?",
+        "slug": "future-test",
         "path": "/blog/future-gaming/",
-        "date": "2024-03-18",
-        "author": "GameMaster",
-        "excerpt": "Next-gen gaming technologies in the browser...",
-        "thumbnail": "/blog/images/gaming.jpg"
+        "date": "2024-04-21",
+        "author": "gogogogo621",
+        "excerpt": "Next-gen test about the super cool test that is...",
+        "thumbnail": "/blog/images/test2.png"
     }
 ]
