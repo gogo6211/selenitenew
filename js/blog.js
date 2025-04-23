@@ -1,76 +1,42 @@
 let articles = [];
 
 $(document).ready(() => {
-    loadArticles().catch(handleLoadError);
+    // Check if we're on an article page or listing
+    if (window.location.pathname.startsWith('/blog/') {
+        const pathParts = window.location.pathname.split('/');
+        if (pathParts.length > 2) {
+            loadArticle();
+        } else {
+            loadArticles().catch(handleLoadError);
+        }
+    } else {
+        loadArticles().catch(handleLoadError);
+    }
 });
 
-// Updated article loading code
-async function loadArticle() {
+async function loadArticles() {
     try {
-        const slug = window.location.pathname.split('/blog/')[1].split('/')[0];
-        const response = await fetch(`/blog/${slug}/content.html`);
-        
+        const response = await fetch('/articles.json');
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        articles = await response.json();
         
-        const content = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(content, 'text/html');
-
-        // Error handling for missing metadata
-        const metaScript = doc.querySelector('script[type="application/article-meta"]');
-        if (!metaScript) throw new Error('Missing article metadata');
+        // Add proper paths to articles
+        articles = articles.map(article => ({
+            ...article,
+            path: `/blog/${article.slug}/`
+        }));
         
-        const meta = JSON.parse(metaScript.textContent);
-        
-        // Error handling for missing content
-        const articleContent = doc.getElementById('article-content');
-        if (!articleContent) throw new Error('Missing article content div');
-
-        // Build article HTML
-        const articleHTML = `
-            ${meta.thumbnail ? `
-            <img class="article-thumbnail" 
-                 src="${meta.thumbnail}" 
-                 alt="${meta.thumbnailAlt || 'Article thumbnail'}">` : ''}
-            
-            <div class="article-header">
-                <h1>${meta.title}</h1>
-                <div class="meta">
-                    ${meta.date ? `<span>${new Date(meta.date).toLocaleDateString()}</span>` : ''}
-                    ${meta.author ? `<span>By ${meta.author}</span>` : ''}
-                    ${meta.tags?.map(tag => `<sl-tag>${tag}</sl-tag>`).join('') || ''}
-                </div>
-            </div>
-            
-            <div class="article-body">
-                ${articleContent.innerHTML}
-            </div>
-        `;
-
-        document.getElementById('article-container').innerHTML = articleHTML;
-        document.title = `${meta.title} | Sodalite`;
-
-        // Initialize components
-        customElements.whenDefined('sl-code-block').then(() => {
-            Prism.highlightAll();
-        });
-
+        renderArticles();
+        initSearch();
     } catch (error) {
-        console.error('Article load error:', error);
-        document.getElementById('article-container').innerHTML = `
-            <sl-alert variant="danger" open>
-                <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
-                Error loading article: ${error.message}
-            </sl-alert>
-        `;
+        handleLoadError(error);
     }
 }
-
 
 function renderArticles() {
     const container = $('#articles').empty();
     
-    if (articles.length === 0) {
+    if (!articles.length) {
         return container.html(`
             <div class="no-articles">
                 <sl-icon name="journal-x" style="font-size: 3rem;"></sl-icon>
@@ -98,11 +64,9 @@ function renderArticles() {
         container.append(card);
     });
 
-    // Add click handlers
     $('.article-card').on('click', function() {
         const slug = $(this).data('slug');
-        const article = articles.find(a => a.slug === slug);
-        if (article?.path) window.location.href = article.path;
+        window.location.href = `/blog/${slug}/`;
     });
 }
 

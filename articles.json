@@ -1,8 +1,7 @@
 [
     {
-        "title": "Web Development Masterclass",
+        "title": "Web Development Test",
         "slug": "web-dev",
-        "path": "/blog/web-development/",
         "date": "2024-04-22",
         "author": "gogogogo621",
         "excerpt": "Complete test to modern web development practices...",
@@ -10,8 +9,7 @@
     },
     {
         "title": "So how does a test work?",
-        "slug": "future-test",
-        "path": "/blog/test2/",
+        "slug": "test2",
         "date": "2024-04-21",
         "author": "gogogogo621",
         "excerpt": "Next-gen test about the super cool test that is...",
