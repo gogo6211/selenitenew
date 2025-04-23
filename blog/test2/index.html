@@ -1,7 +1,53 @@
 <!DOCTYPE html>
-<html class="sl-theme-dark">
+<html class="sl-theme-dark" lang="en">
 <head>
-    <!-- Keep existing head content -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Article... | Sodalite</title>
+    <!-- Required Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/themes/dark.css" />
+    <link rel="stylesheet" href="/blog.css">
+    <link rel="stylesheet" href="/themes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="main-nav">
+            <a href="/index.html">Home</a>
+            <a href="/bookmarklets.html">Bookmarklets</a>
+            <a href="/projects.html">Games</a>
+            <a href="/blog.html">Blog</a>
+            <a href="/settings.html">Settings</a>
+            <a href="https://piranha-a81.pages.dev/">Proxy</a>
+            <a id="blank" href="#">Open Blank</a>
+            <a href="/about.html">About</a>
+        </nav>
+    </header>
+    <!-- Main Content -->
+    <main class="article-content">
+        <a href="/blog.html" class="back-button">
+            <sl-icon name="arrow-left"></sl-icon> Back to Articles
+        </a>
+        <article id="article-container">
+            <!-- Content loaded dynamically -->
+        </article>
+    </main>
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+            <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
+            <a id="panicmode">Panic Mode</a>
+            <a href="/privacy.html">Privacy Policy</a>
+            <a href="/suggest.html">Bug Reports</a>
+            <a href="/suggest.html">Suggestions</a>
+            <a href="/contact.html">Contact</a>
+        </div>
+    </footer>
     <script type="module">
         import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/utilities/base-path.js';
         import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/code-block/code-block.js';
@@ -9,51 +55,60 @@
         import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/icon/icon.js';
         import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/tag/tag.js';
 
-        setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist');
+        setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/');
 
-        document.addEventListener('DOMContentLoaded', async () => {
+        async function loadArticleContent() {
             try {
-                const slug = window.location.pathname.split('/blog/')[1].split('/')[0];
-                const response = await fetch(`/blog/${slug}/content.html`);
+                let slug = window.location.pathname.replace(/\/blog\/|\/index\.html|\/$/g, '').split('/')[0];
+                if (!slug) throw new Error('Invalid URL structure: Missing slug');
+                const url = `/blog/${slug}/content.html`;
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`HTTP ${response.status}: Failed to fetch content`);
                 const content = await response.text();
-                
-                // Parse content
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(content, 'text/html');
-                
-                // Extract metadata
                 const metaScript = doc.querySelector('script[type="application/article-meta"]');
-                const meta = JSON.parse(metaScript.textContent);
-                
-                // Build article
-                document.getElementById('article-container').innerHTML = `
-                    ${doc.getElementById('article-content').innerHTML}
-                    ${doc.querySelector('style')?.outerHTML || ''}
+                if (!metaScript) throw new Error('Invalid article format: Missing metadata');
+                const articleContent = doc.getElementById('article-content');
+                if (!articleContent) throw new Error('Invalid article format: Missing content');
+                let meta;
+                try {
+                    meta = JSON.parse(metaScript.textContent);
+                } catch (e) {
+                    throw new Error('Invalid article metadata JSON');
+                }
+                const container = document.getElementById('article-container');
+                if (!container) throw new Error('Missing #article-container in index.html');
+                container.innerHTML = `
+                    ${meta.thumbnail ? `<img class="article-thumbnail" src="${meta.thumbnail}" alt="${meta.thumbnailAlt || ''}">` : ''}
+                    <div class="article-header">
+                        <h1>${meta.title}</h1>
+                        <div class="meta">
+                            ${meta.date ? `<span>${new Date(meta.date).toLocaleDateString()}</span>` : ''}
+                            ${meta.author ? `<span>By ${meta.author}</span>` : ''}
+                            ${meta.tags?.map(tag => `<sl-tag>${tag}</sl-tag>`).join('') || ''}
+                        </div>
+                    </div>
+                    <div class="article-body">${articleContent.innerHTML}</div>
                 `;
-
-                // Update metadata
+                if (typeof Prism !== 'undefined' && Prism.highlightAll) {
+                    Prism.highlightAll();
+                }
                 document.title = `${meta.title} | Sodalite`;
-                
-                // Initialize components
-                await customElements.whenDefined('sl-code-block');
-                Prism.highlightAll();
-
             } catch (error) {
-                document.getElementById('article-container').innerHTML = `
-                    <sl-alert variant="danger" open>
-                        <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
-                        Error loading article: ${error.message}
-                    </sl-alert>
-                `;
+                const container = document.getElementById('article-container');
+                if (container) {
+                    container.innerHTML = `
+                        <sl-alert variant="danger" open>
+                            <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                            Failed to load article: ${error.message}
+                        </sl-alert>
+                    `;
+                }
             }
-        });
+        }
+        document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
+        loadArticleContent();
     </script>
-</head>
-<body>
-    <!-- Keep existing header/main/footer structure -->
-    <main>
-        <a href="/blog.html" class="back-button"><sl-icon name="arrow-left"></sl-icon> Back</a>
-        <div id="article-container"></div>
-    </main>
 </body>
 </html>
