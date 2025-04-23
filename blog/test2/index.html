@@ -15,13 +15,6 @@
     <link rel="stylesheet" href="/themes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #10002b;
-            --textcolor: #e0aaff;
-            --uibg: #240046;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -56,93 +49,26 @@
         </div>
     </footer>
 
-    <!-- Fixed Component Loading -->
     <script type="module">
-        import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/utilities/base-path.js';
-        import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/code-block/code-block.js';
-        import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/alert/alert.js';
-        import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/icon/icon.js';
-        import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/tag/tag.js';
+        async function loadArticle() {
+            const slug = window.location.pathname.split('/blog/')[1]?.split('/')[0];
+            if (!slug) {
+                showError('Invalid URL structure: Missing slug');
+                return;
+            }
 
-        setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/');
-
-        function showDebugBanner(errorCode, error) {
-            let banner = document.createElement('div');
-            banner.style = "background:#c00;color:#fff;padding:1em;text-align:center;z-index:9999;position:fixed;top:0;left:0;width:100vw;font-size:1.1em";
-            banner.innerHTML = `<b>DEBUG ERROR (${errorCode})</b>: ${error.message || error}`;
-            document.body.prepend(banner);
-        }
-
-        async function loadArticleContent() {
             try {
-                // Slug extraction
-                let slug = window.location.pathname.replace(/\/blog\/|\/index\.html|\/$/g, '').split('/')[0];
-                if (!slug) {
-                    const error = new Error('Invalid URL structure: Missing slug');
-                    error.code = 'E001';
-                    throw error;
-                }
+                const response = await fetch(`/blog/${slug}/content.html`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}: Failed to fetch content`);
 
-                const url = `/blog/${slug}/content.html`;
-                let response;
-                try {
-                    response = await fetch(url);
-                } catch (e) {
-                    e.code = 'E002';
-                    throw e;
-                }
-                if (!response.ok) {
-                    const error = new Error(`HTTP ${response.status}: Failed to fetch content`);
-                    error.code = 'E003';
-                    throw error;
-                }
+                const contentHTML = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(contentHTML, 'text/html');
 
-                let content;
-                try {
-                    content = await response.text();
-                } catch (e) {
-                    e.code = 'E004';
-                    throw e;
-                }
+                const meta = JSON.parse(doc.querySelector('script[type="application/article-meta"]').textContent);
+                const articleContent = doc.querySelector('#article-content').innerHTML;
 
-                let parser, doc;
-                try {
-                    parser = new DOMParser();
-                    doc = parser.parseFromString(content, 'text/html');
-                } catch (e) {
-                    e.code = 'E005';
-                    throw e;
-                }
-
-                const metaScript = doc.querySelector('script[type="application/article-meta"]');
-                const articleContent = doc.getElementById('article-content');
-                if (!metaScript) {
-                    const error = new Error('Invalid article format: Missing metadata');
-                    error.code = 'E006';
-                    throw error;
-                }
-                if (!articleContent) {
-                    const error = new Error('Invalid article format: Missing content');
-                    error.code = 'E007';
-                    throw error;
-                }
-
-                let meta;
-                try {
-                    meta = JSON.parse(metaScript.textContent);
-                } catch (e) {
-                    e.code = 'E008';
-                    throw new Error('Invalid article metadata JSON');
-                }
-
-                const container = document.getElementById('article-container');
-                if (!container) {
-                    const error = new Error('Missing #article-container in index.html');
-                    error.code = 'E009';
-                    throw error;
-                }
-
-                container.innerHTML = `
+                document.getElementById('article-container').innerHTML = `
                     ${meta.thumbnail ? `<img class="article-thumbnail" src="${meta.thumbnail}" alt="${meta.thumbnailAlt || ''}">` : ''}
                     <div class="article-header">
                         <h1>${meta.title}</h1>
@@ -152,36 +78,27 @@
                             ${meta.tags?.map(tag => `<sl-tag>${tag}</sl-tag>`).join('') || ''}
                         </div>
                     </div>
-                    <div class="article-body">${articleContent.innerHTML}</div>
+                    <div class="article-body">${articleContent}</div>
                 `;
 
-                if (typeof Prism !== 'undefined' && Prism.highlightAll) {
-                    Prism.highlightAll();
-                } else {
-                    console.warn('[ArticleLoader] Prism.js not loaded (E010)');
-                }
                 document.title = `${meta.title} | Sodalite`;
+                Prism.highlightAll();
             } catch (error) {
-                const code = error.code || 'E999';
-                console.error(`[ArticleLoader] Article load failed (${code}):`, error);
-                const container = document.getElementById('article-container');
-                if (container) {
-                    container.innerHTML = `
-                        <sl-alert variant="danger" open>
-                            <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
-                            Failed to load article (Error code: <b>${code}</b>): ${error.message}
-                        </sl-alert>
-                    `;
-                }
-                showDebugBanner(code, error);
+                showError(`Failed to load article: ${error.message}`);
             }
         }
 
+        function showError(message) {
+            document.getElementById('article-container').innerHTML = `
+                <sl-alert variant="danger" open>
+                    <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                    ${message}
+                </sl-alert>
+            `;
+        }
+
         document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
-        loadArticleContent();
-    </script>
-    <script>
-        document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
+        loadArticle();
     </script>
 </body>
 </html>
