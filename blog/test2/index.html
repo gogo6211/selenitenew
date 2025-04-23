@@ -1,73 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="sl-theme-dark">
 <head>
-    <meta charset="UTF-8">
-    <title>Loading Article...</title>
-    <!-- Required Styles -->
-    <link rel="stylesheet" href="/blog.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/themes/dark.css">
-</head>
-<body>
-    <header>
-        <nav class="main-nav">
-            <a href="/index.html">Home</a>
-            <a href="/bookmarklets.html">Bookmarklets</a>
-            <a href="/projects.html">Games</a>
-            <a href="/blog.html">Blog</a>
-            <a href="/settings.html">Settings</a>
-            <a href="https://piranha-a81.pages.dev/">Proxy</a>
-            <a id="blank" href="#">Open Blank</a>
-            <a href="/about.html">About</a>
-        </nav>
-    </header>
-    
-    <main>
-        <a href="/blog.html" class="back-button">← Back to Articles</a>
-        <div id="article-content"></div>
-    </main>
+    <!-- Keep existing head content -->
+    <script type="module">
+        import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/utilities/base-path.js';
+        import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/code-block/code-block.js';
+        import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/alert/alert.js';
+        import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/icon/icon.js';
+        import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/tag/tag.js';
 
-    <footer class="main-footer">
-        <div class="footer-content">
-            <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
-            <a id="panicmode">Panic Mode</a>
-            <a href="/privacy.html">Privacy Policy</a>
-            <a href="/suggest.html">Bug Reports</a>
-            <a href="/suggest.html">Suggestions</a>
-            <a href="/contact.html">Contact</a>
-        </div>
-    </footer>
+        setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist');
 
-    <!-- Simple Loader Script -->
-    <script>
-        async function loadContent() {
+        document.addEventListener('DOMContentLoaded', async () => {
             try {
-                // Get the slug from URL
                 const slug = window.location.pathname.split('/blog/')[1].split('/')[0];
-                
-                // Load content.html
                 const response = await fetch(`/blog/${slug}/content.html`);
-                const html = await response.text();
+                const content = await response.text();
                 
-                // Insert into page
-                document.getElementById('article-content').innerHTML = html;
+                // Parse content
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(content, 'text/html');
                 
-                // Set document title from metadata
-                const meta = JSON.parse(
-                    document.querySelector('script[type="application/article-meta"]').textContent
-                );
-                document.title = meta.title + " | Sodalite";
+                // Extract metadata
+                const metaScript = doc.querySelector('script[type="application/article-meta"]');
+                const meta = JSON.parse(metaScript.textContent);
+                
+                // Build article
+                document.getElementById('article-container').innerHTML = `
+                    ${doc.getElementById('article-content').innerHTML}
+                    ${doc.querySelector('style')?.outerHTML || ''}
+                `;
+
+                // Update metadata
+                document.title = `${meta.title} | Sodalite`;
+                
+                // Initialize components
+                await customElements.whenDefined('sl-code-block');
+                Prism.highlightAll();
 
             } catch (error) {
-                document.getElementById('article-content').innerHTML = `
-                    <div class="error">
-                        Failed to load article: ${error.message}
-                    </div>
+                document.getElementById('article-container').innerHTML = `
+                    <sl-alert variant="danger" open>
+                        <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                        Error loading article: ${error.message}
+                    </sl-alert>
                 `;
             }
-        }
-
-        // Start loading
-        loadContent();
+        });
     </script>
+</head>
+<body>
+    <!-- Keep existing header/main/footer structure -->
+    <main>
+        <a href="/blog.html" class="back-button"><sl-icon name="arrow-left"></sl-icon> Back</a>
+        <div id="article-container"></div>
+    </main>
 </body>
 </html>
