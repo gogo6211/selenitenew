@@ -78,6 +78,23 @@
                     doc.querySelector('script[type="application/article-meta"]').textContent
                 );
 
+                // --- Convert <sl-code-block language="...">...</sl-code-block> to <pre><code class="language-...">...</code></pre> ---
+                const articleContent = doc.getElementById('article-content');
+                // Use a temporary div to manipulate HTML
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = articleContent.innerHTML;
+                tempDiv.querySelectorAll('sl-code-block').forEach(el => {
+                    const lang = el.getAttribute('language') || '';
+                    const code = el.textContent;
+                    const pre = document.createElement('pre');
+                    const codeElem = document.createElement('code');
+                    if (lang) codeElem.className = `language-${lang}`;
+                    codeElem.textContent = code;
+                    pre.appendChild(codeElem);
+                    el.replaceWith(pre);
+                });
+                // --- end conversion ---
+
                 // Update page metadata
                 document.title = `${meta.title} | Sodalite`;
                 
@@ -98,15 +115,21 @@
                     </div>
 
                     <div class="article-body">
-                        ${doc.getElementById('article-content').innerHTML}
+                        ${tempDiv.innerHTML}
                     </div>
                 `;
 
                 $('#article-container').html(articleHTML);
+
+                // Highlight.js syntax highlighting
+                if (window.hljs) {
+                    $('#article-container pre code').each(function() {
+                        window.hljs.highlightElement(this);
+                    });
+                }
                 
                 // Dynamically import components
-                const { SlCodeBlock, SlTag, SlAlert, SlIcon, SpinnerIcon } = await Promise.all([
-                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/code-block/code-block.js'),
+                const { SlTag, SlAlert, SlIcon, SpinnerIcon } = await Promise.all([
                     import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/tag/tag.js'),
                     import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/alert/alert.js'),
                     import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/icon/icon.js'),
@@ -114,7 +137,6 @@
                 ]);
 
                 // Register components
-                customElements.define('sl-code-block', SlCodeBlock);
                 customElements.define('sl-tag', SlTag);
                 customElements.define('sl-alert', SlAlert);
                 customElements.define('sl-icon', SlIcon);
@@ -128,7 +150,7 @@
                     "datePublished": meta.date,
                     "author": meta.author,
                     "image": meta.thumbnail,
-                    "articleBody": doc.getElementById('article-content').textContent
+                    "articleBody": tempDiv.textContent
                 };
                 
                 const script = document.createElement('script');
