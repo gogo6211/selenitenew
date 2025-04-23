@@ -87,22 +87,28 @@
         <div class="article-body">${bodyHTML}</div>
       `
   
-      // Replace sl-code-blocks with Prism-ready blocks
+   // inside renderArticle(), after container.innerHTML = `…`
 container.querySelectorAll('sl-code-block').forEach(el => {
-    const lang = el.getAttribute('language') || 'plaintext';
-    const codeText = el.textContent;
-    const pre = document.createElement('pre');
-    const code = document.createElement('code');
-    code.classList.add(`language-${lang}`);
-    code.textContent = codeText.trim();
-    pre.appendChild(code);
-    pre.classList.add('line-numbers');
-    el.replaceWith(pre);
-  });
+    const lang     = el.getAttribute('language') || 'plaintext'
+    const codeText = el.textContent.trim()
+    
+    const pre  = document.createElement('pre')
+    const code = document.createElement('code')
+    
+    // tell Prism which language
+    code.classList.add(`language-${lang}`)
+    code.textContent = codeText
   
-  // Let Prism do its thing
-  if (window.Prism) {
-    Prism.highlightAll();
+    // ← add this for line numbers
+    pre.classList.add('line-numbers')
+  
+    pre.appendChild(code)
+    el.replaceWith(pre)
+  })
+  
+  // then highlight
+  if (window.Prism) Prism.highlightAll()
+  
   } else {
     console.warn('Prism not loaded');
   }

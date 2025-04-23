@@ -182,4 +182,7 @@ pre {
       border-radius: 0;
     }
   }
-  
+  pre {
+    margin: 2rem 1rem; /* 1rem left/right */
+  }
+    
