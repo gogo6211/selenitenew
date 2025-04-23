@@ -61,7 +61,7 @@ async function loadArticles() {
 async function loadArticleContent(slug) {
     try {
         if (!slug) {
-            // Fix: robust slug extraction fallback
+            // Robust slug extraction fallback
             slug = window.location.pathname.replace(/\/blog\/|\/index\.html|\/$/g, '').split('/')[0];
         }
         if (!slug) {
@@ -152,8 +152,6 @@ async function loadArticleContent(slug) {
         handleLoadError(error, 'loadArticleContent');
     }
 }
-
-// Keep your existing renderArticles, initSearch, handleLoadError functions
 
 function renderArticles() {
     const container = $('#articles').empty();

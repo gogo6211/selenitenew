@@ -59,6 +59,7 @@
 
         async function loadArticleContent() {
             try {
+                // Robust slug extraction
                 let slug = window.location.pathname.replace(/\/blog\/|\/index\.html|\/$/g, '').split('/')[0];
                 if (!slug) throw new Error('Invalid URL structure: Missing slug');
                 const url = `/blog/${slug}/content.html`;
