@@ -57,47 +57,82 @@
         import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/icon/icon.js';
         import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/tag/tag.js';
 
-        setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist');
+        setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/');
+
+        function showDebugBanner(errorCode, error) {
+            let banner = document.createElement('div');
+            banner.style = "background:#c00;color:#fff;padding:1em;text-align:center;z-index:9999;position:fixed;top:0;left:0;width:100vw;font-size:1.1em";
+            banner.innerHTML = `<b>DEBUG ERROR (${errorCode})</b>: ${error.message || error}`;
+            document.body.prepend(banner);
+        }
 
         async function loadArticleContent() {
             try {
-                // Improved slug extraction and logging
+                // Slug extraction
                 let slug = window.location.pathname.replace(/\/blog\/|\/index\.html|\/$/g, '').split('/')[0];
-                console.log('[ArticleLoader] Extracted slug:', slug);
-                if (!slug) throw new Error('Invalid URL structure: Missing slug');
+                if (!slug) {
+                    const error = new Error('Invalid URL structure: Missing slug');
+                    error.code = 'E001';
+                    throw error;
+                }
 
                 const url = `/blog/${slug}/content.html`;
-                console.log('[ArticleLoader] Fetching:', url);
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP ${response.status}: Failed to fetch content`);
+                let response;
+                try {
+                    response = await fetch(url);
+                } catch (e) {
+                    e.code = 'E002';
+                    throw e;
+                }
+                if (!response.ok) {
+                    const error = new Error(`HTTP ${response.status}: Failed to fetch content`);
+                    error.code = 'E003';
+                    throw error;
+                }
 
-                const content = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(content, 'text/html');
+                let content;
+                try {
+                    content = await response.text();
+                } catch (e) {
+                    e.code = 'E004';
+                    throw e;
+                }
+
+                let parser, doc;
+                try {
+                    parser = new DOMParser();
+                    doc = parser.parseFromString(content, 'text/html');
+                } catch (e) {
+                    e.code = 'E005';
+                    throw e;
+                }
 
                 const metaScript = doc.querySelector('script[type="application/article-meta"]');
-                if (!metaScript) {
-                    console.error('[ArticleLoader] Missing metaScript in content.html');
-                    throw new Error('Invalid article format: Missing metadata');
-                }
                 const articleContent = doc.getElementById('article-content');
+                if (!metaScript) {
+                    const error = new Error('Invalid article format: Missing metadata');
+                    error.code = 'E006';
+                    throw error;
+                }
                 if (!articleContent) {
-                    console.error('[ArticleLoader] Missing #article-content in content.html');
-                    throw new Error('Invalid article format: Missing content');
+                    const error = new Error('Invalid article format: Missing content');
+                    error.code = 'E007';
+                    throw error;
                 }
 
                 let meta;
                 try {
                     meta = JSON.parse(metaScript.textContent);
                 } catch (e) {
-                    console.error('[ArticleLoader] Failed to parse meta JSON:', metaScript.textContent, e);
+                    e.code = 'E008';
                     throw new Error('Invalid article metadata JSON');
                 }
 
                 const container = document.getElementById('article-container');
                 if (!container) {
-                    console.error('[ArticleLoader] #article-container not found in index.html');
-                    throw new Error('Missing #article-container in index.html');
+                    const error = new Error('Missing #article-container in index.html');
+                    error.code = 'E009';
+                    throw error;
                 }
 
                 container.innerHTML = `
@@ -116,20 +151,22 @@
                 if (typeof Prism !== 'undefined' && Prism.highlightAll) {
                     Prism.highlightAll();
                 } else {
-                    console.warn('[ArticleLoader] Prism.js not loaded');
+                    console.warn('[ArticleLoader] Prism.js not loaded (E010)');
                 }
                 document.title = `${meta.title} | Sodalite`;
             } catch (error) {
-                console.error('[ArticleLoader] Article load failed:', error);
+                const code = error.code || 'E999';
+                console.error(`[ArticleLoader] Article load failed (${code}):`, error);
                 const container = document.getElementById('article-container');
                 if (container) {
                     container.innerHTML = `
                         <sl-alert variant="danger" open>
                             <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
-                            Failed to load article: ${error.message}
+                            Failed to load article (Error code: <b>${code}</b>): ${error.message}
                         </sl-alert>
                     `;
                 }
+                showDebugBanner(code, error);
             }
         }
 
