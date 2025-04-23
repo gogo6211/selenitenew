@@ -1,133 +1,133 @@
 // /blog.js
-(async () => {
-    const isArticlePage = location.pathname.match(/^\/blog\/[^\/]+\/(?:index\.html)?$/);
+;(async () => {
+    const isArticlePage = location.pathname.match(/^\/blog\/[^\/]+\/(?:index\.html)?$/)
     if (isArticlePage) {
-      await renderArticle();
+      await renderArticle()
     } else {
-      await renderIndex();
+      await renderIndex()
     }
-  })();
+  })()
+  
   
   // —— INDEX PAGE ——
   async function renderIndex() {
+    const container = document.getElementById('articles')
     try {
-      const res = await fetch('/articles.json');
-      if (!res.ok) throw new Error(`Status ${res.status}`);
-      const articles = await res.json();
+      const res = await fetch('/articles.json')
+      if (!res.ok) throw new Error(`Status ${res.status}`)
+      const articles = await res.json()
   
-      const container = document.getElementById('articles');
-      // Remove loading state if present
-      const loading = container.querySelector('.loading-state');
-      if (loading) loading.remove();
+      // remove any loading indicator
+      container.querySelector('.loading-state')?.remove()
   
       if (!articles.length) {
-        container.innerHTML = `<p>No articles found.</p>`;
-        return;
+        container.innerHTML = `<p>No articles found.</p>`
+        return
       }
   
       articles.forEach(a => {
-        const card = document.createElement('div');
-        card.className = 'article-card';
+        const card = document.createElement('div')
+        card.className = 'article-card'
         card.innerHTML = `
           <img src="${a.thumbnail}" alt="${a.title}" class="article-thumbnail"/>
           <h2>${a.title}</h2>
           <small>${new Date(a.date).toLocaleDateString()} • ${a.author}</small>
           <p>${a.excerpt}</p>
-        `;
+        `
         card.addEventListener('click', () => {
-          location.href = `/blog/${a.slug}/`;
-        });
-        container.appendChild(card);
-      });
+          location.href = `/blog/${a.slug}/`
+        })
+        container.appendChild(card)
+      })
   
-      // simple client-side search
+      // client-side search
       document.getElementById('blogsearch').addEventListener('input', e => {
-        const q = e.target.value.toLowerCase();
+        const q = e.target.value.toLowerCase()
         document.querySelectorAll('.article-card').forEach(card => {
-          card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
-        });
-      });
-  
+          card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none'
+        })
+      })
     } catch (err) {
-      const container = document.getElementById('articles');
-      // Remove loading state if present
-      const loading = container.querySelector('.loading-state');
-      if (loading) loading.remove();
+      container.querySelector('.loading-state')?.remove()
       container.innerHTML =
-        `<p class="error">Failed to load articles: ${err.message}</p>`;
+        `<p class="error">Failed to load articles: ${err.message}</p>`
     }
   }
   
+  
   // —— ARTICLE PAGE ——
   async function renderArticle() {
-    const container = document.getElementById('article-container');
+    const container = document.getElementById('article-container')
     try {
-      // derive slug and fetch content.html
-      const slug = location.pathname.replace(/\/blog\/|\/$/g, '').split('/')[1];
-      const res = await fetch(`/blog/${slug}/content.html`);
-      if (!res.ok) throw new Error(`Status ${res.status}`);
-      const text = await res.text();
+      // derive slug
+      const slug = location.pathname.replace(/\/blog\/|\/$/g, '').split('/')[1]
+      const res = await fetch(`/blog/${slug}/content.html`)
+      if (!res.ok) throw new Error(`Status ${res.status}`)
+      const text = await res.text()
   
-      // parse
-      const doc = new DOMParser().parseFromString(text, 'text/html');
-      const meta = JSON.parse(doc.querySelector('script[type="application/article-meta"]').textContent);
-      let body = doc.getElementById('article-content').innerHTML;
-
-      // --- Convert <sl-code-block language="...">...</sl-code-block> to <pre><code class="language-...">...</code></pre> ---
-      // Create a temporary container to manipulate HTML
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = body;
-      tempDiv.querySelectorAll('sl-code-block').forEach(el => {
-        const lang = el.getAttribute('language') || '';
-        // Use textContent to preserve code formatting
-        const code = el.textContent;
-        const pre = document.createElement('pre');
-        const codeElem = document.createElement('code');
-        if (lang) codeElem.className = `language-${lang}`;
-        codeElem.textContent = code;
-        pre.appendChild(codeElem);
-        el.replaceWith(pre);
-      });
-      body = tempDiv.innerHTML;
-      // --- end conversion ---
-
-      // build
+      // parse fetched content.html
+      const doc = new DOMParser().parseFromString(text, 'text/html')
+      const metaScript = doc.querySelector('script[type="application/article-meta"]')
+      const articleContent = doc.getElementById('article-content')
+      if (!metaScript || !articleContent) throw new Error('Invalid article format')
+      const meta = JSON.parse(metaScript.textContent)
+      const bodyHTML = articleContent.innerHTML
+  
+      // *** missing in your snippet ***
       container.innerHTML = `
-        ${meta.thumbnail ? `<img src="${meta.thumbnail}" alt="${meta.thumbnailAlt||''}" class="article-thumbnail"/>` : ''}
-        <h1>${meta.title}</h1>
-        <div class="meta">
-          ${meta.date ? `<time>${new Date(meta.date).toLocaleDateString()}</time>` : ''}
-          ${meta.author ? `<span>By ${meta.author}</span>` : ''}
-          ${(meta.tags||[]).map(t=>`<sl-tag>${t}</sl-tag>`).join('')}
+        ${meta.thumbnail ? `<img class="article-thumbnail" src="${meta.thumbnail}" alt="${meta.thumbnailAlt||''}">` : ''}
+        <div class="article-header">
+          <h1>${meta.title}</h1>
+          <div class="meta">
+            ${meta.date ? `<time>${new Date(meta.date).toLocaleDateString()}</time>` : ''}
+            ${meta.author ? `<span>By ${meta.author}</span>` : ''}
+            ${(meta.tags||[]).map(t=>`<sl-tag>${t}</sl-tag>`).join('')}
+          </div>
         </div>
-        <div class="article-body">${body}</div>
-      `;
+        <div class="article-body">${bodyHTML}</div>
+      `
   
-      // syntax highlighting with highlight.js
+      // 1) transform only inside this container
+      container.querySelectorAll('sl-code-block').forEach(el => {
+        const lang = el.getAttribute('language') || 'plaintext'
+        const codeText = el.textContent
+        const pre = document.createElement('pre')
+        const code = document.createElement('code')
+        code.classList.add(`language-${lang}`)
+        code.textContent = codeText.trim()
+        pre.appendChild(code)
+        el.replaceWith(pre)
+      })
+  
+      // 2) run Highlight.js
       if (window.hljs) {
-        container.querySelectorAll('pre code').forEach(block => {
-          window.hljs.highlightElement(block);
-        });
+        hljs.highlightAll()
+      } else {
+        console.warn('Highlight.js not loaded')
       }
-      document.title = `${meta.title} | Sodalite`;
   
-    } catch (err) {
+      // update title
+      document.title = `${meta.title} | Sodalite`
+    }
+    catch (err) {
       container.innerHTML = `
         <sl-alert variant="danger" open>
           <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
           Failed to load article: ${err.message}
         </sl-alert>
-      `;
+      `
     }
   }
   
+  
   // —— THEME & FALLBACK CSS VARS ——
   document.addEventListener('DOMContentLoaded', () => {
-    const theme = localStorage.getItem('selenite.theme') || 'dark';
-    document.body.setAttribute('theme', theme);
-    const root = getComputedStyle(document.documentElement);
+    const theme = localStorage.getItem('selenite.theme') || 'dark'
+    document.body.setAttribute('theme', theme)
+    const root = getComputedStyle(document.documentElement)
     if (!root.getPropertyValue('--bg').trim()) {
-      document.documentElement.style.setProperty('--bg', '#10002b');
-      document.documentElement.style.setProperty('--textcolor', '#e0aaff');
+      document.documentElement.style.setProperty('--bg', '#10002b')
+      document.documentElement.style.setProperty('--textcolor', '#e0aaff')
     }
-  });
+  })
+  

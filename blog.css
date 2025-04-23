@@ -157,3 +157,29 @@ header {
     0% { opacity: 0; transform: translateY(20px); }
     100% { opacity: 1; transform: translateY(0); }
 }
+/* Code block styling */
+pre {
+    background: var(--inputbg);
+    border: 2px solid var(--inputborder);
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+    font-family: 'Fira Code', monospace;
+    margin: 2rem 0;
+  }
+  
+  /* Ensure inline code looks good */
+  code {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+  }
+  
+  /* On small screens, let code scroll */
+  @media (max-width: 768px) {
+    pre {
+      width: calc(100% + 2rem);
+      margin: 1rem -1rem;
+      border-radius: 0;
+    }
+  }
+  
