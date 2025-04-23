@@ -4,8 +4,10 @@ $(document).ready(() => {
     if (window.location.pathname.startsWith('/blog/')) {
         const pathParts = window.location.pathname.split('/');
         if (pathParts.length > 2 && pathParts[2] !== '') {
-            // Article page - content will load via its own script
+            // Article page - load content for the specific article
+            loadArticleContent(pathParts[2]).catch(handleLoadError);
         } else {
+            // Blog index page - load all articles
             loadArticles().catch(handleLoadError);
         }
     } else {
@@ -31,6 +33,42 @@ async function loadArticles() {
         
         renderArticles();
         initSearch();
+    } catch (error) {
+        handleLoadError(error);
+    }
+}
+
+async function loadArticleContent(slug) {
+    try {
+        if (!slug) throw new Error('Invalid URL structure: Missing slug');
+
+        const response = await fetch(`/blog/${slug}/content.html`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}: Failed to fetch content`);
+
+        const content = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, 'text/html');
+
+        const metaScript = doc.querySelector('script[type="application/article-meta"]');
+        const articleContent = doc.getElementById('article-content');
+        if (!metaScript || !articleContent) throw new Error('Invalid article format: Missing metadata or content');
+
+        const meta = JSON.parse(metaScript.textContent);
+        $('#article-container').html(`
+            ${meta.thumbnail ? `<img class="article-thumbnail" src="${meta.thumbnail}" alt="${meta.thumbnailAlt || ''}">` : ''}
+            <div class="article-header">
+                <h1>${meta.title}</h1>
+                <div class="meta">
+                    ${meta.date ? `<span>${new Date(meta.date).toLocaleDateString()}</span>` : ''}
+                    ${meta.author ? `<span>By ${meta.author}</span>` : ''}
+                    ${meta.tags?.map(tag => `<sl-tag>${tag}</sl-tag>`).join('') || ''}
+                </div>
+            </div>
+            <div class="article-body">${articleContent.innerHTML}</div>
+        `);
+
+        Prism.highlightAll();
+        document.title = `${meta.title} | Sodalite`;
     } catch (error) {
         handleLoadError(error);
     }
