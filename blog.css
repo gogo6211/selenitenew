@@ -1,32 +1,17 @@
 @import url('/style.css');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
-
-:root {
-    --bg: #10002b;
-    --textcolor: #e0aaff;
-    --uibg: #240046;
-    --inputbg: #3c096c;
-    --inputborder: #5a189a;
-    --shadow: rgba(0, 0, 0, 0.5);
-}
-
 /* Base Styles */
 body {
-    background: var(--bg, #000);
-    color: var(--textcolor, #fff);
+    background: var(--bg);
+    color: var(--textcolor);
 }
 
-/* Main Content Layout */
+/* Main Content */
 main {
     margin-top: 6rem;
     padding: 2rem;
     animation: 1.25s ease-in-out 0s 1 loadInAnimation;
     background: var(--bg);
-}
-
-#content-container {
-    position: relative;
-    min-height: 400px;
 }
 
 /* Header Styles */
@@ -85,7 +70,6 @@ header {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    transition: opacity 0.3s ease;
 }
 
 /* Article Cards */
@@ -133,28 +117,6 @@ header {
     opacity: 0.9;
 }
 
-/* Article Container */
-#article-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-/* Back Button */
-.back-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-    color: var(--textcolor);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.back-button:hover {
-    text-decoration: underline;
-}
-
 /* Footer */
 .main-footer {
     background: var(--uibg);
@@ -184,56 +146,14 @@ header {
     text-shadow: 2px 2px 6px var(--textcolor);
 }
 
-/* Loading & Error States */
+/* Loading State */
 .loading-state {
     text-align: center;
     padding: 4rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.no-articles, .error-state {
-    text-align: center;
-    padding: 4rem;
-    color: var(--textcolor);
-}
-
-.error-state sl-alert {
-    margin: 0 auto;
-    max-width: 600px;
 }
 
 /* Animations */
 @keyframes loadInAnimation {
     0% { opacity: 0; transform: translateY(20px); }
     100% { opacity: 1; transform: translateY(0); }
-}
-
-sl-code {
-    --sl-font-mono: 'Fira Code', monospace;
-    display: block;
-    margin: 2rem 0;
-    background: var(--uibg);
-    border-radius: 8px;
-    padding: 1rem;
-    border: 2px solid var(--inputborder);
-}
-
-sl-code::part(base) {
-    background: transparent;
-}
-
-body {
-    background: var(--bg) !important;
-}
-
-sl-code-block::part(base) {
-    background: var(--uibg);
-    border: 2px solid var(--inputborder);
-}
-
-sl-code-block::part(pre) {
-    background: transparent !important;
 }

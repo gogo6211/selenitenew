@@ -7,14 +7,17 @@
     
     <!-- Required Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/themes/dark.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/shoelace-autoloader.js"></script>
     
-    <!-- Styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/themes/dark.css" />
+    <!-- Site Styles -->
     <link rel="stylesheet" href="/blog.css">
     <link rel="stylesheet" href="/themes.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css"
+      integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" 
+      crossorigin="anonymous" 
+      referrerpolicy="no-referrer" />
 </head>
 <body>
     <!-- Header -->
@@ -38,7 +41,10 @@
         </a>
 
         <article id="article-container">
-            <!-- Content loaded dynamically -->
+            <div class="loading-state">
+                <sl-spinner style="font-size: 2rem;"></sl-spinner>
+                <p>Loading article...</p>
+            </div>
         </article>
     </main>
 
@@ -55,90 +61,92 @@
     </footer>
 
     <script type="module">
-        import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/utilities/base-path.js';
-        import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/code-block/code-block.js';
-        import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/alert/alert.js';
-        import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/icon/icon.js';
-        import 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/components/tag/tag.js';
+        import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/utilities/base-path.js';
+        setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/');
 
-        setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/');
-
-        async function loadArticleContent() {
-            try {
-                // Improved slug extraction and logging
-                let slug = window.location.pathname.replace(/\/blog\/|\/index\.html|\/$/g, '').split('/')[0];
-                console.log('[ArticleLoader] Extracted slug:', slug);
-                if (!slug) throw new Error('Invalid URL structure: Missing slug');
-
-                const url = `/blog/${slug}/content.html`;
-                console.log('[ArticleLoader] Fetching:', url);
-                const response = await fetch(url);
-                if (!response.ok) throw new Error(`HTTP ${response.status}: Failed to fetch content`);
-
-                const content = await response.text();
+        // Get article slug from URL
+        const slug = window.location.pathname.split('/')[2];
+        
+        // Load article content
+        $.get(`/blog/${slug}/content.html`)
+            .done(async content => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(content, 'text/html');
+                
+                // Extract metadata
+                const meta = JSON.parse(
+                    doc.querySelector('script[type="application/article-meta"]').textContent
+                );
 
-                const metaScript = doc.querySelector('script[type="application/article-meta"]');
-                if (!metaScript) {
-                    console.error('[ArticleLoader] Missing metaScript in content.html');
-                    throw new Error('Invalid article format: Missing metadata');
-                }
-                const articleContent = doc.getElementById('article-content');
-                if (!articleContent) {
-                    console.error('[ArticleLoader] Missing #article-content in content.html');
-                    throw new Error('Invalid article format: Missing content');
-                }
+                // Update page metadata
+                document.title = `${meta.title} | Sodalite`;
+                
+                // Build article structure
+                const articleHTML = `
+                    ${meta.thumbnail ? `
+                    <img class="article-thumbnail" 
+                         src="${meta.thumbnail}" 
+                         alt="${meta.thumbnailAlt || ''}">` : ''}
 
-                let meta;
-                try {
-                    meta = JSON.parse(metaScript.textContent);
-                } catch (e) {
-                    console.error('[ArticleLoader] Failed to parse meta JSON:', metaScript.textContent, e);
-                    throw new Error('Invalid article metadata JSON');
-                }
-
-                const container = document.getElementById('article-container');
-                if (!container) {
-                    console.error('[ArticleLoader] #article-container not found in index.html');
-                    throw new Error('Missing #article-container in index.html');
-                }
-
-                container.innerHTML = `
-                    ${meta.thumbnail ? `<img class="article-thumbnail" src="${meta.thumbnail}" alt="${meta.thumbnailAlt || ''}">` : ''}
                     <div class="article-header">
-                        <h1>${meta.title}</h1>
-                        <div class="meta">
+                        <h1 class="article-title">${meta.title}</h1>
+                        <div class="article-meta">
                             ${meta.date ? `<span>${new Date(meta.date).toLocaleDateString()}</span>` : ''}
                             ${meta.author ? `<span>By ${meta.author}</span>` : ''}
-                            ${meta.tags?.map(tag => `<sl-tag>${tag}</sl-tag>`).join('') || ''}
+                            ${meta.tags ? `<div class="tags">${meta.tags.map(t => `<sl-tag>${t}</sl-tag>`).join('')}</div>` : ''}
                         </div>
                     </div>
-                    <div class="article-body">${articleContent.innerHTML}</div>
+
+                    <div class="article-body">
+                        ${doc.getElementById('article-content').innerHTML}
+                    </div>
                 `;
 
-                if (typeof Prism !== 'undefined' && Prism.highlightAll) {
-                    Prism.highlightAll();
-                } else {
-                    console.warn('[ArticleLoader] Prism.js not loaded');
-                }
-                document.title = `${meta.title} | Sodalite`;
-            } catch (error) {
-                console.error('[ArticleLoader] Article load failed:', error);
-                const container = document.getElementById('article-container');
-                if (container) {
-                    container.innerHTML = `
-                        <sl-alert variant="danger" open>
-                            <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
-                            Failed to load article: ${error.message}
-                        </sl-alert>
-                    `;
-                }
-            }
-        }
+                $('#article-container').html(articleHTML);
+                
+                // Dynamically import components
+                const { SlCodeBlock, SlTag, SlAlert, SlIcon, SpinnerIcon } = await Promise.all([
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/code-block/code-block.js'),
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/tag/tag.js'),
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/alert/alert.js'),
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/icon/icon.js'),
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/spinner/spinner.js')
+                ]);
 
+                // Register components
+                customElements.define('sl-code-block', SlCodeBlock);
+                customElements.define('sl-tag', SlTag);
+                customElements.define('sl-alert', SlAlert);
+                customElements.define('sl-icon', SlIcon);
+                customElements.define('sl-spinner', SpinnerIcon);
+
+                // Add structured data
+                const structuredData = {
+                    "@context": "https://schema.org",
+                    "@type": "Article",
+                    "headline": meta.title,
+                    "datePublished": meta.date,
+                    "author": meta.author,
+                    "image": meta.thumbnail,
+                    "articleBody": doc.getElementById('article-content').textContent
+                };
+                
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.textContent = JSON.stringify(structuredData);
+                document.head.appendChild(script);
+            })
+            .fail(error => {
+                $('#article-container').html(`
+                    <sl-alert variant="danger" open>
+                        <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                        Failed to load article: ${error.statusText}
+                    </sl-alert>
+                `);
+            });
+
+        // Apply theme
         document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
-        loadArticleContent();
     </script>
 </body>
 </html>
