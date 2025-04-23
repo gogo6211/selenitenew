@@ -61,10 +61,14 @@
 
         async function loadArticleContent() {
             try {
-                const slug = window.location.pathname.split('/blog/')[1]?.split('/')[0];
+                // Improved slug extraction and logging
+                let slug = window.location.pathname.replace(/\/blog\/|\/index\.html|\/$/g, '').split('/')[0];
+                console.log('[ArticleLoader] Extracted slug:', slug);
                 if (!slug) throw new Error('Invalid URL structure: Missing slug');
 
-                const response = await fetch(`/blog/${slug}/content.html`);
+                const url = `/blog/${slug}/content.html`;
+                console.log('[ArticleLoader] Fetching:', url);
+                const response = await fetch(url);
                 if (!response.ok) throw new Error(`HTTP ${response.status}: Failed to fetch content`);
 
                 const content = await response.text();
@@ -72,11 +76,31 @@
                 const doc = parser.parseFromString(content, 'text/html');
 
                 const metaScript = doc.querySelector('script[type="application/article-meta"]');
+                if (!metaScript) {
+                    console.error('[ArticleLoader] Missing metaScript in content.html');
+                    throw new Error('Invalid article format: Missing metadata');
+                }
                 const articleContent = doc.getElementById('article-content');
-                if (!metaScript || !articleContent) throw new Error('Invalid article format: Missing metadata or content');
+                if (!articleContent) {
+                    console.error('[ArticleLoader] Missing #article-content in content.html');
+                    throw new Error('Invalid article format: Missing content');
+                }
 
-                const meta = JSON.parse(metaScript.textContent);
-                document.getElementById('article-container').innerHTML = `
+                let meta;
+                try {
+                    meta = JSON.parse(metaScript.textContent);
+                } catch (e) {
+                    console.error('[ArticleLoader] Failed to parse meta JSON:', metaScript.textContent, e);
+                    throw new Error('Invalid article metadata JSON');
+                }
+
+                const container = document.getElementById('article-container');
+                if (!container) {
+                    console.error('[ArticleLoader] #article-container not found in index.html');
+                    throw new Error('Missing #article-container in index.html');
+                }
+
+                container.innerHTML = `
                     ${meta.thumbnail ? `<img class="article-thumbnail" src="${meta.thumbnail}" alt="${meta.thumbnailAlt || ''}">` : ''}
                     <div class="article-header">
                         <h1>${meta.title}</h1>
@@ -89,20 +113,26 @@
                     <div class="article-body">${articleContent.innerHTML}</div>
                 `;
 
-                Prism.highlightAll();
+                if (typeof Prism !== 'undefined' && Prism.highlightAll) {
+                    Prism.highlightAll();
+                } else {
+                    console.warn('[ArticleLoader] Prism.js not loaded');
+                }
                 document.title = `${meta.title} | Sodalite`;
             } catch (error) {
-                console.error('Article load failed:', error);
-                document.getElementById('article-container').innerHTML = `
-                    <sl-alert variant="danger" open>
-                        <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
-                        Failed to load article: ${error.message}
-                    </sl-alert>
-                `;
+                console.error('[ArticleLoader] Article load failed:', error);
+                const container = document.getElementById('article-container');
+                if (container) {
+                    container.innerHTML = `
+                        <sl-alert variant="danger" open>
+                            <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                            Failed to load article: ${error.message}
+                        </sl-alert>
+                    `;
+                }
             }
         }
 
-        // Initialize
         document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
         loadArticleContent();
     </script>
