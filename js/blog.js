@@ -77,8 +77,12 @@
         <div class="article-body">${body}</div>
       `;
   
-      // syntax highlighting
-      if (window.Prism) Prism.highlightAll();
+      // syntax highlighting with highlight.js
+      if (window.hljs) {
+        document.querySelectorAll('pre code').forEach(block => {
+          window.hljs.highlightElement(block);
+        });
+      }
       document.title = `${meta.title} | Sodalite`;
   
     } catch (err) {
@@ -101,4 +105,3 @@
       document.documentElement.style.setProperty('--textcolor', '#e0aaff');
     }
   });
-  
