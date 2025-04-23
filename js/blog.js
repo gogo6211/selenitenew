@@ -1,31 +1,52 @@
 // /blog.js
-;(async () => {
-    const isArticlePage = location.pathname.match(/^\/blog\/[^\/]+\/(?:index\.html)?$/)
-    if (isArticlePage) {
-      await renderArticle()
+
+document.addEventListener('DOMContentLoaded', () => {
+    // normalize path and split into segments
+    const path = location.pathname
+    const clean = path.replace(/^\/|\/$/g, '')  // remove leading + trailing slash
+    const parts = clean.split('/')              // e.g. ["blog"], ["blog","test2"], ["blog.html"]
+  
+    const isIndex =
+      path === '/blog.html' ||
+      clean === 'blog' ||
+      clean === 'blog/index.html'
+    const isArticle =
+      parts[0] === 'blog' &&
+      parts.length === 2 &&
+      !parts[1].endsWith('.html')
+  
+    console.log('[blog.js] isIndex:', isIndex, 'isArticle:', isArticle)
+  
+    if (isArticle) {
+      renderArticle()
     } else {
-      await renderIndex()
+      renderIndex()
     }
-  })()
+  })
   
   
   // —— INDEX PAGE ——
   async function renderIndex() {
     const container = document.getElementById('articles')
+    if (!container) {
+      console.error('[blog.js] #articles container not found')
+      return
+    }
+  
     try {
       const res = await fetch('/articles.json')
-      if (!res.ok) throw new Error(`Status ${res.status}`)
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const articles = await res.json()
   
-      // remove any loading indicator
-      container.querySelector('.loading-state')?.remove()
+      // clear any loading placeholder
+      container.innerHTML = ''
   
       if (!articles.length) {
         container.innerHTML = `<p>No articles found.</p>`
         return
       }
   
-      articles.forEach(a => {
+      for (const a of articles) {
         const card = document.createElement('div')
         card.className = 'article-card'
         card.innerHTML = `
@@ -38,17 +59,22 @@
           location.href = `/blog/${a.slug}/`
         })
         container.appendChild(card)
-      })
+      }
   
-      // client-side search
-      document.getElementById('blogsearch').addEventListener('input', e => {
-        const q = e.target.value.toLowerCase()
-        document.querySelectorAll('.article-card').forEach(card => {
-          card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none'
+      // wire up search
+      const search = document.getElementById('blogsearch')
+      if (search) {
+        search.addEventListener('input', e => {
+          const q = e.target.value.toLowerCase()
+          document.querySelectorAll('.article-card').forEach(card => {
+            card.style.display =
+              card.textContent.toLowerCase().includes(q) ? '' : 'none'
+          })
         })
-      })
-    } catch (err) {
-      container.querySelector('.loading-state')?.remove()
+      }
+    }
+    catch (err) {
+      console.error('[blog.js] renderIndex error', err)
       container.innerHTML =
         `<p class="error">Failed to load articles: ${err.message}</p>`
     }
@@ -58,28 +84,33 @@
   // —— ARTICLE PAGE ——
   async function renderArticle() {
     const container = document.getElementById('article-container')
+    if (!container) {
+      console.error('[blog.js] #article-container not found')
+      return
+    }
+  
     try {
-      // derive slug
+      // slug is the second segment: /blog/<slug>/
       const slug = location.pathname.replace(/\/blog\/|\/$/g, '').split('/')[1]
-      const res = await fetch(`/blog/${slug}/content.html`)
-      if (!res.ok) throw new Error(`Status ${res.status}`)
+      const res  = await fetch(`/blog/${slug}/content.html`)
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const text = await res.text()
   
-      // parse fetched content.html
-      const doc = new DOMParser().parseFromString(text, 'text/html')
-      const metaScript = doc.querySelector('script[type="application/article-meta"]')
-      const articleContent = doc.getElementById('article-content')
-      if (!metaScript || !articleContent) throw new Error('Invalid article format')
-      const meta = JSON.parse(metaScript.textContent)
-      const bodyHTML = articleContent.innerHTML
+      const doc    = new DOMParser().parseFromString(text, 'text/html')
+      const metaS  = doc.querySelector('script[type="application/article-meta"]')
+      const artDiv = doc.getElementById('article-content')
+      if (!metaS || !artDiv) throw new Error('Invalid article format')
   
-      // *** missing in your snippet ***
+      const meta     = JSON.parse(metaS.textContent)
+      const bodyHTML = artDiv.innerHTML
+  
+      // inject into page
       container.innerHTML = `
         ${meta.thumbnail ? `<img class="article-thumbnail" src="${meta.thumbnail}" alt="${meta.thumbnailAlt||''}">` : ''}
         <div class="article-header">
           <h1>${meta.title}</h1>
           <div class="meta">
-            ${meta.date ? `<time>${new Date(meta.date).toLocaleDateString()}</time>` : ''}
+            ${meta.date   ? `<time>${new Date(meta.date).toLocaleDateString()}</time>` : ''}
             ${meta.author ? `<span>By ${meta.author}</span>` : ''}
             ${(meta.tags||[]).map(t=>`<sl-tag>${t}</sl-tag>`).join('')}
           </div>
@@ -87,37 +118,29 @@
         <div class="article-body">${bodyHTML}</div>
       `
   
-   // inside renderArticle(), after container.innerHTML = `…`
-container.querySelectorAll('sl-code-block').forEach(el => {
-    const lang     = el.getAttribute('language') || 'plaintext'
-    const codeText = el.textContent.trim()
-    
-    const pre  = document.createElement('pre')
-    const code = document.createElement('code')
-    
-    // tell Prism which language
-    code.classList.add(`language-${lang}`)
-    code.textContent = codeText
+      // code–block → <pre><code class="language-…">
+      container.querySelectorAll('sl-code-block').forEach(el => {
+        const lang     = el.getAttribute('language') || 'plaintext'
+        const codeText = el.textContent.trim()
+        const pre  = document.createElement('pre')
+        const code = document.createElement('code')
+        code.classList.add(`language-${lang}`)
+        code.textContent = codeText
+        pre.appendChild(code)
+        el.replaceWith(pre)
+      })
   
-    // ← add this for line numbers
-    pre.classList.add('line-numbers')
+      // Prism highlighting
+      if (window.Prism) {
+        Prism.highlightAll()
+      } else {
+        console.warn('Prism not loaded')
+      }
   
-    pre.appendChild(code)
-    el.replaceWith(pre)
-  })
-  
-  // then highlight
-  if (window.Prism) Prism.highlightAll()
-  
-  } else {
-    console.warn('Prism not loaded');
-  }
-  
-  
-      // update title
       document.title = `${meta.title} | Sodalite`
     }
     catch (err) {
+      console.error('[blog.js] renderArticle error', err)
       container.innerHTML = `
         <sl-alert variant="danger" open>
           <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
