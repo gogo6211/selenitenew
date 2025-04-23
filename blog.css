@@ -1,10 +1,19 @@
 @import url('/style.css');
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
 
+:root {
+    --bg: #10002b;
+    --textcolor: #e0aaff;
+    --uibg: #240046;
+    --inputbg: #3c096c;
+    --inputborder: #5a189a;
+    --shadow: rgba(0, 0, 0, 0.5);
+}
+
 /* Base Styles */
 body {
-    background: var(--bg);
-    color: var(--textcolor);
+    background: var(--bg, #000);
+    color: var(--textcolor, #fff);
 }
 
 /* Main Content Layout */

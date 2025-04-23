@@ -15,6 +15,17 @@ $(document).ready(() => {
     }
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const theme = localStorage.getItem('selenite.theme') || 'dark';
+    document.body.setAttribute('theme', theme);
+
+    if (!getComputedStyle(document.documentElement).getPropertyValue('--bg')) {
+        console.warn('[BlogJS] Missing CSS variables. Applying fallback theme.');
+        document.documentElement.style.setProperty('--bg', '#10002b');
+        document.documentElement.style.setProperty('--textcolor', '#e0aaff');
+    }
+});
+
 async function loadArticles() {
     try {
         const response = await fetch('/articles.json');

@@ -15,6 +15,13 @@
     <link rel="stylesheet" href="/themes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #10002b;
+            --textcolor: #e0aaff;
+            --uibg: #240046;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -172,6 +179,9 @@
 
         document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
         loadArticleContent();
+    </script>
+    <script>
+        document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
     </script>
 </body>
 </html>
