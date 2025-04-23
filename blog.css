@@ -215,3 +215,16 @@ sl-code {
 sl-code::part(base) {
     background: transparent;
 }
+
+body {
+    background: var(--bg) !important;
+}
+
+sl-code-block::part(base) {
+    background: var(--uibg);
+    border: 2px solid var(--inputborder);
+}
+
+sl-code-block::part(pre) {
+    background: transparent !important;
+}
