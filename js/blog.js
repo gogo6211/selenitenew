@@ -4,19 +4,65 @@ $(document).ready(() => {
     loadArticles().catch(handleLoadError);
 });
 
-async function loadArticles() {
+// Updated article loading code
+async function loadArticle() {
     try {
-        const response = await fetch('/articles.json');
-        if (!response.ok) throw new Error(`HTTP error! ${response.status}`);
+        const slug = window.location.pathname.split('/blog/')[1].split('/')[0];
+        const response = await fetch(`/blog/${slug}/content.html`);
         
-        articles = await response.json();
-        if (!Array.isArray(articles)) throw new Error('Invalid articles format');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
-        renderArticles();
-        initSearch();
+        const content = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(content, 'text/html');
+
+        // Error handling for missing metadata
+        const metaScript = doc.querySelector('script[type="application/article-meta"]');
+        if (!metaScript) throw new Error('Missing article metadata');
+        
+        const meta = JSON.parse(metaScript.textContent);
+        
+        // Error handling for missing content
+        const articleContent = doc.getElementById('article-content');
+        if (!articleContent) throw new Error('Missing article content div');
+
+        // Build article HTML
+        const articleHTML = `
+            ${meta.thumbnail ? `
+            <img class="article-thumbnail" 
+                 src="${meta.thumbnail}" 
+                 alt="${meta.thumbnailAlt || 'Article thumbnail'}">` : ''}
+            
+            <div class="article-header">
+                <h1>${meta.title}</h1>
+                <div class="meta">
+                    ${meta.date ? `<span>${new Date(meta.date).toLocaleDateString()}</span>` : ''}
+                    ${meta.author ? `<span>By ${meta.author}</span>` : ''}
+                    ${meta.tags?.map(tag => `<sl-tag>${tag}</sl-tag>`).join('') || ''}
+                </div>
+            </div>
+            
+            <div class="article-body">
+                ${articleContent.innerHTML}
+            </div>
+        `;
+
+        document.getElementById('article-container').innerHTML = articleHTML;
+        document.title = `${meta.title} | Sodalite`;
+
+        // Initialize components
+        customElements.whenDefined('sl-code-block').then(() => {
+            Prism.highlightAll();
+        });
 
     } catch (error) {
-        handleLoadError(error);
+        console.error('Article load error:', error);
+        document.getElementById('article-container').innerHTML = `
+            <sl-alert variant="danger" open>
+                <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                Error loading article: ${error.message}
+            </sl-alert>
+        `;
     }
 }
 
