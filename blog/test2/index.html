@@ -1,20 +1,11 @@
 <!DOCTYPE html>
-<html class="sl-theme-dark" lang="en">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loading Article... | Sodalite</title>
-    
-    <!-- Required Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    
-    <!-- Styles -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/themes/dark.css" />
+    <title>Loading Article...</title>
+    <!-- Required Styles -->
     <link rel="stylesheet" href="/blog.css">
-    <link rel="stylesheet" href="/themes.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/dist/themes/dark.css">
 </head>
 <body>
     <header>
@@ -29,13 +20,10 @@
             <a href="/about.html">About</a>
         </nav>
     </header>
-
-    <main class="article-content">
-        <a href="/blog.html" class="back-button">
-            <sl-icon name="arrow-left"></sl-icon> Back to Articles
-        </a>
-
-        <article id="article-container"></article>
+    
+    <main>
+        <a href="/blog.html" class="back-button">← Back to Articles</a>
+        <div id="article-content"></div>
     </main>
 
     <footer class="main-footer">
@@ -49,56 +37,37 @@
         </div>
     </footer>
 
-    <script type="module">
-        async function loadArticle() {
-            const slug = window.location.pathname.split('/blog/')[1]?.split('/')[0];
-            if (!slug) {
-                showError('Invalid URL structure: Missing slug');
-                return;
-            }
-
+    <!-- Simple Loader Script -->
+    <script>
+        async function loadContent() {
             try {
+                // Get the slug from URL
+                const slug = window.location.pathname.split('/blog/')[1].split('/')[0];
+                
+                // Load content.html
                 const response = await fetch(`/blog/${slug}/content.html`);
-                if (!response.ok) throw new Error(`HTTP ${response.status}: Failed to fetch content`);
+                const html = await response.text();
+                
+                // Insert into page
+                document.getElementById('article-content').innerHTML = html;
+                
+                // Set document title from metadata
+                const meta = JSON.parse(
+                    document.querySelector('script[type="application/article-meta"]').textContent
+                );
+                document.title = meta.title + " | Sodalite";
 
-                const contentHTML = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(contentHTML, 'text/html');
-
-                const meta = JSON.parse(doc.querySelector('script[type="application/article-meta"]').textContent);
-                const articleContent = doc.querySelector('#article-content').innerHTML;
-
-                document.getElementById('article-container').innerHTML = `
-                    ${meta.thumbnail ? `<img class="article-thumbnail" src="${meta.thumbnail}" alt="${meta.thumbnailAlt || ''}">` : ''}
-                    <div class="article-header">
-                        <h1>${meta.title}</h1>
-                        <div class="meta">
-                            ${meta.date ? `<span>${new Date(meta.date).toLocaleDateString()}</span>` : ''}
-                            ${meta.author ? `<span>By ${meta.author}</span>` : ''}
-                            ${meta.tags?.map(tag => `<sl-tag>${tag}</sl-tag>`).join('') || ''}
-                        </div>
-                    </div>
-                    <div class="article-body">${articleContent}</div>
-                `;
-
-                document.title = `${meta.title} | Sodalite`;
-                Prism.highlightAll();
             } catch (error) {
-                showError(`Failed to load article: ${error.message}`);
+                document.getElementById('article-content').innerHTML = `
+                    <div class="error">
+                        Failed to load article: ${error.message}
+                    </div>
+                `;
             }
         }
 
-        function showError(message) {
-            document.getElementById('article-container').innerHTML = `
-                <sl-alert variant="danger" open>
-                    <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
-                    ${message}
-                </sl-alert>
-            `;
-        }
-
-        document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
-        loadArticle();
+        // Start loading
+        loadContent();
     </script>
 </body>
 </html>
