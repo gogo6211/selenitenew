@@ -87,24 +87,26 @@
         <div class="article-body">${bodyHTML}</div>
       `
   
-      // 1) transform only inside this container
-      container.querySelectorAll('sl-code-block').forEach(el => {
-        const lang = el.getAttribute('language') || 'plaintext'
-        const codeText = el.textContent
-        const pre = document.createElement('pre')
-        const code = document.createElement('code')
-        code.classList.add(`language-${lang}`)
-        code.textContent = codeText.trim()
-        pre.appendChild(code)
-        el.replaceWith(pre)
-      })
+      // Replace sl-code-blocks with Prism-ready blocks
+container.querySelectorAll('sl-code-block').forEach(el => {
+    const lang = el.getAttribute('language') || 'plaintext';
+    const codeText = el.textContent;
+    const pre = document.createElement('pre');
+    const code = document.createElement('code');
+    code.classList.add(`language-${lang}`);
+    code.textContent = codeText.trim();
+    pre.appendChild(code);
+    pre.classList.add('line-numbers');
+    el.replaceWith(pre);
+  });
   
-      // 2) run Highlight.js
-      if (window.hljs) {
-        hljs.highlightAll()
-      } else {
-        console.warn('Highlight.js not loaded')
-      }
+  // Let Prism do its thing
+  if (window.Prism) {
+    Prism.highlightAll();
+  } else {
+    console.warn('Prism not loaded');
+  }
+  
   
       // update title
       document.title = `${meta.title} | Sodalite`
