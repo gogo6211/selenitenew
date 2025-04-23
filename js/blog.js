@@ -71,8 +71,26 @@
       // parse
       const doc = new DOMParser().parseFromString(text, 'text/html');
       const meta = JSON.parse(doc.querySelector('script[type="application/article-meta"]').textContent);
-      const body = doc.getElementById('article-content').innerHTML;
-  
+      let body = doc.getElementById('article-content').innerHTML;
+
+      // --- Convert <sl-code-block language="...">...</sl-code-block> to <pre><code class="language-...">...</code></pre> ---
+      // Create a temporary container to manipulate HTML
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = body;
+      tempDiv.querySelectorAll('sl-code-block').forEach(el => {
+        const lang = el.getAttribute('language') || '';
+        // Use textContent to preserve code formatting
+        const code = el.textContent;
+        const pre = document.createElement('pre');
+        const codeElem = document.createElement('code');
+        if (lang) codeElem.className = `language-${lang}`;
+        codeElem.textContent = code;
+        pre.appendChild(codeElem);
+        el.replaceWith(pre);
+      });
+      body = tempDiv.innerHTML;
+      // --- end conversion ---
+
       // build
       container.innerHTML = `
         ${meta.thumbnail ? `<img src="${meta.thumbnail}" alt="${meta.thumbnailAlt||''}" class="article-thumbnail"/>` : ''}
@@ -87,7 +105,7 @@
   
       // syntax highlighting with highlight.js
       if (window.hljs) {
-        document.querySelectorAll('pre code').forEach(block => {
+        container.querySelectorAll('pre code').forEach(block => {
           window.hljs.highlightElement(block);
         });
       }
