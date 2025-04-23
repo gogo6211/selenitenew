@@ -1,10 +1,10 @@
 [
     {
-        "title": "Web Development Test",
-        "slug": "web-dev",
-        "date": "2024-04-22",
+        "title": "Games not loading for users with pinned games",
+        "slug": "v7.12bug",
+        "date": "2024-04-14",
         "author": "gogogogo621",
-        "excerpt": "Complete test to modern web development practices...",
+        "excerpt": "Investigating the “Games Not Loading” Error...",
         "thumbnail": "/blog/images/webdev.png"
     },
     {

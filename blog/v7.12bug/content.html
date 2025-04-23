@@ -1,0 +1,76 @@
+<!-- ARTICLE METADATA -->
+<script type="application/article-meta">
+    {
+        "title": "Investigating the Games Loading Issue",
+        "author": "gogogogo621",
+        "date": "2025-04-23",
+        "thumbnail": "/blog/images/webdev.png",
+        "tags": ["Web Development", "Troubleshooting", "Games"]
+    }
+    </script>
+    
+    <!-- ARTICLE CONTENT -->
+    <div id="article-content">
+        <h2>Investigating the “Games Not Loading” Error</h2>
+        <p>Originally, I thought the games were simply failing to render due to a front-end hiccup. After digging in more deeply, however, I discovered an <strong>undefined token error</strong> when the site processes <code>games.json</code> (our master list of games, avatars, and library folders).</p>
+        <p>Users reported seeing errors like <code>"[%22polytrack%22] is not valid JSON."</code> Oddly, the JSON itself was valid—there were no stray spaces (since “%22” actually represents a quotation mark). Another user ran into the same undefined-token problem, but it only broke once the loader reached the <code>Minecraft</code> entry. And on clicking “Play a Random Game,” they got <code>"game list is not defined."</code></p>
+        <p>All evidence pointed to a caching issue on certain Chromebooks: the JSON file was being fetched or stored in a corrupted or improperly encoded state.</p>
+    
+        <h3>Added Temporary Workarounds & Enhanced Logging</h3>
+        <ul>
+            <li>If the games fail to load within one second, a warning message now appears along with a mock console showing all errors.</li>
+            <li>You can click “Copy Errors” to grab the full log for easy paste into a bug report.</li>
+            <li>A “Re-cache JSON” button lets you force-refresh the file if it’s already been corrupted in your browser cache.</li>
+        </ul>
+        <p>These additions won’t fix the root cause, but they’ll give you more visibility into what’s happening and make it easier to send me detailed logs.</p>
+    
+        <h3>v7.12 – Permanent Fix for Pinned Games Bug</h3>
+        <p>During further debugging I discovered another major issue: if you’d pinned at least one game, the loader would break entirely. The culprit? Our new cookie popup was saving the “pinned” flag as a boolean <code>true</code> instead of the string <code>"true"</code> required by JSON parsing.</p>
+        <p><strong>What’s changed in v7.12:</strong></p>
+        <ul>
+            <li>Corrected the cookie value format so that pinned-games cookies are always valid JSON strings.</li>
+            <li>Improved cookie handling logic to filter out any non-JSON cookies when fetching your pinned list.</li>
+        </ul>
+        <p>Now, even if I slip up on cookie formatting in a future release, your pinned games won’t break the loader or the site experience.</p>
+    
+        <blockquote>
+            <p>“Thanks to the two community members who submitted detailed bug reports—your help was invaluable!”</p>
+            <cite>– gogogogo621</cite>
+        </blockquote>
+    </div>
+    
+    <style>
+    /* Custom article styles */
+    .content-image {
+        max-width: 100%;
+        border-radius: 12px;
+        border: 3px solid var(--inputborder);
+        margin: 2rem 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .custom-warning {
+        margin: 2.5rem 0;
+    }
+    
+    blockquote {
+        padding: 1.5rem;
+        margin: 2rem 0;
+        background: var(--inputbg);
+        border-left: 4px solid var(--inputborder);
+        border-radius: 8px;
+        font-style: italic;
+    }
+    
+    sl-code-block {
+        --sl-font-mono: 'Fira Code', monospace;
+        font-size: 0.9rem;
+    }
+    
+    .article-header h1 {
+        font-size: 2.5rem;
+        color: var(--textcolor);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    }
+    </style>
+    
