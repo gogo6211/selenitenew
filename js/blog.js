@@ -40,6 +40,10 @@ async function loadArticles() {
 
 async function loadArticleContent(slug) {
     try {
+        if (!slug) {
+            // Fix: robust slug extraction fallback
+            slug = window.location.pathname.replace(/\/blog\/|\/index\.html|\/$/g, '').split('/')[0];
+        }
         if (!slug) throw new Error('Invalid URL structure: Missing slug');
 
         const response = await fetch(`/blog/${slug}/content.html`);
