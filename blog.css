@@ -143,35 +143,48 @@ header {
     0% { opacity: 0; transform: translateY(20px); }
     100% { opacity: 1; transform: translateY(0); }
 }
-/* Code block styling – centered, with syntax theme & horizontal scroll */
+
 pre[class*="language-"], pre.line-numbers {
     background: var(--inputbg);
     border: 2px solid var(--inputborder);
     border-radius: 8px;
     padding: 1rem;
     font-family: 'Fira Code', monospace;
-    margin: 2rem auto;               /* center horizontally */  /* :contentReference[oaicite:0]{index=0} */
+    margin: 2rem auto;
     overflow-x: auto;
-  }
+}
   
-  /* Ensure inline code still looks good */
-  code {
+code {
     font-family: 'Fira Code', monospace;
     font-size: 0.9rem;
-  }
+}
   
-  /* Make room for the line-numbers gutter */
-  pre.line-numbers {
-    padding-left: 3.8em;            /* leave space for line numbers */  /* :contentReference[oaicite:1]{index=1} */
+pre.line-numbers {
+    padding-left: 3.8em;
     position: relative;
-  }
-  
-  /* On small screens, let code scroll full-width */
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     pre[class*="language-"], pre.line-numbers {
       width: calc(100% + 2rem);
       margin: 1rem -1rem;
       border-radius: 0;
     }
-  }
+}
+ul,  
+ol {
+    margin: 1.5rem 0;
+    padding-inline-start: 1.5rem;
+    list-style-position: outside;
+}
   
+ul li,  
+ol li {
+    margin-bottom: 0.5rem;
+    padding-left: 0;
+}
+  
+ul li::marker,
+ol li::marker {
+    margin-right: 0.5rem;
+}  
