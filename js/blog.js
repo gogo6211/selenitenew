@@ -122,8 +122,9 @@ document.addEventListener('DOMContentLoaded', () => {
       container.querySelectorAll('sl-code-block').forEach(el => {
         const lang     = el.getAttribute('language') || 'plaintext'
         const codeText = el.textContent.trim()
-        const pre  = document.createElement('pre')
-        const code = document.createElement('code')
+        const pre  = document.createElement('pre');
+        pre.classList.add('line-numbers');
+        const code = document.createElement('code');
         code.classList.add(`language-${lang}`)
         code.textContent = codeText
         pre.appendChild(code)

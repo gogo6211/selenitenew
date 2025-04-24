@@ -106,6 +106,7 @@
                     const lang = el.getAttribute('language') || '';
                     const code = el.textContent;
                     const pre = document.createElement('pre');
+                    pre.classList.add('line-numbers');
                     const codeElem = document.createElement('code');
                     if (lang) codeElem.className = `language-${lang}`;
                     codeElem.textContent = code;
