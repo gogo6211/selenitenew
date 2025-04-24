@@ -1,76 +1,135 @@
 <!-- ARTICLE METADATA -->
 <script type="application/article-meta">
     {
-        "title": "Investigating the Games Loading Issue",
+        "title": "Fixing Games-Loading Errors: Undefined Token & Caching Issues",
         "author": "gogogogo621",
-        "date": "2025-04-23",
+        "date": "2024-04-22",
         "thumbnail": "/blog/images/webdev.png",
-        "tags": ["Web Development", "Troubleshooting", "Games"]
+        "thumbnailAlt": "Modern web development concepts illustration",
+        "tags": ["JavaScript", "Web Development", "Debugging", "Error Handling"]
     }
-    </script>
-    
-    <!-- ARTICLE CONTENT -->
-    <div id="article-content">
-        <h2>Investigating the “Games Not Loading” Error</h2>
-        <p>Originally, I thought the games were simply failing to render due to a front-end hiccup. After digging in more deeply, however, I discovered an <strong>undefined token error</strong> when the site processes <code>games.json</code> (our master list of games, avatars, and library folders).</p>
-        <p>Users reported seeing errors like <code>"[%22polytrack%22] is not valid JSON."</code> Oddly, the JSON itself was valid—there were no stray spaces (since “%22” actually represents a quotation mark). Another user ran into the same undefined-token problem, but it only broke once the loader reached the <code>Minecraft</code> entry. And on clicking “Play a Random Game,” they got <code>"game list is not defined."</code></p>
-        <p>All evidence pointed to a caching issue on certain Chromebooks: the JSON file was being fetched or stored in a corrupted or improperly encoded state.</p>
-    
-        <h3>Added Temporary Workarounds & Enhanced Logging</h3>
-        <ul>
-            <li>If the games fail to load within one second, a warning message now appears along with a mock console showing all errors.</li>
-            <li>You can click “Copy Errors” to grab the full log for easy paste into a bug report.</li>
-            <li>A “Re-cache JSON” button lets you force-refresh the file if it’s already been corrupted in your browser cache.</li>
-        </ul>
-        <p>These additions won’t fix the root cause, but they’ll give you more visibility into what’s happening and make it easier to send me detailed logs.</p>
-    
-        <h3>v7.12 – Permanent Fix for Pinned Games Bug</h3>
-        <p>During further debugging I discovered another major issue: if you’d pinned at least one game, the loader would break entirely. The culprit? Our new cookie popup was saving the “pinned” flag as a boolean <code>true</code> instead of the string <code>"true"</code> required by JSON parsing.</p>
-        <p><strong>What’s changed in v7.12:</strong></p>
-        <ul>
-            <li>Corrected the cookie value format so that pinned-games cookies are always valid JSON strings.</li>
-            <li>Improved cookie handling logic to filter out any non-JSON cookies when fetching your pinned list.</li>
-        </ul>
-        <p>Now, even if I slip up on cookie formatting in a future release, your pinned games won’t break the loader or the site experience.</p>
-    
-        <blockquote>
-            <p>“Thanks to the two community members who submitted detailed bug reports—your help was invaluable!”</p>
-            <cite>– gogogogo621</cite>
-        </blockquote>
+</script>
+
+<!-- ARTICLE CONTENT -->
+<div id="article-content">
+    <h2>Investigating “Undefined Token” & JSON Caching Errors</h2>
+
+    <div class="custom-warning">
+        <sl-alert variant="warning" open>
+            <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+            Always validate user input and handle edge cases! JSON parsing errors can break features unexpectedly.
+        </sl-alert>
     </div>
-    
-    <style>
-    /* Custom article styles */
+
+    <p>Originally, I couldn’t reproduce the “games not loading” error. After digging in, I discovered that some users’ browsers (notably Chromebooks) were serving a corrupted or improperly encoded <code>games.json</code>. The error message reads:</p>
+    <sl-code-block language="text">
+        "[%22polytrack%22] is not valid JSON."
+    </sl-code-block>
+    <p>Here, <code>%22</code> represents a space character in URL encoding. Although the source JSON is valid, the cached version becomes malformed, causing the parser to choke when it encounters entries like “Minecraft.”</p>
+
+    <h3>What I Updated</h3>
+    <ul>
+        <li>After 1 second without a successful JSON load, show an on-screen message and a mock console logging all parse errors.</li>
+        <li>Add a “Copy Errors” button so users can easily grab the logs for bug reports.</li>
+        <li>Provide a “Recache JSON” button that forces the browser to fetch a fresh copy of <code>games.json</code>.</li>
+    </ul>
+
+    <blockquote>
+        <p>"I think it is a caching issue, so I added a 'click me to fix maybe?' button along with more advanced error logging."</p>
+        <cite>- gogogogo621</cite>
+    </blockquote>
+
+    <h3>Version 7.12: Pinned-Games Cookie Bug Fix</h3>
+    <p>After further investigation, I discovered a second major bug: if you had any games pinned, the load script would break entirely. The culprit was the new cookie popup storing <code>pinnedGames=true</code> (a boolean) instead of <code>"true"</code> (a JSON string).</p>
+    <ul>
+        <li>Fixed cookie parsing: now filters out any non-JSON cookies before loading pinned games.</li>
+        <li>Ensures future cookie mishandling won’t block the main game list.</li>
+    </ul>
+    <p>To the two users who submitted bug reports—thank you! Your logs helped me track down these edge cases.</p>
+
+    <h3>Debugging Pro Tips</h3>
+    <sl-code-block language="javascript">
+        // Enhanced error logger
+        function fetchGames() {
+            return fetch('games.json')
+                .then(res => res.text())
+                .then(text => {
+                    try {
+                        return JSON.parse(text);
+                    } catch (err) {
+                        showErrorUI(err, text);
+                        throw err;
+                    }
+                });
+        }
+
+        function showErrorUI(err, raw) {
+            const consoleEl = document.getElementById('error-console');
+            consoleEl.textContent = raw;
+            document.getElementById('copy-errors').disabled = false;
+            console.error('[JSON ERROR]', err, raw);
+        }
+
+        document.getElementById('recache-json').addEventListener('click', () => {
+            fetchGames().then(initGameLoader);
+        });
+    </sl-code-block>
+
+    <img src="/blog/images/test2.png"
+         alt="Code quality metrics dashboard example"
+         class="content-image">
+
+</div>
+
+<style>
+.content-image {
+    max-width: 100%;
+    border-radius: 12px;
+    border: 3px solid var(--inputborder);
+    margin: 2rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.custom-warning {
+    margin: 2.5rem 0;
+    background: var(--uibg);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+blockquote {
+    padding: 1.5rem;
+    margin: 2rem 0;
+    background: var(--inputbg);
+    border-left: 4px solid var(--inputborder);
+    border-radius: 8px;
+    font-style: italic;
+    color: var(--textcolor);
+}
+
+sl-code-block {
+    --sl-font-mono: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    margin: 2rem 0;
+}
+
+.article-header h1 {
+    font-size: 2.5rem;
+    color: var(--textcolor);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
     .content-image {
-        max-width: 100%;
-        border-radius: 12px;
-        border: 3px solid var(--inputborder);
-        margin: 2rem 0;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        margin: 1rem -1rem;
+        width: calc(100% + 2rem);
+        border-radius: 0;
     }
-    
-    .custom-warning {
-        margin: 2.5rem 0;
-    }
-    
-    blockquote {
-        padding: 1.5rem;
-        margin: 2rem 0;
-        background: var(--inputbg);
-        border-left: 4px solid var(--inputborder);
-        border-radius: 8px;
-        font-style: italic;
-    }
-    
+
     sl-code-block {
-        --sl-font-mono: 'Fira Code', monospace;
-        font-size: 0.9rem;
+        margin: 1.5rem -1rem;
+        width: calc(100% + 2rem);
     }
-    
-    .article-header h1 {
-        font-size: 2.5rem;
-        color: var(--textcolor);
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-    }
-    </style>
-    
+}
+</style>

@@ -141,12 +141,8 @@
 
                 $('#article-container').html(articleHTML);
 
-                // Highlight.js syntax highlighting
-                if (window.hljs) {
-                    $('#article-container pre code').each(function() {
-                        window.hljs.highlightElement(this);
-                    });
-                }
+                if (window.Prism) {
+                    Prism.highlightAll();
                 
                 // Dynamically import components
                 const { SlTag, SlAlert, SlIcon, SpinnerIcon } = await Promise.all([
