@@ -12,7 +12,7 @@
 
 <!-- ARTICLE CONTENT -->
 <div id="article-content">
-    <h2>Investigating “Undefined Token” & JSON Caching Errors</h2>
+    <h3>Investigating “Undefined Token” & JSON Caching Errors</h3>
 
     <div class="custom-warning">
         <sl-alert variant="warning" open>
@@ -21,9 +21,9 @@
         </sl-alert>
     </div>
 
-    <p>Originally, I couldn’t reproduce the “games not loading” error. After digging in, I discovered that some users’ browsers (notably Chromebooks) were serving a corrupted or improperly encoded <code>games.json</code>. The error message would read:</p>
+    <p>Originally, I couldn’t reproduce the “games not loading” error. After digging in, I discovered that some users’ browsers (notably Chromebooks) were serving a corrupted or improperly encoded <code>games.json</code>. The error message would read `"[%22polytrack%22]" is not valid JSON`</p>
     <sl-code-block language="markdown">
-        "[%22polytrack%22]" is not valid JSON.`
+        `"[%22polytrack%22]" is not valid JSON.`
     </sl-code-block>
     <p>Here, <code>%22</code> represents a space character in URL encoding. Although the source JSON is valid, the cached version becomes malformed, causing the parser to choke when it encounters entries like “Minecraft.”</p>
 

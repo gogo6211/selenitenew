@@ -79,7 +79,48 @@ document.addEventListener('DOMContentLoaded', () => {
         `<p class="error">Failed to load articles: ${err.message}</p>`
     }
   }
+
+
+
+
+
+
+
+
+  function processParagraphInlineCode(container) {
+    container.querySelectorAll('p').forEach(p => {
+      // We only want to replace backticks in the *text* nodes,
+      // so we split by backticks, then wrap every odd segment in code.
+      let parts = p.innerHTML.split(/`([^`]+)`/g);
+      // parts will be [ beforeText, codeText, afterText, ... ]
+      for (let i = 1; i < parts.length; i += 2) {
+        parts[i] = `<code>${parts[i]}</code>`;
+      }
+      p.innerHTML = parts.join('');
+    });
+  }
   
+  // Call it on your tempDiv right before inserting:
+  processParagraphInlineCode(tempDiv);
+
+  
+
+  // … after your sl-code-block → <pre><code> conversion …
+processParagraphInlineCode(tempDiv);
+
+// Now build the final HTML:
+const articleHTML = `
+  ${meta.thumbnail ? `<img …>` : ''}
+  <div class="article-header">…</div>
+  <div class="article-body">${tempDiv.innerHTML}</div>
+`;
+
+
+
+
+
+
+
   
   // —— ARTICLE PAGE ——
   async function renderArticle() {
