@@ -58,7 +58,7 @@
         // 5. write it back, without affecting any other cookies
         document.cookie =
           MY_COOKIE + '=' + encodeURIComponent(JSON.stringify(data)) +
-          '; path=/; max-age=' + (60*60*24*365) +  // 1 year
+          '; path=/; max-age=' + (60*60*24*1) +  // 1 year
           '; SameSite=Lax; Secure';
       })();
       </script>
