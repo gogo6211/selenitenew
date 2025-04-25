@@ -32,7 +32,7 @@ header {
 
 /* Search Component */
 #blogsearch {
-    width: 60%;
+    width: 80%;
     margin: 2rem auto;
     padding: 1rem;
     display: block;
@@ -42,7 +42,7 @@ header {
     border-radius: 25px;
     color: var(--textcolor);
     transition: all 0.3s ease;
-}
+  }  
 
 #blogsearch:hover {
     transform: scale(1.02);
@@ -171,20 +171,15 @@ pre.line-numbers {
       border-radius: 0;
     }
 }
-ul,  
-ol {
+
+ul, ol {
     margin: 1.5rem 0;
-    padding-inline-start: 1.5rem;
+    padding-inline-start: 1.2rem;
     list-style-position: outside;
 }
   
-ul li,  
-ol li {
+ul li, ol li {
     margin-bottom: 0.5rem;
     padding-left: 0;
 }
-  
-ul li::marker,
-ol li::marker {
-    margin-right: 0.5rem;
-}  
+    
