@@ -24,44 +24,31 @@
 
     <script>
       (function(){
-        // 1. cookie‐read helper
+        // Helper to read any cookie by name
         function getCookie(name) {
-          const re = new RegExp('(?:^|; )' +
-            name.replace(/([.$?*|{}()[\]\\/+^])/g,'\\$1') +
-            '=([^;]*)');
-          const m = document.cookie.match(re);
+          const m = document.cookie.match(
+            new RegExp('(?:^|; )' + name.replace(/([.*+?^${}()|\[\]\/\\])/g,'\\$1') + '=([^;]*)')
+          );
           return m ? decodeURIComponent(m[1]) : '';
         }
       
-        // 2. grab & split
-        const fullClarity = getCookie('_clck') || '';
-        const clarityUID = fullClarity.split('|')[0] || '';
-        if (!clarityUID) return;  // nothing to do
+        // Get the full Clarity cookie, split off the first segment
+        const full = getCookie('_clck') || '';
+        const shortId = full.split('|')[0] || '';
       
-        // 3. load our JSON cookie
-        const MY_COOKIE = 'user_ids';
-        let data = {};
-        const raw = document.cookie
-          .split('; ')
-          .find(c => c.indexOf(MY_COOKIE + '=') === 0);
-        if (raw) {
-          try {
-            data = JSON.parse(decodeURIComponent(raw.split('=')[1]));
-          } catch (e) {
-            data = {};
-          }
+        if (shortId) {
+          // Set a new cookie on your domain named "tallyclarity"
+          // Expires in 30 days (change max-age if you like)
+          document.cookie =
+            'tallyclarity=' + encodeURIComponent(shortId) +
+            '; max-age=' + 30*24*60*60 +    // 30 days
+            '; path=/' +
+            '; SameSite=None' +
+            '; Secure';
         }
-      
-        // 4. stash the clarity UID
-        data.clarity_uid = clarityUID;
-      
-        // 5. write it back, without affecting any other cookies
-        document.cookie =
-          MY_COOKIE + '=' + encodeURIComponent(JSON.stringify(data)) +
-          '; path=/; max-age=' + (60*60*24*1) +  // 1 year
-          '; SameSite=Lax; Secure';
       })();
       </script>
+      
       
    
 
