@@ -23,7 +23,7 @@
 
     <p>Originally, I couldn’t reproduce the “games not loading” error. After digging in, I discovered that some users’ browsers (notably Chromebooks) were serving a corrupted or improperly encoded <code>games.json</code>. The error message reads:</p>
     <sl-code-block language="text">
-        "[%22polytrack%22] is not valid JSON."
+        "[%22polytrack%22]" is not valid JSON."
     </sl-code-block>
     <p>Here, <code>%22</code> represents a space character in URL encoding. Although the source JSON is valid, the cached version becomes malformed, causing the parser to choke when it encounters entries like “Minecraft.”</p>
 
@@ -49,7 +49,7 @@
 
     <h3>Debugging Pro Tips</h3>
     <sl-code-block language="javascript">
-        // Enhanced error logger
+        // add error logging
         function fetchGames() {
             return fetch('games.json')
                 .then(res => res.text())
@@ -75,7 +75,7 @@
         });
     </sl-code-block>
 
-    <img src="/blog/images/test2.png"
+    <img src="/blog/images/v7.12bugb.png"
          alt="Code quality metrics dashboard example"
          class="content-image">
 
