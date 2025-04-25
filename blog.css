@@ -181,5 +181,6 @@ ul, ol {
 ul li, ol li {
     margin-bottom: 0.5rem;
     padding-left: 0;
+    text-align: left;
 }
     
