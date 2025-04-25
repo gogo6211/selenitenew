@@ -7,20 +7,18 @@
   <style>
     /* Dark-mode theme variables */
     body[theme="dark"] {
-      --inputbg:     #333333;
-      --inputborder: #444444;
-      --uibg:        #242424;
-      --textcolor:   #fff;
-      --bg:          #0c0c0c;
-      --shadow:      2px 2px 5px rgba(255, 255, 255, 0.1);
+      --inputbg:    #333333;
+      --inputborder:#444444;
+      --uibg:       #242424;
+      --textcolor:  #fff;
+      --bg:         #0c0c0c;
+      --shadow:     2px 2px 5px rgba(255, 255, 255, 0.1);
     }
 
     /* reset and full-viewport */
     html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
       background-color: var(--bg);
       color: var(--textcolor);
     }
@@ -30,21 +28,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 100vw;
-      height: 100vh;
+      width: 100vw; height: 100vh;
     }
 
     /* button fills container but keeps rounding */
     .full-box button {
       box-sizing: border-box;
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       cursor: pointer;
       background-color: var(--inputbg);
       border: 3px solid var(--inputborder);
       border-radius: 10px;
-      padding: 0;        /* remove default padding so full-height */
-      margin: 0;         /* edge-to-edge */
+      margin: 0; padding: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -59,8 +54,7 @@
       transform: scale(0.98);
     }
     .full-box button img {
-      width: 2em;
-      height: 2em;
+      width: 2em; height: 2em;
       user-select: none;
       pointer-events: none;
     }
@@ -75,7 +69,7 @@
   </div>
 
   <script>
-    // Read any cookie by name
+    // read a cookie by name
     function getCookie(name) {
       const match = document.cookie.match(
         new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g,'\\$1') + '=([^;]*)')
@@ -83,21 +77,16 @@
       return match ? decodeURIComponent(match[1]) : '';
     }
 
-    // Parse your JSON cookie, return its object or {}
-    function getJsonCookie(name) {
-      const raw = getCookie(name);
-      if (!raw) return {};
-      try {
-        return JSON.parse(raw);
-      } catch {
-        return {};
-      }
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
-      const data = getJsonCookie('user_ids');
-      const uid  = data.clarity_uid || 'n/a';
+      // load our JSON cookie
+      let data = {};
+      const raw = getCookie('user_ids');
+      if (raw) {
+        try { data = JSON.parse(raw); }
+        catch(e) { data = {}; }
+      }
 
+      const uid = data.clarity_uid || 'n/a';
       const span = document.getElementById('uid');
       const btn  = document.getElementById('copy-button');
 
@@ -106,9 +95,9 @@
       btn.addEventListener('click', () => {
         navigator.clipboard.writeText(uid)
           .then(() => {
-            const old = span.textContent;
+            const prev = span.textContent;
             span.textContent = 'Copied!';
-            setTimeout(() => { span.textContent = old; }, 1500);
+            setTimeout(() => { span.textContent = prev; }, 1500);
           })
           .catch(console.error);
       });
