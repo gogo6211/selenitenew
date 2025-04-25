@@ -53,7 +53,78 @@
     <main id="main" class="noscroll"> 
     <h1>Suggestions & Bug Reports</h1>
     <p>Send all game Suggestions and Bug Reports <a href="https://tally.so/r/312JQg">here</a>!</p>
-    <p>See all the games that cannot be added to to my current hosting limits of 25mb per file <a href="/over25mb.txt">here</a></p>
+    <p>Below is your verifictaion code (so i know your a real user)</p>
+
+
+
+    <!-- === USER-ID DISPLAY + COPY BUTTON === -->
+<div id="user-id-container" style="display: inline-flex; align-items: center; gap: 8px;">
+  <!-- this is the “icon” showing the ID -->
+  <span id="user-id-icon" class="user-id-icon">…</span>
+  <!-- this button copies it -->
+  <button id="copy-user-id" class="copy-button">Copy</button>
+</div>
+
+<!-- === STYLES === -->
+<style>
+  .user-id-icon {
+    display: inline-block;
+    min-width: 2.5em;
+    padding: 0.5em 0.75em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    font-family: monospace;
+    text-align: center;
+    user-select: all;
+  }
+  .copy-button {
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    font-size: 0.9em;
+    cursor: pointer;
+  }
+  .copy-button:active {
+    background-color: #0056b3;
+  }
+</style>
+
+<!-- === SCRIPT === -->
+<script>
+  // helper to read a cookie by name
+  function getCookie(name) {
+    const cookieStr = document.cookie || '';
+    const match = cookieStr.match(new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g,'\\$1') + '=([^;]*)'));
+    return match ? decodeURIComponent(match[1]) : '';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // grab the _clck cookie
+    const userId = getCookie('_clck') || 'n/a';
+    const iconEl = document.getElementById('user-id-icon');
+    const copyBtn = document.getElementById('copy-user-id');
+
+    // show it
+    iconEl.textContent = userId;
+
+    // wire up copy action
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText(userId)
+        .then(() => {
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+        })
+        .catch(err => {
+          console.error('Copy failed', err);
+        });
+    });
+  });
+</script>
+
+
     </main>
     
     <footer class="noscroll">
