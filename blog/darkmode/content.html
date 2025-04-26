@@ -1,0 +1,124 @@
+<!-- ARTICLE METADATA -->
+<script type="application/article-meta">
+    {
+        "title": "How Much Energy Would Be Saved If Everyone Used Dark Mode?",
+        "author": "Anonymous",
+        "date": "2025-04-25",
+        "thumbnail": "blog/images/darkmode.png",
+        "thumbnailAlt": "Dark mode illustration on a phone",
+        "tags": ["energy", "dark mode", "sustainability", "math", "tech"]
+    }
+</script>
+
+<!-- ARTICLE CONTENT -->
+<div id="article-content">
+    <h3>Global Energy Savings from Using Dark Mode</h3>
+
+    <div class="custom-warning">
+        <sl-alert variant="warning" open>
+            <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+            This analysis assumes every phone in the world has an OLED display, is used at 100% brightness, and goes from 100% to 0% battery daily.
+        </sl-alert>
+    </div>
+
+    <p>If everyone in the world used dark mode on their phones, the amount of energy saved would be massive. According to research from Purdue University, <code>dark mode saves around 43%</code> of power at 100% brightness on OLED displays.</p>
+    <sl-code-block language="markdown">
+        E(Wh) = Q(mAh) × V(V) / 1000  
+        4,500 mAh × 3.7 V / 1000 = 16.65 Wh  
+        Energy Saved = 16.65 × 0.43 = 7.1596 Wh
+    </sl-code-block>
+    <p>The average phone battery holds <code>16.65 Wh</code>. Saving 43% of that is <code>7.1596 Wh</code> saved per phone per day.</p>
+
+    <h3>Population-Level Impact</h3>
+    <ul>
+        <li>World population: <code>8,057,277,567</code> people</li>
+        <li>Total energy saved per day: <code>8,057,277,567 × 7.1596 Wh = 57,701,203,668.7 Wh</code></li>
+        <li>Daily savings in watts: <code>57,701,203,668.7 Wh ÷ 24 = 2,404,216,819.53 W</code></li>
+    </ul>
+
+    <blockquote>
+        <p>"Dark mode isn’t just easy on the eyes—it’s easy on the planet."</p>
+        <cite>- Energy Enthusiast</cite>
+    </blockquote>
+
+    <h3>Converting to Gigawatts and Annual Savings</h3>
+    <p>Daily gigawatt-hours saved: <code>57.70 GWh</code></p>
+    <p>Daily gigawatts saved: <code>2.404 GW</code></p>
+    <ul>
+        <li>Annual gigawatts saved: <code>2.404 × 365 = 877.54 GW</code></li>
+        <li>Annual gigawatt-hours saved: <code>57.701 × 365 = 21,061 GWh</code></li>
+    </ul>
+    <p>This is about the same as <code>878 trillion watts</code> or <code>21,061 trillion Wh</code> saved each year.</p>
+
+    <h3>Debugging Energy Math</h3>
+    <sl-code-block language="javascript">
+        const battery_mAh = 4500;
+        const voltage = 3.7;
+        const daily_users = 8057277567;
+        const dark_mode_saving = 0.43;
+
+        const energy_per_phone = (battery_mAh * voltage) / 1000; // 16.65 Wh
+        const saved_energy = energy_per_phone * dark_mode_saving; // 7.1596 Wh
+        const total_saved = saved_energy * daily_users;
+        const daily_gWh = total_saved / 1e9;
+        const yearly_gWh = daily_gWh * 365;
+        console.log(yearly_gWh); // ~21,061 GWh
+    </sl-code-block>
+
+    <img src="blog/images/darkmode2.png" alt="Graph comparing energy use in light mode vs dark mode"
+         alt="Graph comparing energy use in light mode vs dark mode"
+         class="content-image">
+</div>
+
+<style>
+.content-image {
+    max-width: 100%;
+    border-radius: 12px;
+    border: 3px solid var(--inputborder);
+    margin: 2rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.custom-warning {
+    margin: 2.5rem 0;
+    background: var(--uibg);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+blockquote {
+    padding: 1.5rem;
+    margin: 2rem 0;
+    background: var(--inputbg);
+    border-left: 4px solid var(--inputborder);
+    border-radius: 8px;
+    font-style: italic;
+    color: var(--textcolor);
+}
+
+sl-code-block {
+    --sl-font-mono: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    margin: 2rem 0;
+}
+
+.article-header h1 {
+    font-size: 2.5rem;
+    color: var(--textcolor);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .content-image {
+        margin: 1rem -1rem;
+        width: calc(100% + 2rem);
+        border-radius: 0;
+    }
+
+    sl-code-block {
+        margin: 1.5rem -1rem;
+        width: calc(100% + 2rem);
+    }
+}
+</style>
