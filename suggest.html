@@ -187,10 +187,16 @@
             const modal = document.createElement("div");
             modal.className = 'modal';
             modal.innerHTML = `
-              <h3>Access the Feedback Form</h3>
-              <p>(6 letters + 4 digits + <code>@ccsdschools.com</code>)</p>
-              <input id="emailInput" placeholder="ABCdef1234@ccsdschools.com">
-              <button id="verifyBtn" disabled>Verify</button>
+            <h3>Captcha Verification</h3>
+            <p>Due to spam, please verify that you're a real student by entering your email.<br>
+            I hate real CAPTCHAs too — this is just a simpler way to confirm you're not a bot.</p>
+            <input id="emailInput" placeholder="ABCdef1234@example.com">
+            <p style="font-size: 0.9rem; color: gray;">
+              Your email stays on your device — it's only used locally to check if it looks like a valid student address.
+            </p>
+            <button id="verifyBtn" disabled>Verify</button>
+
+
             `;
             document.getElementById("modalContainer").append(overlay, modal);
 
