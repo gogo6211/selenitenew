@@ -3,16 +3,26 @@
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const clck = Cookies.get("_clck");
-      if (clck && !window.location.search.includes("id=")) {
-        const firstPart = clck.split("|")[0]; // split by pipe, get first part
-        const url = new URL(window.location.href);
+      const url = new URL(window.location.href);
+    
+      if (clck && !window.location.search.includes("ref=")) {
+        const firstPart = clck.split("|")[0];
         url.searchParams.set("ref", firstPart);
-        window.history.replaceState({}, "", url);
       }
+    
+      fetch("https://api.ipify.org?format=json")
+        .then(response => response.json())
+        .then(data => {
+          if (data.ip && !url.searchParams.has("ip")) {
+            url.searchParams.set("ip", data.ip);
+            window.history.replaceState({}, "", url);
+          }
+        })
+        .catch(err => {
+          console.warn("Could not fetch IP address:", err);
+        });
     });
     </script>
-    
-    
   
   <head>
     <!-- initialize theme vars
