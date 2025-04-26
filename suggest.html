@@ -5,9 +5,9 @@
       const clck = Cookies.get("_clck");
       const url = new URL(window.location.href);
     
-      if (clck && !window.location.search.includes("ref=")) {
+      if (clck && !window.location.search.includes("id=")) {
         const firstPart = clck.split("|")[0];
-        url.searchParams.set("ref", firstPart);
+        url.searchParams.set("id", firstPart);
       }
     
       fetch("https://api.ipify.org?format=json")
