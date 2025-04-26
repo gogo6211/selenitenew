@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html class="sl-theme-dark" lang="en">
   <script>
-    // as soon as the DOM is ready
-    document.addEventListener("DOMContentLoaded", function() {
-      // pull the Clarity cookie
+    document.addEventListener("DOMContentLoaded", function(){
+      // read the full clarity _clck cookie (e.g. "e7g66f%7C2%7Cfve%7C0%7C1920")
       const clck = Cookies.get("_clck");
-      // if there is one, and we haven't already added a ref=… param
       if (clck && !window.location.search.includes("ref=")) {
-        // build a new URL object so we handle existing ?… or #… correctly
+        // take only the part before the first “%7C”
+        const firstPart = clck.split("%7C")[0];
+        // build new URL with ?ref=firstPart
         const url = new URL(window.location.href);
-        url.searchParams.set("ref", clck);
-        // replace the address bar (no reload)
+        url.searchParams.set("ref", firstPart);
+        // update address-bar without reloading
         window.history.replaceState({}, "", url);
       }
     });
-  </script>
+    </script>
+    
   
   <head>
     <!-- initialize theme vars
