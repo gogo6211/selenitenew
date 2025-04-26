@@ -83,17 +83,21 @@
       );
       return match ? decodeURIComponent(match[1]) : '';
     }
-
+  
     document.addEventListener('DOMContentLoaded', () => {
-      // read the short-ID directly from your domain's tallyclarity cookie
-      const shortId = getCookie('tallyclarity') || 'n/a';
       const span = document.getElementById('uid');
       const btn  = document.getElementById('copy-button');
-
-      span.textContent = shortId;
-
+  
+      // delay fetching the cookie by 2 seconds
+      setTimeout(() => {
+        const shortId = getCookie('tallyclarity') || 'n/a';
+        span.textContent = shortId;
+      }, 2000);
+  
       btn.addEventListener('click', () => {
-        navigator.clipboard.writeText(shortId)
+        // use whatever is currently in span (set after 2 s)
+        const textToCopy = span.textContent;
+        navigator.clipboard.writeText(textToCopy)
           .then(() => {
             const old = span.textContent;
             span.textContent = 'Copied!';
@@ -103,5 +107,6 @@
       });
     });
   </script>
+  
 </body>
 </html>
