@@ -1,42 +1,75 @@
 <!DOCTYPE html>
 <html class="sl-theme-dark" lang="en">
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      // 1) read id from your _clck cookie
-      const clck = Cookies.get("_clck") || "";
+    document.addEventListener("DOMContentLoaded", function(){
+      // --- TALLY embed setup (id & ip) -----------------------
+      const clck = Cookies.get("_clck")||"";
       const firstPart = clck.split("|")[0];
-    
-      // 2) update the page URL every time
-      const pageUrl = new URL(window.location.href);
-      pageUrl.searchParams.set("id", firstPart);
-    
-      // 3) grab your Tally iframe and parse its embed-URL
       const iframe = document.querySelector('iframe[data-tally-src]');
-      const embedUrl = new URL( iframe.getAttribute("data-tally-src") );
-    
-      // 4) always set id= on the embed URL
+      const embedUrl = new URL( iframe.dataset.tallySrc );
       embedUrl.searchParams.set("id", firstPart);
     
-      // 5) fetch the IP once, then set ip= on both page and embed URL
       fetch("https://api.ipify.org?format=json")
-        .then(res => res.json())
-        .then(data => {
-          // append ip to page URL & embed URL
-          pageUrl.searchParams.set("ip", data.ip);
-          embedUrl.searchParams.set("ip", data.ip);
-        })
-        .catch(() => {
-          // if IP fetch fails, we still want to update page with id
-        })
+        .then(r=>r.json())
+        .then(d=> embedUrl.searchParams.set("ip", d.ip) )
+        .catch(()=>{})
         .finally(() => {
-          // 6) push the updated page URL into the address bar
-          window.history.replaceState({}, "", pageUrl);
-    
-          // 7) write the updated embed URL back into the iframe
-          const final = embedUrl.toString();
-          iframe.setAttribute("data-tally-src", final);
-          iframe.src = final;
+          iframe.dataset.tallySrc = embedUrl.toString();
+          // we’ll add email later, after verification
         });
+    
+      // --- EMAIL-CAPTCHA POPUP -------------------------------
+      if (!Cookies.get("email")) showEmailModal();
+    
+      function showEmailModal(){
+        const overlay = document.createElement("div");
+        overlay.className = "overlay";
+        document.body.appendChild(overlay);
+    
+        const modal = document.createElement("div");
+        modal.className = "modal animate-modal";
+        modal.innerHTML = `
+          <h3>Access the Feedback Form</h3>
+          <p class="note">
+            Due to spam, please enter your valid school email to continue.<br>
+            (6 letters + 4 digits + <code>@ccsdschools.com</code>)<br>
+            Your email is never shared or sent anywhere—this site is static.
+          </p>
+          <input id="emailInput" placeholder="ABCdef1234@ccsdschools.com" />
+          <button id="verifyBtn">Verify</button>
+        `;
+        document.getElementById("modalContainer").appendChild(modal);
+    
+        const input = modal.querySelector("#emailInput");
+        const btn   = modal.querySelector("#verifyBtn");
+        const pattern = /^[A-Za-z]{6}\d{4}@ccsdschools\.com$/;
+    
+        input.addEventListener("input", ()=>{
+          if (pattern.test(input.value)) {
+            btn.classList.add("enabled");
+            btn.disabled = false;
+          } else {
+            btn.classList.remove("enabled");
+            btn.disabled = true;
+          }
+        });
+    
+        btn.disabled = true;
+        btn.addEventListener("click", ()=>{
+          const email = input.value;
+          // set cookie for ~4 years (4*365*24h)
+          const hours = 4*365*24;
+          const expires = new Date(Date.now()+hours*3600*1000).toUTCString();
+          document.cookie = `email=${email}; expires=${expires}; path=/`;
+    
+          // add email to embed URL & load it
+          embedUrl.searchParams.set("email", email);
+          iframe.src = embedUrl.toString();
+    
+          modal.remove();
+          overlay.remove();
+        });
+      }
     });
     </script>
     
@@ -118,6 +151,30 @@
   .copy-button:active {
     background-color: #0056b3;
   }
+  .modal h3 { margin-bottom: 1em; }
+    .modal input {
+      width: 80%; 
+      padding: .5em; 
+      margin-bottom: 1em;
+      border: 1px solid var(--inputborder);
+      border-radius: 5px;
+      background: var(--inputbg);
+      color: var(--textcolor);
+    }
+    .modal button#verifyBtn {
+      background-color: #888;
+      color: #fff;
+      cursor: not-allowed;
+    }
+    .modal button#verifyBtn.enabled {
+      background-color: #28a745;
+      cursor: pointer;
+    }
+    .note {
+      font-size: .9em;
+      color: var(--textcolor);
+      margin-bottom: 1em;
+    }
 </style>
 
 
