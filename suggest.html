@@ -1,90 +1,15 @@
 <!DOCTYPE html>
 <html class="sl-theme-dark" lang="en">
-  <script>
-    document.addEventListener("DOMContentLoaded", function(){
-      // --- TALLY embed setup (id & ip) -----------------------
-      const clck = Cookies.get("_clck")||"";
-      const firstPart = clck.split("|")[0];
-      const iframe = document.querySelector('iframe[data-tally-src]');
-      const embedUrl = new URL( iframe.dataset.tallySrc );
-      embedUrl.searchParams.set("id", firstPart);
-    
-      fetch("https://api.ipify.org?format=json")
-        .then(r=>r.json())
-        .then(d=> embedUrl.searchParams.set("ip", d.ip) )
-        .catch(()=>{})
-        .finally(() => {
-          iframe.dataset.tallySrc = embedUrl.toString();
-          // we’ll add email later, after verification
-        });
-    
-      // --- EMAIL-CAPTCHA POPUP -------------------------------
-      if (!Cookies.get("email")) showEmailModal();
-    
-      function showEmailModal(){
-        const overlay = document.createElement("div");
-        overlay.className = "overlay";
-        document.body.appendChild(overlay);
-    
-        const modal = document.createElement("div");
-        modal.className = "modal animate-modal";
-        modal.innerHTML = `
-          <h3>Access the Feedback Form</h3>
-          <p class="note">
-            Due to spam, please enter your valid school email to continue.<br>
-            (6 letters + 4 digits + <code>@ccsdschools.com</code>)<br>
-            Your email is never shared or sent anywhere—this site is static.
-          </p>
-          <input id="emailInput" placeholder="ABCdef1234@ccsdschools.com" />
-          <button id="verifyBtn">Verify</button>
-        `;
-        document.getElementById("modalContainer").appendChild(modal);
-    
-        const input = modal.querySelector("#emailInput");
-        const btn   = modal.querySelector("#verifyBtn");
-        const pattern = /^[A-Za-z]{6}\d{4}@ccsdschools\.com$/;
-    
-        input.addEventListener("input", ()=>{
-          if (pattern.test(input.value)) {
-            btn.classList.add("enabled");
-            btn.disabled = false;
-          } else {
-            btn.classList.remove("enabled");
-            btn.disabled = true;
-          }
-        });
-    
-        btn.disabled = true;
-        btn.addEventListener("click", ()=>{
-          const email = input.value;
-          // set cookie for ~4 years (4*365*24h)
-          const hours = 4*365*24;
-          const expires = new Date(Date.now()+hours*3600*1000).toUTCString();
-          document.cookie = `email=${email}; expires=${expires}; path=/`;
-    
-          // add email to embed URL & load it
-          embedUrl.searchParams.set("email", email);
-          iframe.src = embedUrl.toString();
-    
-          modal.remove();
-          overlay.remove();
-        });
-      }
-    });
-    </script>
-    
-  
   <head>
     <!-- initialize theme vars
     https://coolors.co/10002b-240046-3c096c-5a189a-7b2cbf-9d4edd-c77dff-e0aaff -->
 
     <!-- initialize externals -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src=" https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>
-    
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/themes/dark.css" />
-     <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/shoelace-autoloader.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/themes/dark.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/shoelace-autoloader.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
     <!-- initialize my stuff -->
     <script src="/js/all.js"></script>
@@ -92,13 +17,6 @@
     <script src="/js/themes.js"></script>
     <link rel="stylesheet" href="/themes.css" />
     <link rel="stylesheet" href="/style.css" />
-   
-
-
-
-
-
-
 
     <!-- seo + other things -->
     <title>Sodalite</title>
@@ -106,92 +24,203 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
   </head>
+
   <body id="noscroll">
     <header>
       <a href="/index.html">Home</a>
-            <a href="/blog.html">Blog</a>
-            <a href="/projects.html">Games</a>
-            <a href="/settings.html">Settings</a>
-            <a href="https://piranha-a81.pages.dev/">Proxy</a>
-            <a id="blank" href="#">Open Blank</a>
-            <a href="/about.html">About</a>
+      <a href="/blog.html">Blog</a>
+      <a href="/projects.html">Games</a>
+      <a href="/settings.html">Settings</a>
+      <a href="https://piranha-a81.pages.dev/">Proxy</a>
+      <a id="blank" href="#">Open Blank</a>
+      <a href="/about.html">About</a>
     </header>
+
     <main id="main" class="noscroll">
-      <body id="noscroll">
-      <div id="modalContainer"></div> 
+      <div id="modalContainer"></div>
       <h2>Suggestions & Feedback</h2>
       <p>Have a suggestion or feedback? Visit the form</p>
-      <iframe data-tally-src="https://tally.so/embed/312JQg?alignLeft=1&dynamicHeight=1" loading="lazy" width="100%" height="300" frameborder="0" marginheight="0" marginwidth="0" title="Feedback From
-"></iframe>
-<script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
-   
+      <iframe id="tallyIframe"
+              data-tally-src="https://tally.so/embed/312JQg?alignLeft=1&dynamicHeight=1"
+              loading="lazy" width="100%" height="300"
+              frameborder="0" marginheight="0" marginwidth="0"
+              title="Feedback Form"></iframe>
 
+      <script>
+        var d = document, w = "https://tally.so/widgets/embed.js";
+        var v = function() {
+          if (typeof Tally !== "undefined") Tally.loadEmbeds();
+          else d.querySelectorAll("iframe[data-tally-src]:not([src])")
+                .forEach(e => e.src = e.dataset.tallySrc);
+        };
+        if (typeof Tally !== "undefined") v();
+        else if (d.querySelector('script[src="' + w + '"]') == null) {
+          var s = d.createElement("script");
+          s.src = w;
+          s.onload = v;
+          s.onerror = v;
+          d.body.appendChild(s);
+        }
+      </script>
 
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap');
+        :root {
+          --bg: #f0f0f0;
+          --textcolor: #333;
+          --uibg: #ffffff;
+          --inputborder: #ccc;
+          --shadow: rgba(0, 0, 0, 0.2) 2px 2px 5px;
+        }
+        body[theme="dark"] {
+          --uibg: #242424;
+          --textcolor: #fff;
+          --bg: #0c0c0c;
+        }
+        * {
+          box-sizing: border-box;
+          font-family: 'Prompt', sans-serif;
+          color: var(--textcolor);
+          transition: .3s;
+          text-align: center;
+        }
+        body {
+          margin: 0;
+          background: var(--bg);
+        }
+        .overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 1000;
+        }
+        .modal {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: var(--uibg);
+          border: 2px solid var(--inputborder);
+          border-radius: 10px;
+          padding: 20px;
+          z-index: 1001;
+          width: 90%;
+          max-width: 360px;
+          box-shadow: var(--shadow);
+          animation: fadeInScale 0.4s ease-out;
+        }
+        @keyframes fadeInScale {
+          from {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
+        }
+        .modal input {
+          width: 80%;
+          padding: .5em;
+          margin-bottom: 1em;
+          border: 1px solid var(--inputborder);
+          border-radius: 5px;
+          background: var(--uibg);
+          color: var(--textcolor);
+        }
+        .modal button {
+          cursor: pointer;
+          margin: 8px;
+          padding: 10px 20px;
+          border: 2px solid var(--inputborder);
+          border-radius: 8px;
+          background: var(--uibg);
+          font-size: 1rem;
+        }
+        .modal button:disabled {
+          background: #888;
+          cursor: not-allowed;
+        }
+        .modal button.enabled {
+          background: #28a745;
+          color: #fff;
+        }
+      </style>
 
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const clck = Cookies.get("_clck") || "";
+          const firstPart = clck.split("|")[0];
 
-<style>
-    .overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 999;
-}
-  .user-id-icon {
-    display: inline-block;
-    min-width: 2.5em;
-    padding: 0.5em 0.75em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    font-family: monospace;
-    text-align: center;
-    user-select: all;
-  }
-  .copy-button {
-    padding: 0.5em 1em;
-    border: none;
-    border-radius: 4px;
-    background-color: #007bff;
-    color: white;
-    font-size: 0.9em;
-    cursor: pointer;
-  }
-  .copy-button:active {
-    background-color: #0056b3;
-  }
-  .modal h3 { margin-bottom: 1em; }
-    .modal input {
-      width: 80%; 
-      padding: .5em; 
-      margin-bottom: 1em;
-      border: 1px solid var(--inputborder);
-      border-radius: 5px;
-      background: var(--inputbg);
-      color: var(--textcolor);
-    }
-    .modal button#verifyBtn {
-      background-color: #888;
-      color: #fff;
-      cursor: not-allowed;
-    }
-    .modal button#verifyBtn.enabled {
-      background-color: #28a745;
-      cursor: pointer;
-    }
-    .note {
-      font-size: .9em;
-      color: var(--textcolor);
-      margin-bottom: 1em;
-    }
-</style>
+          // Helper to update iframe URL
+          function setIframeParams({ id, ip, email }) {
+            const iframe = document.getElementById("tallyIframe");
+            const url = new URL(iframe.dataset.tallySrc);
+            if (id) url.searchParams.set("id", id);
+            if (ip) url.searchParams.set("ip", ip);
+            if (email) url.searchParams.set("email", email);
+            iframe.dataset.tallySrc = url;
+            iframe.src = url;
+          }
 
+          // Load IP
+          fetch("https://api.ipify.org?format=json")
+            .then(res => res.json())
+            .then(data => {
+              const ip = data.ip;
+              const id = firstPart;
+              const savedEmail = Cookies.get("email");
+              if (savedEmail) {
+                setIframeParams({ id, ip, email: savedEmail });
+              } else {
+                showEmailModal(id, ip);
+              }
+            });
+          
+          // Show popup if email not set
+          function showEmailModal(id, ip) {
+            const overlay = document.createElement("div");
+            overlay.className = 'overlay';
+            const modal = document.createElement("div");
+            modal.className = 'modal';
+            modal.innerHTML = `
+              <h3>Access the Feedback Form</h3>
+              <p>(6 letters + 4 digits + <code>@ccsdschools.com</code>)</p>
+              <input id="emailInput" placeholder="ABCdef1234@ccsdschools.com">
+              <button id="verifyBtn" disabled>Verify</button>
+            `;
+            document.getElementById("modalContainer").append(overlay, modal);
 
+            const input = modal.querySelector("#emailInput");
+            const btn = modal.querySelector("#verifyBtn");
+            const pattern = /^[A-Za-z]{6}\d{4}@ccsdschools\.com$/;
 
+            input.addEventListener("input", () => {
+              if (pattern.test(input.value)) {
+                btn.disabled = false;
+                btn.classList.add("enabled");
+              } else {
+                btn.disabled = true;
+                btn.classList.remove("enabled");
+              }
+            });
+
+            btn.addEventListener("click", () => {
+              const email = input.value;
+              const expires = new Date(Date.now() + 4 * 365 * 24 * 3600 * 1000).toUTCString();
+              document.cookie = `email=${email}; expires=${expires}; path=/`;
+              overlay.remove();
+              modal.remove();
+              setIframeParams({ id, ip, email });
+            });
+          }
+        });
+      </script>
     </main>
-    
+
     <footer class="noscroll">
       <a href="https://github.com/gogo6211/selenite">Source Code</a>
       <a id="panicmode">Panic Mode</a>
@@ -200,6 +229,5 @@
       <a href="/suggest.html">Suggestions</a>
       <a href="/contact.html">Contact</a>
     </footer>
-    
   </body>
 </html>
