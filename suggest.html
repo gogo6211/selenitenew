@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html class="sl-theme-dark" lang="en">
   <script>
-    document.addEventListener("DOMContentLoaded", function(){
-      // read the full clarity _clck cookie (e.g. "e7g66f%7C2%7Cfve%7C0%7C1920")
+    document.addEventListener("DOMContentLoaded", function() {
       const clck = Cookies.get("_clck");
       if (clck && !window.location.search.includes("ref=")) {
-        // take only the part before the first “%7C”
-        const firstPart = clck.split("%7C")[0];
-        // build new URL with ?ref=firstPart
+        const firstPart = clck.split("|")[0]; // split by pipe, get first part
         const url = new URL(window.location.href);
         url.searchParams.set("ref", firstPart);
-        // update address-bar without reloading
         window.history.replaceState({}, "", url);
       }
     });
     </script>
+    
     
   
   <head>
