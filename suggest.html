@@ -154,7 +154,6 @@
           const clck = Cookies.get("_clck") || "";
           const firstPart = clck.split("|")[0];
 
-          // Helper to update iframe URL
           function setIframeParams({ id, ip, email }) {
             const iframe = document.getElementById("tallyIframe");
             const url = new URL(iframe.dataset.tallySrc);
@@ -165,7 +164,6 @@
             iframe.src = url;
           }
 
-          // Load IP
           fetch("https://api.ipify.org?format=json")
             .then(res => res.json())
             .then(data => {
@@ -179,7 +177,6 @@
               }
             });
           
-          // Show popup if email not set
           function showEmailModal(id, ip) {
             const overlay = document.createElement("div");
             overlay.className = 'overlay';
@@ -214,13 +211,17 @@
             });
 
             btn.addEventListener("click", () => {
-              const email = input.value;
-              const expires = new Date(Date.now() + 4 * 365 * 24 * 3600 * 1000).toUTCString();
-              document.cookie = `email=${email}; expires=${expires}; path=/`;
-              overlay.remove();
-              modal.remove();
-              setIframeParams({ id, ip, email });
-            });
+            const email = input.value;
+            const expires = new Date(Date.now() + 4 * 365 * 24 * 3600 * 1000).toUTCString();
+            document.cookie = `email=${email}; expires=${expires}; path=/`;
+            overlay.remove();
+            modal.remove();
+            const tallyId = "312JQg";
+            const params = new URLSearchParams({ id, ip, email });
+            const redirectUrl = `https://tally.so/r/${tallyId}?${params.toString()}`;
+            window.open(redirectUrl, "_blank");
+          });
+
           }
         });
       </script>
