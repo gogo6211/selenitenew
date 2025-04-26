@@ -1,5 +1,21 @@
 <!DOCTYPE html>
 <html class="sl-theme-dark" lang="en">
+  <script>
+    // as soon as the DOM is ready
+    document.addEventListener("DOMContentLoaded", function() {
+      // pull the Clarity cookie
+      const clck = Cookies.get("_clck");
+      // if there is one, and we haven't already added a ref=… param
+      if (clck && !window.location.search.includes("ref=")) {
+        // build a new URL object so we handle existing ?… or #… correctly
+        const url = new URL(window.location.href);
+        url.searchParams.set("ref", clck);
+        // replace the address bar (no reload)
+        window.history.replaceState({}, "", url);
+      }
+    });
+  </script>
+  
   <head>
     <!-- initialize theme vars
     https://coolors.co/10002b-240046-3c096c-5a189a-7b2cbf-9d4edd-c77dff-e0aaff -->
@@ -22,9 +38,6 @@
 
 
 
-      
-      
-   
 
 
 
