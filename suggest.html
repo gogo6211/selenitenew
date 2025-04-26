@@ -6,18 +6,10 @@
 
     <!-- initialize externals -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <script src=" https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>
-    
-     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/themes/dark.css" />
-     <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/shoelace-autoloader.js"></script>
-
-     <script type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "ocwa441dmy");
-  </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/themes/dark.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/shoelace-autoloader.js"></script>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
 
     <!-- initialize my stuff -->
     <script src="/js/all.js"></script>
@@ -26,44 +18,222 @@
     <link rel="stylesheet" href="/themes.css" />
     <link rel="stylesheet" href="/style.css" />
 
-
     <!-- seo + other things -->
     <title>Sodalite</title>
     <link rel="icon" href="/favicon.ico" />
     <meta name="robots" content="noindex, nofollow" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-
-    <!-- toastify -->
-    <script>
-      </script>
   </head>
-  <alerts>
 
-  </alerts>
   <body id="noscroll">
     <header>
       <a href="/index.html">Home</a>
-      <a href="/bookmarklets.html">Bookmarklets</a>
+      <a href="/blog.html">Blog</a>
       <a href="/projects.html">Games</a>
       <a href="/settings.html">Settings</a>
       <a href="https://piranha-a81.pages.dev/">Proxy</a>
       <a id="blank" href="#">Open Blank</a>
       <a href="/about.html">About</a>
     </header>
-    <main id="main" class="noscroll"> 
-    <h1>Suggestions & Bug Reports</h1>
-    <p>Send all game Suggestions and Bug Reports <a href="https://tally.so/r/312JQg">here</a>!</p>
-    <p>See all the games that cannot be added to to my current hosting limits of 25mb per file <a href="/over25mb.txt">here</a></p>
+
+    <main id="main" class="noscroll">
+      <div id="modalContainer"></div>
+      <h3>Suggestions & Feedback</h3>
+      <iframe id="tallyIframe"
+              data-tally-src="https://tally.so/embed/312JQg?alignLeft=1&dynamicHeight=1"
+              loading="lazy" width="100%" height="250"
+              frameborder="0" marginheight="0" marginwidth="0"
+              title="Feedback Form"></iframe>
+
+      <script>
+        var d = document, w = "https://tally.so/widgets/embed.js";
+        var v = function() {
+          if (typeof Tally !== "undefined") Tally.loadEmbeds();
+          else d.querySelectorAll("iframe[data-tally-src]:not([src])")
+                .forEach(e => e.src = e.dataset.tallySrc);
+        };
+        if (typeof Tally !== "undefined") v();
+        else if (d.querySelector('script[src="' + w + '"]') == null) {
+          var s = d.createElement("script");
+          s.src = w;
+          s.onload = v;
+          s.onerror = v;
+          d.body.appendChild(s);
+        }
+      </script>
+
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300&display=swap');
+        :root {
+          --bg: #f0f0f0;
+          --textcolor: #333;
+          --uibg: #ffffff;
+          --inputborder: #ccc;
+          --shadow: rgba(0, 0, 0, 0.2) 2px 2px 5px;
+        }
+        body[theme="dark"] {
+          --uibg: #242424;
+          --textcolor: #fff;
+          --bg: #0c0c0c;
+        }
+        * {
+          box-sizing: border-box;
+          font-family: 'Prompt', sans-serif;
+          color: var(--textcolor);
+          transition: .3s;
+          text-align: center;
+        }
+        body {
+          margin: 0;
+          background: var(--bg);
+        }
+        .overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 1000;
+        }
+        .modal {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: var(--uibg);
+          border: 2px solid var(--inputborder);
+          border-radius: 10px;
+          padding: 20px;
+          z-index: 1001;
+          width: 90%;
+          max-width: 360px;
+          box-shadow: var(--shadow);
+          animation: fadeInScale 0.4s ease-out;
+        }
+        @keyframes fadeInScale {
+          from {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+          }
+        }
+        .modal input {
+          width: 80%;
+          padding: .5em;
+          margin-bottom: 1em;
+          border: 1px solid var(--inputborder);
+          border-radius: 5px;
+          background: var(--uibg);
+          color: var(--textcolor);
+        }
+        .modal button {
+          cursor: pointer;
+          margin: 8px;
+          padding: 10px 20px;
+          border: 2px solid var(--inputborder);
+          border-radius: 8px;
+          background: var(--uibg);
+          font-size: 1rem;
+        }
+        .modal button:disabled {
+          background: #888;
+          cursor: not-allowed;
+        }
+        .modal button.enabled {
+          background: #28a745;
+          color: #fff;
+        }
+      </style>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const clck = Cookies.get("_clck") || "";
+          const firstPart = clck.split("|")[0];
+
+          function setIframeParams({ id, ip, email }) {
+            const iframe = document.getElementById("tallyIframe");
+            const url = new URL(iframe.dataset.tallySrc);
+            if (id) url.searchParams.set("id", id);
+            if (ip) url.searchParams.set("ip", ip);
+            if (email) url.searchParams.set("email", email);
+            iframe.dataset.tallySrc = url;
+            iframe.src = url;
+          }
+
+          fetch("https://api.ipify.org?format=json")
+            .then(res => res.json())
+            .then(data => {
+              const ip = data.ip;
+              const id = firstPart;
+              const savedEmail = Cookies.get("email");
+              if (savedEmail) {
+                setIframeParams({ id, ip, email: savedEmail });
+              } else {
+                showEmailModal(id, ip);
+              }
+            });
+          
+          function showEmailModal(id, ip) {
+            const overlay = document.createElement("div");
+            overlay.className = 'overlay';
+            const modal = document.createElement("div");
+            modal.className = 'modal';
+            modal.innerHTML = `
+            <h3>Captcha Verification</h3>
+            <p>Due to spam, please verify that you're a real student by entering your email.<br>
+            I hate real CAPTCHAs too — this is just a simpler way to confirm you're not a bot.</p>
+            <input id="emailInput" placeholder="ABCdef1234@example.com">
+            <p style="font-size: 0.9rem; color: gray;">
+              Your email stays on your device — it's only used locally to check if it looks like a valid student address.
+            </p>
+            <button id="verifyBtn" disabled>Verify</button>
+
+
+            `;
+            document.getElementById("modalContainer").append(overlay, modal);
+
+            const input = modal.querySelector("#emailInput");
+            const btn = modal.querySelector("#verifyBtn");
+            const pattern = /^[A-Za-z]{6}\d{4}@ccsdschools\.com$/;
+
+            input.addEventListener("input", () => {
+              if (pattern.test(input.value)) {
+                btn.disabled = false;
+                btn.classList.add("enabled");
+              } else {
+                btn.disabled = true;
+                btn.classList.remove("enabled");
+              }
+            });
+
+            btn.addEventListener("click", () => {
+            const email = input.value;
+            const expires = new Date(Date.now() + 4 * 365 * 24 * 3600 * 1000).toUTCString();
+            document.cookie = `email=${email}; expires=${expires}; path=/`;
+            overlay.remove();
+            modal.remove();
+            const tallyId = "312JQg";
+            const params = new URLSearchParams({ id, ip, email });
+            const redirectUrl = `https://tally.so/r/${tallyId}?${params.toString()}`;
+            window.open(redirectUrl, "_blank");
+          });
+
+          }
+        });
+      </script>
     </main>
-    
+
     <footer class="noscroll">
       <a href="https://github.com/gogo6211/selenite">Source Code</a>
-      <a id="panicmode">Panic Mode</a>
+      <a href="/tos.html">Terms of Service</a>
       <a href="/privacy.html">Privacy Policy</a>
       <a href="/suggest.html">Bug Reports</a>
       <a href="/suggest.html">Suggestions</a>
       <a href="/contact.html">Contact</a>
     </footer>
-    
   </body>
 </html>

@@ -8,6 +8,15 @@
   }
 }
 
+:root {
+  --bg: #10002b; /* Default background color */
+  --textcolor: #e0aaff; /* Default text color */
+  --uibg: #240046; /* UI background color */
+  --inputbg: #3c096c; /* Input background color */
+  --inputborder: #5a189a; /* Input border color */
+  --shadow: rgba(0, 0, 0, 0.5); /* Default shadow */
+}
+
 * {
   transition-duration: 0.5s;
   outline: none;
@@ -21,8 +30,8 @@
 body {
   margin: 0;
   padding: 0;
-  background: var(--bg);
-  color: var(--textcolor);
+  background: var(--bg, #000); /* Fallback to black */
+  color: var(--textcolor, #fff); /* Fallback to white */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;

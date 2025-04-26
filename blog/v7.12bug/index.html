@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html class="sl-theme-dark" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Article... | Sodalite</title>
+    
+    <!-- Required Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/themes/dark.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/shoelace-autoloader.js"></script>
+    
+    <!-- Site Styles -->
+    <link rel="stylesheet" href="/blog.css">
+    <link rel="stylesheet" href="/themes.css">
+   <!-- Prism CSS -->
+<link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet">
+
+<!-- Prism JS -->
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-js.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-css.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js" defer></script>
+<link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markdown.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+<link
+  href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.css"
+  rel="stylesheet"
+/>
+<script
+  src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/line-numbers/prism-line-numbers.min.js"
+  defer
+></script>
+
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="main-nav">
+            <a href="/index.html">Home</a>
+            <a href="/blog.html">Blog</a>
+            <a href="/projects.html">Games</a>
+            <a href="/settings.html">Settings</a>
+            <a href="https://piranha-a81.pages.dev/">Proxy</a>
+            <a id="blank" href="#">Open Blank</a>
+            <a href="/about.html">About</a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="article-content">
+        <a href="/blog.html" class="back-button">
+            <sl-icon name="arrow-left"></sl-icon> Back to Articles
+        </a>
+
+        <article id="article-container">
+            <div class="loading-state">
+                <sl-spinner style="font-size: 2rem;"></sl-spinner>
+                <p>Loading article...</p>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-content">
+                  <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
+      <a href="/tos.html">Terms of Service</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/suggest.html">Bug Reports</a>
+      <a href="/suggest.html">Suggestions</a>
+      <a href="/contact.html">Contact</a>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { setBasePath } from 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/utilities/base-path.js';
+        setBasePath('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/');
+
+        const slug = window.location.pathname.split('/')[2];
+        
+        $.get(`/blog/${slug}/content.html`)
+            .done(async content => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(content, 'text/html');
+                
+                const meta = JSON.parse(
+                    doc.querySelector('script[type="application/article-meta"]').textContent
+                );
+
+                const articleContent = doc.getElementById('article-content');
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = articleContent.innerHTML;
+                tempDiv.querySelectorAll('sl-code-block').forEach(el => {
+                    const lang = el.getAttribute('language') || '';
+                    const code = el.textContent;
+                    const pre = document.createElement('pre');
+                    pre.classList.add('line-numbers');
+                    const codeElem = document.createElement('code');
+                    if (lang) codeElem.className = `language-${lang}`;
+                    codeElem.textContent = code;
+                    pre.appendChild(codeElem);
+                    el.replaceWith(pre);
+                });
+
+                document.title = `${meta.title} | Sodalite`;
+                
+                const articleHTML = `
+                    ${meta.thumbnail ? `
+                    <img class="article-thumbnail" 
+                         src="${meta.thumbnail}" 
+                         alt="${meta.thumbnailAlt || ''}">` : ''}
+
+                    <div class="article-header">
+                        <h1 class="article-title">${meta.title}</h1>
+                        <div class="article-meta">
+                            ${meta.date ? `<span>${new Date(meta.date).toLocaleDateString()}</span>` : ''}
+                            ${meta.author ? `<span>By ${meta.author}</span>` : ''}
+                            ${meta.tags ? `<div class="tags">${meta.tags.map(t => `<sl-tag>${t}</sl-tag>`).join('')}</div>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="article-body">
+                        ${tempDiv.innerHTML}
+                    </div>
+                `;
+
+                $('#article-container').html(articleHTML);
+
+                if (window.Prism) {
+                    Prism.highlightAll();
+                }
+
+                // Dynamically import components
+                const { SlTag, SlAlert, SlIcon, SpinnerIcon } = await Promise.all([
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/tag/tag.js'),
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/alert/alert.js'),
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/icon/icon.js'),
+                    import('https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/components/spinner/spinner.js')
+                ]);
+
+                customElements.define('sl-tag', SlTag);
+                customElements.define('sl-alert', SlAlert);
+                customElements.define('sl-icon', SlIcon);
+                customElements.define('sl-spinner', SpinnerIcon);
+
+                const structuredData = {
+                    "@context": "https://schema.org",
+                    "@type": "Article",
+                    "headline": meta.title,
+                    "datePublished": meta.date,
+                    "author": meta.author,
+                    "image": meta.thumbnail,
+                    "articleBody": tempDiv.textContent
+                };
+                
+                const script = document.createElement('script');
+                script.type = 'application/ld+json';
+                script.textContent = JSON.stringify(structuredData);
+                document.head.appendChild(script);
+            })
+            .fail(error => {
+                $('#article-container').html(`
+                    <sl-alert variant="danger" open>
+                        <sl-icon slot="icon" name="exclamation-octagon"></sl-icon>
+                        Failed to load article: ${error.statusText}
+                    </sl-alert>
+                `);
+            });
+
+        document.body.setAttribute('theme', localStorage.getItem('selenite.theme') || 'dark');
+    </script>
+</body>
+</html>

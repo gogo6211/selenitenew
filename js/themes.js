@@ -43,6 +43,24 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const theme = localStorage.getItem('selenite.theme') || 'dark';
+  document.body.setAttribute('theme', theme);
+
+  if (theme === 'dark') {
+    document.documentElement.style.setProperty('--bg', '#10002b');
+    document.documentElement.style.setProperty('--textcolor', '#e0aaff');
+    document.documentElement.style.setProperty('--uibg', '#240046');
+  } else if (theme === 'light') {
+    document.documentElement.style.setProperty('--bg', '#ffffff');
+    document.documentElement.style.setProperty('--textcolor', '#000000');
+    document.documentElement.style.setProperty('--uibg', '#f0f0f0');
+  } else {
+    console.warn('[Themes] Unknown theme:', theme);
+  }
+});
+
 function loadTheme() {
 	if (localStorage.getItem("selenite.theme") == "custom") {
 		let theme = localStorage.getItem("selenite.customTheme");

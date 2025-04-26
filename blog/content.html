@@ -1,0 +1,154 @@
+<!-- ARTICLE METADATA -->
+<script type="application/article-meta">
+    {
+        "title": "Modern JavaScript Development Best Practices",
+        "author": "gogogogo621",
+        "date": "2024-04-22",
+        "thumbnail": "/blog/images/webdev.png",
+        "thumbnailAlt": "Modern web development concepts illustration",
+        "tags": ["JavaScript", "Web Development", "Programming", "Best Practices"]
+    }
+    </script>
+    
+    <!-- ARTICLE CONTENT -->
+    <div id="article-content">
+        <h2>Essential JavaScript Techniques in the big 25</h2>
+        
+            <head>
+                <!-- initialize theme vars
+                https://coolors.co/10002b-240046-3c096c-5a189a-7b2cbf-9d4edd-c77dff-e0aaff -->
+            
+                <!-- initialize externals -->
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+                <script src=" https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js "></script>
+                
+                 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/themes/dark.css" />
+                 <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.9.0/cdn/shoelace-autoloader.js"></script>
+            
+                 <script type="text/javascript">
+                  (function(c,l,a,r,i,t,y){
+                      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+                  })(window, document, "clarity", "script", "ocwa441dmy");
+              </script>
+            
+                <!-- initialize my stuff -->
+                <script src="/js/all.js"></script>
+                <script src="/js/main.js"></script>
+                <script src="/js/themes.js"></script>
+                <link rel="stylesheet" href="/themes.css" />
+                <link rel="stylesheet" href="/style.css" />
+            
+            
+                <!-- seo + other things -->
+                <title>Contact | Sodalite</title>
+                <link rel="icon" href="/favicon.ico" />
+            
+                <meta name="viewport" content="width=device-width,initial-scale=1" />
+            
+                <!-- toastify -->
+                <script></script>
+              </head>
+    
+        <div class="custom-warning">
+            <sl-alert variant="warning" open>
+                <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
+                Always validate user input and handle edge cases! sql injection still happens today!
+            </sl-alert>
+        </div>
+    
+        <h3>Core Development Principles</h3>
+        <ul>
+            <li>Use strict mode ('use strict') in all files</li>
+            <li>Implement proper error handling (unlike me last week 😅)</li>
+            <li>Adopt consistent code formatting with Prettier</li>
+            <li>Write meaningful commit messages</li>
+            <li>Regularly update dependencies</li>
+        </ul>
+    
+        <img src="/blog/images/test2.png" 
+             alt="Code quality metrics dashboard example" 
+             class="content-image">
+    
+        <blockquote>
+            <p>"First, solve the problem. Then, write the code."</p>
+            <cite>- John Johnson</cite>
+        </blockquote>
+    
+        <h3>Debugging Pro Tips</h3>
+        <sl-code-block language="javascript">
+            // Debugging console statements
+            const debug = {
+                log: (message, data) => {
+                    console.log(`[DEBUG] ${message}:`, data);
+                },
+                time: (label) => {
+                    console.time(`⏱️ ${label}`);
+                    return {
+                        end: () => console.timeEnd(`⏱️ ${label}`)
+                    };
+                }
+            };
+            
+            // Usage example
+            debug.time('Data Processing');
+            // complex operations
+            debug.timeEnd('Data Processing');
+        </sl-code-block>
+    </div>
+    
+    <style>
+    /* Custom article styles */
+    .content-image {
+        max-width: 100%;
+        border-radius: 12px;
+        border: 3px solid var(--inputborder);
+        margin: 2rem 0;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .custom-warning {
+        margin: 2.5rem 0;
+        background: var(--uibg);
+        border-radius: 8px;
+        padding: 1rem;
+    }
+    
+    blockquote {
+        padding: 1.5rem;
+        margin: 2rem 0;
+        background: var(--inputbg);
+        border-left: 4px solid var(--inputborder);
+        border-radius: 8px;
+        font-style: italic;
+        color: var(--textcolor);
+    }
+    
+    sl-code-block {
+        --sl-font-mono: 'Fira Code', monospace;
+        font-size: 0.9rem;
+        margin: 2rem 0;
+    }
+    
+    .article-header h1 {
+        font-size: 2.5rem;
+        color: var(--textcolor);
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Responsive design tweaks */
+    @media (max-width: 768px) {
+        .content-image {
+            margin: 1rem -1rem;
+            width: calc(100% + 2rem);
+            border-radius: 0;
+        }
+        
+        sl-code-block {
+            margin: 1.5rem -1rem;
+            width: calc(100% + 2rem);
+        }
+    }
+    </style>
