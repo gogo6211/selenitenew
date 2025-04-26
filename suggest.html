@@ -2,27 +2,44 @@
 <html class="sl-theme-dark" lang="en">
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      const clck = Cookies.get("_clck");
-      const url = new URL(window.location.href);
+      // 1) read id from your _clck cookie
+      const clck = Cookies.get("_clck") || "";
+      const firstPart = clck.split("|")[0];
     
-      if (clck && !window.location.search.includes("id=")) {
-        const firstPart = clck.split("|")[0];
-        url.searchParams.set("id", firstPart);
-      }
+      // 2) update the page URL every time
+      const pageUrl = new URL(window.location.href);
+      pageUrl.searchParams.set("id", firstPart);
     
+      // 3) grab your Tally iframe and parse its embed-URL
+      const iframe = document.querySelector('iframe[data-tally-src]');
+      const embedUrl = new URL( iframe.getAttribute("data-tally-src") );
+    
+      // 4) always set id= on the embed URL
+      embedUrl.searchParams.set("id", firstPart);
+    
+      // 5) fetch the IP once, then set ip= on both page and embed URL
       fetch("https://api.ipify.org?format=json")
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
-          if (data.ip && !url.searchParams.has("ip")) {
-            url.searchParams.set("ip", data.ip);
-            window.history.replaceState({}, "", url);
-          }
+          // append ip to page URL & embed URL
+          pageUrl.searchParams.set("ip", data.ip);
+          embedUrl.searchParams.set("ip", data.ip);
         })
-        .catch(err => {
-          console.warn("Could not fetch IP address:", err);
+        .catch(() => {
+          // if IP fetch fails, we still want to update page with id
+        })
+        .finally(() => {
+          // 6) push the updated page URL into the address bar
+          window.history.replaceState({}, "", pageUrl);
+    
+          // 7) write the updated embed URL back into the iframe
+          const final = embedUrl.toString();
+          iframe.setAttribute("data-tally-src", final);
+          iframe.src = final;
         });
     });
     </script>
+    
   
   <head>
     <!-- initialize theme vars
@@ -67,6 +84,8 @@
             <a href="/about.html">About</a>
     </header>
     <main id="main" class="noscroll"> 
+      <h2>Suggestions & Feedback</h2>
+      <p>Have a suggestion or feedback? Visit the form</p>
       <iframe data-tally-src="https://tally.so/embed/312JQg?alignLeft=1&dynamicHeight=1" loading="lazy" width="100%" height="476" frameborder="0" marginheight="0" marginwidth="0" title="Feedback From
 "></iframe>
 <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.body.appendChild(s);}</script>
