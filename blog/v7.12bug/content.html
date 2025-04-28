@@ -1,135 +1,38 @@
 <!-- ARTICLE METADATA -->
 <script type="application/article-meta">
     {
-        "title": "Fixing Games-Loading Errors: Undefined Token & Caching Issues",
+        "title": "Debugging JSON Load & Cookie Handling Bugs",
         "author": "gogogogo621",
-        "date": "2024-04-22",
-        "thumbnail": "/blog/images/v7.12bug.png",
-        "thumbnailAlt": "Modern web development concepts illustration",
-        "tags": ["JavaScript", "Web Development", "Debugging", "Error Handling"]
+        "date": "2025/4/25",
+        "thumbnail": "/blog/images/debugging-issues.png",
+        "thumbnailAlt": "Debugging illustration",
+        "tags": ["JavaScript", "Web Development", "Debugging", "Cookies"]
     }
 </script>
 
 <!-- ARTICLE CONTENT -->
 <div id="article-content">
-    <h3>Investigating “Undefined Token” & JSON Caching Errors</h3>
+    <h3>Investigating Undefined Token Error</h3>
 
-    <div class="custom-warning">
-        <sl-alert variant="warning" open>
-            <sl-icon slot="icon" name="exclamation-triangle"></sl-icon>
-            TL;DR Always validate user input and handle edge cases! JSON parsing errors can break features unexpectedly.
-        </sl-alert>
-    </div>
-
-    <p>Originally, I couldn’t reproduce the “games not loading” error. After digging in, I discovered that some users’ browsers (notably Chromebooks) were serving a corrupted or improperly encoded <code>games.json</code>. The error message would read <code>"[%22polytrack%22]" is not valid JSON</code></p>
+    <p>Got a bug eport that games were not loading. I found js the issue. They and another user were encountering an undefined token error when the website processes the <code>games.json</code> file (which contains the master list of all the games, PFPs, and games folders). Your error is: </p>
     <sl-code-block language="markdown">
-        `"[%22polytrack%22]" is not valid JSON.`
+        "[%22polytrack%22] is not valid JSON."
     </sl-code-block>
-    <p>Here, <code>%22</code> represents a space character in URL encoding. Although the source JSON is valid, the cached version becomes malformed, causing the parser to choke when it encounters entries like “Minecraft.”</p>
+    <p>I don't know what is causing this because the JSON is valid and doesn't include the spaces (%22 means space). The other user is also encountering this error, but instead it breaks when it reaches Minecraft in the JSON. The other user clicked on the "play a random game" button, and that returned "game list is not defined." This leads me to believe that this is an issue with your Chromebook caching the JSON file, and it is getting corrupted or encoded improperly.</p>
 
-    <h3>What I Updated</h3>
-    <ul>
-        <li>After 1 second without a successful JSON load, show an on-screen message and a mock console logging all parse errors.</li>
-        <li>Add a “Copy Errors” button so users can easily grab the logs for bug reports.</li>
-        <li>Provide a “Recache JSON” button that forces the browser to fetch a fresh copy of <code>games.json</code>.</li>
-    </ul>
+    <p>I updated the site so that if the games don't load after one second, you should see a message and a mockup console with all the errors. You can click the copy button to copy all the errors and submit that in a bug report. Also, I put a button below that attempts to recache the JSON file.</p>
+
+    <p>Simply put, I can't replicate this error and don't know why this is happening. I think it is a caching issue, so I added a "click me to fix maybe?" button along with more advanced error logging so that if it happens again, you can submit the logs, which will hopefully help me.</p>
+
+    <h3>Fixed Cookie Handling Bug in Pinned Games</h3>
+
+    <p>I then found the bug and the issue was not their chromebooks but insted a major bug where games wouldn't load if you had any games pinned. This was caused by the cookie I was storing from the new cookie popup being stored as plain <code>true</code> instead of <code>"true"</code> (JSON format). Oops 😅.</p>
+
+    <p>To prevent this in the future I also improved cookie handling in the game loading script, it now checks and filters out any non-JSON cookies when fetching pinned games. So even if I mess up cookies again in the future, it won’t break game loading and the website for users with pinned games.</p>
 
     <blockquote>
-        <p>"I think it is a caching issue, so I added a 'click me to fix maybe?' button along with more advanced error logging."</p>
-        <cite>- gogogogo621</cite>
+        <p>To the 2 people who made a bug report, thank you!</p>
+        <cite>- Me</cite>
     </blockquote>
-
-    <h3>Version 7.12: Pinned-Games Cookie Bug Fix</h3>
-    <p>After further investigation, I discovered the source of this major bug: if you had any games pinned, the load script would break entirely. The culprit was the new cookie popup storing <code>pinnedGames=true</code> (a boolean) instead of <code>"true"</code> (a JSON string) oops.</p>
-    <ul>
-        <li>Fixed cookie parsing: now filters out any non-JSON cookies before loading pinned games.</li>
-        <li>Ensures future cookie mishandling won’t block the main game list.</li>
-    </ul>
-    <p>To the two users who submitted bug reports—thank you! Your logs helped me track down these edge cases.</p>
-
-    <h3>Debugging Pro Tips</h3>
-    <sl-code-block language="javascript">
-        // add error logging i will save you in the future
-        function fetchGames() {
-            return fetch('games.json')
-                .then(res => res.text())
-                .then(text => {
-                    try {
-                        return JSON.parse(text);
-                    } catch (err) {
-                        showErrorUI(err, text);
-                        throw err;
-                    }
-                });
-        }
-
-        function showErrorUI(err, raw) {
-            const consoleEl = document.getElementById('error-console');
-            consoleEl.textContent = raw;
-            document.getElementById('copy-errors').disabled = false;
-            console.error('[JSON ERROR]', err, raw);
-        }
-
-        document.getElementById('recache-json').addEventListener('click', () => {
-            fetchGames().then(initGameLoader);
-        });
-    </sl-code-block>
-
-    <img src="/blog/images/v7.12bugb.png"
-         alt="Code quality metrics dashboard example"
-         class="content-image">
-
 </div>
 
-<style>
-.content-image {
-    max-width: 100%;
-    border-radius: 12px;
-    border: 3px solid var(--inputborder);
-    margin: 2rem 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.custom-warning {
-    margin: 2.5rem 0;
-    background: var(--uibg);
-    border-radius: 8px;
-    padding: 1rem;
-}
-
-blockquote {
-    padding: 1.5rem;
-    margin: 2rem 0;
-    background: var(--inputbg);
-    border-left: 4px solid var(--inputborder);
-    border-radius: 8px;
-    font-style: italic;
-    color: var(--textcolor);
-}
-
-sl-code-block {
-    --sl-font-mono: 'Fira Code', monospace;
-    font-size: 0.9rem;
-    margin: 2rem 0;
-}
-
-.article-header h1 {
-    font-size: 2.5rem;
-    color: var(--textcolor);
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-    margin-bottom: 1.5rem;
-}
-
-@media (max-width: 768px) {
-    .content-image {
-        margin: 1rem -1rem;
-        width: calc(100% + 2rem);
-        border-radius: 0;
-    }
-
-    sl-code-block {
-        margin: 1.5rem -1rem;
-        width: calc(100% + 2rem);
-    }
-}
-</style>
