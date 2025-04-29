@@ -2,7 +2,7 @@
     {
         "title": "How Much Energy Would Be Saved If Everyone Used Dark Mode?",
         "slug": "darkmode",
-        "date": "2025-04-25",
+        "date": "2025-04-28",
         "author": "gogogogo621",
         "thumbnail": "blog/images/darkmode.png",
         "excerpt": "If everyone in the world used dark mode on their phones, the amount of energy saved would be..."
@@ -11,7 +11,7 @@
     {
         "title": "Games not loading for users with pinned games",
         "slug": "v7.12bug",
-        "date": "2024-04-22",
+        "date": "2024-04-25",
         "author": "gogogogo621",
         "excerpt": "Investigating the “Games Not Loading” Error...",
         "thumbnail": "/blog/images/v7.12bug.png"
