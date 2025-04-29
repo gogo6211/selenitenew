@@ -1,12 +1,13 @@
 <!-- ARTICLE METADATA -->
 <script type="application/article-meta">
     {
-        "title": "Debugging JSON Load & Cookie Handling Bugs",
+        "title": "Fixing Games-Loading Errors: Undefined Token & Caching Issues",
         "author": "gogogogo621",
-        "date": "2025/4/25",
+        "date": "2024-04-25",
         "thumbnail": "/blog/images/v7.12bug.png",
-        "thumbnailAlt": "Debugging illustration",
-        "tags": ["JavaScript", "Web Development", "Debugging", "Cookies"]
+        "thumbnailAlt": "Modern web development concepts illustration",
+        "tags": ["JavaScript", "Web Development", "Debugging", "Error Handling"]
+
     }
 </script>
 
@@ -37,4 +38,55 @@
     <img src="v7.12bugb.png"
          class="content-image">
 </div>
+<style>
+.content-image {
+    max-width: 100%;
+    border-radius: 12px;
+    border: 3px solid var(--inputborder);
+    margin: 2rem 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
 
+.custom-warning {
+    margin: 2.5rem 0;
+    background: var(--uibg);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+blockquote {
+    padding: 1.5rem;
+    margin: 2rem 0;
+    background: var(--inputbg);
+    border-left: 4px solid var(--inputborder);
+    border-radius: 8px;
+    font-style: italic;
+    color: var(--textcolor);
+}
+
+sl-code-block {
+    --sl-font-mono: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    margin: 2rem 0;
+}
+
+.article-header h1 {
+    font-size: 2.5rem;
+    color: var(--textcolor);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .content-image {
+        margin: 1rem -1rem;
+        width: calc(100% + 2rem);
+        border-radius: 0;
+    }
+
+    sl-code-block {
+        margin: 1.5rem -1rem;
+        width: calc(100% + 2rem);
+    }
+}
+</style>
