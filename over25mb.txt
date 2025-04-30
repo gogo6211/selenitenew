@@ -54,11 +54,6 @@
     "image": "image.png"
   },
     {
-    "name": "Drift Hunters",
-    "directory": "over25mb1",
-    "image": "image.png"
-  },
-    {
     "name": "Rocket League",
     "directory": "over25mb1",
     "image": "image.png"
