@@ -1,20 +1,3 @@
-// till next time rip
-const currentPath = location.pathname;
-if (currentPath !== '/' && currentPath !== '/contact') {
-  history.replaceState(null, '', '/');
-  location.replace('/');
-} else if (currentPath === '/') {
-  history.pushState(null, '', '/');
-  window.addEventListener('popstate', function () {
-    history.pushState(null, '', '/');
-  });
-}
-
-  
-
-
-
-
 let backup_icon;
 let backup_name;
 function setCloak(name, icon) {

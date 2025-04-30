@@ -2,11 +2,21 @@
 <html class="sl-theme-dark" lang="en">
   <head>
     <!--Hey quick heads up my code is quite cachotic and tends to break when i make changes lol BUT it works-->
-    <!-- Hi People of the schools-->
 
-    <!--Hey you your the first to know that i might be adding ads soon *edit nvm lol got blocked-->
+
+
+
+    <!--Hey you your the first to know that i might be adding ads soon-->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8235412706795196"
      crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
 
     <!-- initialize theme vars https://coolors.co/10002b-240046-3c096c-5a189a-7b2cbf-9d4edd-c77dff-e0aaff -->
 
@@ -22,37 +32,76 @@
     <script src="/js/main.js"></script>
     <script src="/js/themes.js"></script>
     <script src="/js/randomquote.js"></script>
-    <script src="/js/cookie.js"></script>
     <link rel="stylesheet" href="/themes.css" />
     <link rel="stylesheet" href="/style.css" />
     
+    <script>
+    fetch('https://api.github.com/repos/gogo6211/selenitenew/commits?per_page=3')
+    .then(res => res.json())
+    .then(res => {
+      const messageElement = document.getElementById('message');
+      messageElement.innerHTML = '';
+      
+      res.forEach(commit => {
+        const codeBlock = document.createElement('div');
+        codeBlock.className = 'commit-message';
+        codeBlock.textContent = commit.commit.message;
+        messageElement.appendChild(codeBlock);
+      });
+    })
+    .catch(error => console.error('Error fetching commit messages:', error));
+    </script>
+    
   
     <!-- seo(yes i know i have noindex tags) + other things -->
-    <title>RIP Sodalite</title>
+    <title>Sodalite</title>
     <link rel="icon" href="/favicon.ico" />
     <meta name="robots" content="noindex, nofollow" />
 
 
   </head>
+  <alerts>
+    <sl-dialog label="Welcome to Sodalite" class="dialog-width" style="--width: 60vw;display:none;">
+      Thank you for choosing Sodalite! You will be able to play over 250 high quality games, and we have many tools to make your experience better.
+      <br>
+      Wanting to transfer your data from another website? Try the transfer utility in the footer!
+      <br>
+      Learn more about Sodalite at the about page in the header!
+      <br>
+      Have a great day!
+      <sl-button slot="footer" variant="neutral">Close</sl-button>
+    </sl-dialog>
+  </alerts>
   <body id="noscroll">
+    <header>
+      <a href="/index.html">Home</a>
+            <a href="/blog.html">Blog</a>
+            <a href="/projects.html">Games</a>
+            <a href="/settings.html">Settings</a>
+            <a href="https://piranha-a81.pages.dev/">Proxy</a>
+            <a id="blank" href="#">Open Blank</a>
+            <a href="/about.html">About</a>
+    </header>
     <main id="main" class="noscroll">
-      <h2>It was fun while it lasted. This project has been one of the most valiable and greatest learning experiences I have ever had and want to thank everyone who used it.</h2>
-      <h2>Until next time im out</h2>
-        <p>Also to the people of the IT department:</p>
-        <ul>
-          <li>Proxy page has been broken for months and I was actually planing on abandoning/removing it this weekend lol. It was a headache and tbh anything that's blocked at school probably isn't something you should be on at school.(besides games during free time)</li>
-          <li>I respect the fact you didn't cave and pay Ransomhub when yall got hacked in July</li>
-          <li>Nice 32:10 ultrawide monitor</li>
-          <li>Glad you got to enjoyed my site and played Paper.io 2 for 30 minutes while investigating lol</li>
-          <li>Please make a real website and stop using google sites it pains me lol /hj</li>
-          <li>
-            Found an actually quite a simple way to get around iBoss, contact me <a href="/contact.html">here</a> if you're interested in how to fix it, it's just a setting you need to change :)
-          </li>
-        </ul>
-        <input class="hiddenUpload" type="file" accept=".save" hidden />
-        <sl-tooltip content="Remember to download your save, so you don't lose your progress." trigger="manual" class="manual-tooltip">
-          <button onclick="downloadMainSave()">Download Save</button>
-        </sl-tooltip>
+      <h1>Sodalite</h1>
+      <h4>New blog to add some more "high value content" to Sodalite :)</h4>
+      <div id="message">
+        <div class="commit-message">Loading...</div>
+      </div>
+      <button id="history" onclick="window.location.href='https://github.com/gogo6211/selenitenew/commits/main/'">
+        Version History
+      </button>
+      <p id="randomquote"></p>
+
     </main>
+
+    <footer class="noscroll">
+      <a href="https://github.com/gogo6211/selenitenew">Source Code</a>
+      <a href="/tos.html">Terms of Service</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/suggest.html">Bug Reports</a>
+      <a href="/suggest.html">Suggestions</a>
+      <a href="/contact.html">Contact</a>
+    </footer>
   </body>
 </html>
