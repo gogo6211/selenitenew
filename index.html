@@ -49,5 +49,9 @@
           </li>
         </ul>
     </main>
+    <input class="hiddenUpload" type="file" accept=".save" hidden />
+    <sl-tooltip content="Remember to download your save, so you don't lose your progress." trigger="manual" class="manual-tooltip">
+      <button onclick="downloadMainSave()">Download Save</button>
+    </sl-tooltip>
   </body>
 </html>
