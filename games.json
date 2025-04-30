@@ -1329,7 +1329,7 @@
     "name": "EaglerCraft1 1.12",
     "directory": "eaglercraft1.12",
     "image": "image.png",
-    "recommended": "1"
+    "recommended": "3"
   },
   {
 		"name": "Temple Run 2",
@@ -1344,6 +1344,12 @@
   {
     "name": "Crazy Cattle 3D",
     "directory": "crazycattle3d",
+    "image": "image.png",
+    "recommended": "2"
+  },
+  {
+    "name": "Drift Hunters",
+    "directory": "drifthunters",
     "image": "image.png"
   }
 ]
